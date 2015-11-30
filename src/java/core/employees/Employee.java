@@ -5,12 +5,43 @@
  */
 package core.employees;
 
+import core.permissions.Permission;
+
+// Plain Java Object - "STAM" - POJO
+
 public class Employee {
     private int id;
     private String firstName;
     private String lastName;
-    private Permission permission;
-    private int age;
-    private Gender gender;
-    private Address address;  
+    private GenderEnum gender;
+    private EmployeeInformation employeeInformation;
+    
+    public int getId() {
+        return id;
+    }
+    
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
+    }
+    
+    public GenderEnum getGender() {
+        return gender;
+    }
+    
+    public EmployeeInformation getEmployeeInformation() {
+        return employeeInformation;
+    }
+        
+    public class EmployeeInformation {
+        private int age;
+        private String city;
+        private String address;
+        private String email;
+        private String phoneNumber;
+        private Permission permission;
+    }
 }

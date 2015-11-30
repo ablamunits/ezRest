@@ -6,8 +6,13 @@
 package core.employees.dao;
 
 import core.employees.Employee;
+import java.util.List;
 
+// CRUD -> Create, Retrieve, Update, Delete
 public interface EmployeeDao {
-    Employee getEmployeeById(int id);
-    void addEmployee(Employee employee);
+    List<Employee> getAllEmployees();
+    Employee findEmployeeById(int id);
+    void createEmployee(Employee employee);
+    void deleteEmployeeById(int id);
+    void updateEmployee(Employee employee);
 }
