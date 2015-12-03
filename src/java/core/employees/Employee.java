@@ -35,7 +35,23 @@ public class Employee {
     public EmployeeInformation getEmployeeInformation() {
         return employeeInformation;
     }
-        
+    
+    public void setId(int emp_id) {
+        id = emp_id;
+    }
+    
+    public void setFirstName(String fName) {
+        firstName = fName;
+    }
+    
+    public void setLastName(String lName) {
+        lastName = lName;
+    }
+    
+    public void getGender(GenderEnum genderEmp) {
+        gender = genderEmp;
+    }
+    
     public class EmployeeInformation {
         private int age;
         private String city;
