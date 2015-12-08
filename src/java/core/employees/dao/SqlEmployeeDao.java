@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.MySqlUtils;
 
 /**
  *
@@ -30,23 +31,13 @@ public class SqlEmployeeDao implements EmployeeDao {
    
     @Override
     public Employee findEmployeeById(int id) {
-      Connection conn = null;
-      Statement stmt = null;
-      
+        
+       ResultSet employeeSet = MySqlUtils.doQuery("SELECT * FROM employees WHERE Employee_id = " + id + ";");
+       
        try {
-           Class.forName(JDBC_DRIVER);
-           conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-           stmt = conn.createStatement();
-           String getEmpSql;
-           getEmpSql = "SELECT * FROM employees WHERE Employee_id = " + id + ";";
-           
-           ResultSet employeeSet = stmt.executeQuery(getEmpSql);
            employeeSet.first();
-           
            return buildEmployee(employeeSet);
-       }
-       catch (SQLException | ClassNotFoundException ex)
-       {
+       } catch (SQLException ex) {
            Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
            return null;
        }
