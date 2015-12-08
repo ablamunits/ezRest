@@ -21,30 +21,63 @@ import java.util.logging.Logger;
  */
 public class MySqlUtils {
     public static Connection connect() {
-//           employeeSet.first();
-//           return buildEmployee(employeeSet);
-        Connection connection = null;
+        Connection connection;
       
         try {
             Class.forName(MySqlConfig.JDBC_DRIVER);
             connection = DriverManager.getConnection(MySqlConfig.DB_URL, MySqlConfig.USERNAME, MySqlConfig.PASSWORD);
             return connection;
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("Exception in MySqlUtils");
             return null;
         }
     }
     
-    public static ResultSet doQuery(String query) { 
-        Statement statement = null;
+    public static ResultSet getQuery(String query) { 
+        Statement statement;
+        Connection connection;
+        ResultSet result;
 
         try {
-            statement = MySqlUtils.connect().createStatement();
-            return statement.executeQuery(query);
+            connection = connect();
+            statement = connection.createStatement();
+            result = statement.executeQuery(query);
+            
+            return result;
         }
         catch (SQLException ex)
         {
             Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } 
+    }
+    
+    public static void updateQuery(String query) { 
+        Statement statement;
+        Connection connection;
+
+        try {
+            connection = connect();
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    public static String valueString(Object... values) {
+        StringBuilder queryString = new StringBuilder("(");
+        
+        for (int i=0; i < values.length; i++) {
+            queryString.append(values[i]);
+            if (i == values.length - 1)
+                queryString.append(")");
+            else
+                queryString.append(",");
+        }
+        
+        return queryString.toString();
     }
 }

@@ -10,9 +10,11 @@ package config;
  * @author borisa
  */
 public class MySqlConfig {
+    /* 
+    Change the needed settings such as DB_URL, USERNAME, PASSWORD if needed.
+    */
    public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   public static final String DB_URL = "jdbc:mysql://localhost:8889/ezRest"; // Change when working local to the correct URL
+   public static final String DB_URL = "jdbc:mysql://localhost:8889/ezRest";
    public static final String USERNAME = "root";
-   public static final String PASSWORD = "root"; // Change to correct password
-    
+   public static final String PASSWORD = "root";
 }

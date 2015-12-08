@@ -6,13 +6,9 @@
 package core.employees.dao;
 
 import core.employees.Employee;
-import core.employees.GenderEnum;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
@@ -22,21 +18,15 @@ import utils.MySqlUtils;
  * @author borisa
  */
 public class SqlEmployeeDao implements EmployeeDao {
-    
-   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost:8889/ezRest";
-   static final String USERNAME = "root";
-   static final String PASSWORD = "root";
-//      static final String PASSWORD = "1qa2wsmoshe";
-   
     @Override
-    public Employee findEmployeeById(int id) {
-        
-       ResultSet employeeSet = MySqlUtils.doQuery("SELECT * FROM employees WHERE Employee_id = " + id + ";");
+    public Employee findEmployeeById(int id) {     
+       ResultSet employeeSet = MySqlUtils.getQuery("SELECT * FROM employees WHERE Employee_id = " + id + ";");
        
        try {
            employeeSet.first();
-           return buildEmployee(employeeSet);
+           Employee employee = buildEmployee(employeeSet);
+           employeeSet.close();
+           return employee;
        } catch (SQLException ex) {
            Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
            return null;
@@ -45,25 +35,51 @@ public class SqlEmployeeDao implements EmployeeDao {
 
     @Override
     public void createEmployee(Employee employee) {
-        // Take an employee object ..
-        // Create a row in the table ..
+        // INSERT INTO tbl_name (a,b,c) VALUES(1,2,3);
+        // valueString() takes strings and turns them into ("string", "string", "string") for easier database usage
+        String qString = "INSERT INTO employees "
+                + "(Employee_id, Password, First_Name, Last_Name, Permission_id, Position, Age, Gender) "
+                + "VALUES" + MySqlUtils.valueString(employee.getId(),
+                                                    employee.getPassword(),
+                                                    employee.getFirstName(),
+                                                    employee.getLastName(),
+                                                    employee.getPermissionId(),
+                                                    employee.getPosition(),
+                                                    employee.getAge(),
+                                                    employee.getGender());
+
+        MySqlUtils.updateQuery(qString);
     }
 
     @Override
     public void deleteEmployeeById(int id) {
-        // Delete row from the table ..
+        MySqlUtils.updateQuery("DELETE FROM employees WHERE Employee_id = " + id );
     }
 
     @Override
     public void updateEmployee(Employee employee) {
-        // Update row in table ..
+        // TODO
+        // 2 ways that this can be done:
+        //      1. by doing SELECT by id from db, into a ResultSet, and updating the ResultSet (which will update the db I think)
+        //      2. with a MySQL query directly, like in createEmployee
     }
     
     @Override
-    public List<Employee> getAllEmployees() {
-        // Connect to db, get all employees as json ..
-        // Return as list.
-        return null;
+    public ArrayList<Employee> getAllEmployees() {
+       ResultSet employeesSet = MySqlUtils.getQuery("SELECT * FROM employees;");
+       
+       try {
+           ArrayList<Employee> employees = new ArrayList<Employee>() {};
+           
+           while(employeesSet.next()) {
+               employees.add(buildEmployee(employeesSet));
+           }
+           
+           return employees;
+       } catch (SQLException ex) {
+           Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
+           return null;
+       }
     }
     
     private Employee buildEmployee(ResultSet employeeRow) throws SQLException
@@ -74,14 +90,14 @@ public class SqlEmployeeDao implements EmployeeDao {
         int permissionId = employeeRow.getInt("Permission_id");
         String position = employeeRow.getString("Position");
         int age = employeeRow.getInt("Age");
-        GenderEnum gender = GenderEnum.valueOf(employeeRow.getString("Gender").toUpperCase());
+        String gender = employeeRow.getString("Gender");
         
-        Employee e = new Employee(id, firstName, lastName, null);
-        e.setAge(age);
-        e.setPosition(position);
-        e.setPermissionId(permissionId);
-        e.setGender(gender);
-        //TODO
-        return e;
+        Employee employee = new Employee(id, firstName, lastName, null);
+        employee.setAge(age);
+        employee.setPosition(position);
+        employee.setPermissionId(permissionId);
+        employee.setGender(gender);
+
+        return employee;
     }
 }

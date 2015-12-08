@@ -5,15 +5,14 @@
  */
 package core.employees;
 
-import core.permissions.Permission;
-
 // Plain Java Object - "STAM" - POJO
 
 public class Employee {
     private int id;
+    private String password;
     private String firstName;
     private String lastName;
-    private GenderEnum gender;
+    private String gender;
 
     private int age;
     private int permissionId;
@@ -24,7 +23,7 @@ public class Employee {
     private String position;
 
     private Employee() {};
-    public Employee(int id, String firstName, String lastName, GenderEnum gender) {
+    public Employee(int id, String firstName, String lastName, String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,6 +48,14 @@ public class Employee {
 
     public String getEmail() {
         return email;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setEmail(String email) {
@@ -83,7 +90,7 @@ public class Employee {
         return lastName;
     }
     
-    public GenderEnum getGender() {
+    public String getGender() {
         return gender;
     }
     
@@ -111,7 +118,7 @@ public class Employee {
         return this.city;
     }
     
-    public void setGender(GenderEnum gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 }
