@@ -14,7 +14,62 @@ public class Employee {
     private String firstName;
     private String lastName;
     private GenderEnum gender;
-    private EmployeeInformation employeeInformation;
+
+    private int age;
+    private int permissionId;
+    private String city;
+    private String address;
+    private String email;
+    private String phoneNumber;
+    private String position;
+
+    private Employee() {};
+    public Employee(int id, String firstName, String lastName, GenderEnum gender) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+    }
+    
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public int getPermissionId() {
+        return permissionId;
+    }
+
+    public void setPermissionId(int permissionId) {
+        this.permissionId = permissionId;
+    }
     
     public int getId() {
         return id;
@@ -32,10 +87,6 @@ public class Employee {
         return gender;
     }
     
-    public EmployeeInformation getEmployeeInformation() {
-        return employeeInformation;
-    }
-    
     public void setId(int emp_id) {
         id = emp_id;
     }
@@ -48,16 +99,19 @@ public class Employee {
         lastName = lName;
     }
     
-    public void getGender(GenderEnum genderEmp) {
-        gender = genderEmp;
+    public void setAge(int age) {
+        this.age = age;
     }
     
-    public class EmployeeInformation {
-        private int age;
-        private String city;
-        private String address;
-        private String email;
-        private String phoneNumber;
-        private Permission permission;
+    public int getAge() {
+        return this.age;
+    }
+    
+    public String getCity() {
+        return this.city;
+    }
+    
+    public void setGender(GenderEnum gender) {
+        this.gender = gender;
     }
 }

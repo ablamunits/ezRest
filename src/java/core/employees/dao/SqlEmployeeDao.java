@@ -6,6 +6,7 @@
 package core.employees.dao;
 
 import core.employees.Employee;
+import core.employees.GenderEnum;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,10 +23,10 @@ import java.util.logging.Logger;
 public class SqlEmployeeDao implements EmployeeDao {
     
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost:3306/ezrest";
+   static final String DB_URL = "jdbc:mysql://localhost:8889/ezRest";
    static final String USERNAME = "root";
-   static final String PASSWORD = "1qa2wsmoshe";
-   static final String EMP_INFO = "Employee_id, Permission_id, First_Name, Last_Name, Position, Age, Gender, City, Address, EMail, Phone_Number, Password, Bank_Information";
+   static final String PASSWORD = "root";
+//      static final String PASSWORD = "1qa2wsmoshe";
    
     @Override
     public Employee findEmployeeById(int id) {
@@ -37,29 +38,18 @@ public class SqlEmployeeDao implements EmployeeDao {
            conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
            stmt = conn.createStatement();
            String getEmpSql;
-           getEmpSql = "SELECT * FROM employee;";
+           getEmpSql = "SELECT * FROM employees WHERE Employee_id = " + id + ";";
            
-           //getEmpSql = "SELECT " + EMP_INFO +" FROM employee WHERE id = " + id + ";";
-           ResultSet empSet = stmt.executeQuery(getEmpSql);
-           int emp_id;
-           while (empSet.next())
-           {
-               emp_id = empSet.getInt("Employee_id");
-           }
-           //Maybe check if empSet is one
-           //Validation
-           return ConvertToEmployee(empSet);
+           ResultSet employeeSet = stmt.executeQuery(getEmpSql);
+           employeeSet.first();
+           
+           return buildEmployee(employeeSet);
        }
-       catch (SQLException ex)
+       catch (SQLException | ClassNotFoundException ex)
        {
            Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
-       } catch (ClassNotFoundException ex) {
-           Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
+           return null;
        }
-        // Get from database ..
-        // Convert to Employee Object ..
-        // Return that employee ..
-        return new Employee();
     }
 
     @Override
@@ -85,12 +75,22 @@ public class SqlEmployeeDao implements EmployeeDao {
         return null;
     }
     
-    Employee ConvertToEmployee(ResultSet empSet) throws SQLException
+    private Employee buildEmployee(ResultSet employeeRow) throws SQLException
     {
-        Employee desiredEmp = new Employee();
+        int id = employeeRow.getInt("Employee_id");
+        String firstName = employeeRow.getString("First_Name");
+        String lastName = employeeRow.getString("Last_Name");
+        int permissionId = employeeRow.getInt("Permission_id");
+        String position = employeeRow.getString("Position");
+        int age = employeeRow.getInt("Age");
+        GenderEnum gender = GenderEnum.valueOf(employeeRow.getString("Gender").toUpperCase());
         
-        desiredEmp.setFirstName(empSet.getString("First_Name"));
+        Employee e = new Employee(id, firstName, lastName, null);
+        e.setAge(age);
+        e.setPosition(position);
+        e.setPermissionId(permissionId);
+        e.setGender(gender);
         //TODO
-        return desiredEmp;
+        return e;
     }
 }
