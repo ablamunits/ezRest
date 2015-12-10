@@ -13,8 +13,10 @@ public class MySqlConfig {
     /* 
     Change the needed settings such as DB_URL, USERNAME, PASSWORD if needed.
     */
+   public static final String BORIS_PORT = "8889";  
+   public static final String SHAY_PORT = "3306";  
    public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   public static final String DB_URL = "jdbc:mysql://localhost:8889/ezRest";
+   public static final String DB_URL = "jdbc:mysql://localhost:" + SHAY_PORT + "/ezRest";
    public static final String USERNAME = "root";
    public static final String PASSWORD = "root";
 }

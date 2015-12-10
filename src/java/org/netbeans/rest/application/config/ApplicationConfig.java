@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(core.employees.resources.ActiveEmployeeResource.class);
         resources.add(core.employees.resources.EmployeeResource.class);
+        resources.add(core.menumanager.menucategories.resources.MenuCategoriesResource.class);
     }
     
 }
