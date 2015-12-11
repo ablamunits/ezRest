@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core.menumanager.menucategories.dao;
+package core.menu.categories.dao;
 
 import core.menumanager.SubMenu;
-import core.menumanager.menucategories.MenuCategories;
+import core.menu.categories.MenuCategories;
 import static java.sql.JDBCType.NULL;
 import java.sql.ResultSet;
 import java.sql.SQLException;

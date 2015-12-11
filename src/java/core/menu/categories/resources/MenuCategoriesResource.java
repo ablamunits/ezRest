@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core.menumanager.menucategories.resources;
+package core.menu.categories.resources;
 
 import core.menumanager.SubMenu;
-import core.menumanager.menucategories.MenuCategories;
-import core.menumanager.menucategories.dao.SqlMenuCategoriesDao;
+import core.menu.categories.MenuCategories;
+import core.menu.categories.dao.SqlMenuCategoriesDao;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
