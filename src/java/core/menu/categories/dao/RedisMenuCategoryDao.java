@@ -9,6 +9,6 @@ package core.menu.categories.dao;
  *
  * @author Shay
  */
-public class RedisMenuCategoriesDao {
+public class RedisMenuCategoryDao {
     
 }

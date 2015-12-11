@@ -5,9 +5,9 @@
  */
 package core.menu.categories.resources;
 
-import core.menumanager.SubMenu;
-import core.menu.categories.MenuCategories;
-import core.menu.categories.dao.SqlMenuCategoriesDao;
+import core.menu.MenuEntry;
+import core.menu.categories.MenuCategory;
+import core.menu.categories.dao.SqlMenuCategoryDao;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -25,18 +25,18 @@ import javax.ws.rs.core.MediaType;
 // Resource for MySQL table - all menu categories
 @Path("/menu")
 public class MenuCategoriesResource {    
-    private final SqlMenuCategoriesDao menuDao;
+    private final SqlMenuCategoryDao menuDao;
     
     public MenuCategoriesResource() {
-        menuDao = new SqlMenuCategoriesDao();
+        menuDao = new SqlMenuCategoryDao();
     }
     
-    // Get sub menu from db via GET request
+    // Get a category items by id from db via GET request
     @GET
-    @Path("/{catId}")
+    @Path("/category-{catId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<SubMenu> getSubMenuCategory(@PathParam("catId") int catId) {
-        List<SubMenu> menuCategory = menuDao.getSubMenuCategory(catId);
+    public List<MenuEntry> getMenuCategory(@PathParam("catId") int catId) {
+        List<MenuEntry> menuCategory = menuDao.getCategoryItems(catId);
         return menuCategory;
     }
 
@@ -47,9 +47,12 @@ public class MenuCategoriesResource {
                                @QueryParam("title") String title,
                                @QueryParam("parentId") int parentId)
     {
-        MenuCategories newMenuCat = new MenuCategories(catId, title, parentId);
+        MenuCategory newMenuCategory = new MenuCategory();
+        newMenuCategory.setCategoryId(catId);
+        newMenuCategory.setTitle(title);
+        newMenuCategory.setParentId(parentId);
 
-        menuDao.createMenuCat(newMenuCat);
+        menuDao.createMenuCat(newMenuCategory);
     }
     
     @POST

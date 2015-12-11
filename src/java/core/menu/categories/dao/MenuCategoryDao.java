@@ -5,8 +5,8 @@
  */
 package core.menu.categories.dao;
 
-import core.menumanager.SubMenu;
-import core.menu.categories.MenuCategories;
+import core.menu.MenuEntry;
+import core.menu.categories.MenuCategory;
 import java.util.List;
 
 /**
@@ -14,9 +14,9 @@ import java.util.List;
  * @author Shay
  */
 // CRUD -> Create, Retrieve, Update, Delete
-public interface MenuCategoriesDao {
-    List<SubMenu> getSubMenuCategory(int catId);
+public interface MenuCategoryDao {
+    List<MenuEntry> getCategoryItems(int catId);
     void deleteMenuCatById(int catId);
-    void createMenuCat(MenuCategories newMenuCat);
+    void createMenuCat(MenuCategory newMenuCat);
     //void updateMenuCat(SubMenu menuCat);
 }
