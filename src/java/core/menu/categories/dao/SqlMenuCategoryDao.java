@@ -6,7 +6,6 @@
 package core.menu.categories.dao;
 
 import core.menu.MenuEntry;
-import core.menumanager.SubMenu;
 import core.menu.categories.MenuCategory;
 import core.menu.items.MenuItem;
 import java.sql.ResultSet;
