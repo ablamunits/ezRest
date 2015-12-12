@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(core.employees.resources.ActiveEmployeeResource.class);
         resources.add(core.employees.resources.EmployeeResource.class);
         resources.add(core.menu.categories.resources.MenuCategoriesResource.class);
+        resources.add(core.permissions.resources.PermissionResource.class);
     }
     
 }

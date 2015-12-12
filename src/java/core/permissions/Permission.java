@@ -12,9 +12,8 @@ import java.util.ArrayList;
  * @author borisa
  */
 public class Permission {
-    // Todo: add more
     public static enum AuthorizedActions {
-        ADD_MENUITEM, ADD_PRODUCT, ADD_EMPLOYEE, CANCEL_ORDER, ADD_DISCOUNT
+        ADD_PRODUCT, ADD_EMPLOYEE, CANCEL_ORDER, ADD_DISCOUNT, EDIT_MENU;
     }
     
     private int permissionId;
