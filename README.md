@@ -34,10 +34,16 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 `api/employees/{id}` Employee
 
-`api/menu/{catId}` Get the entire category  
+`api/permissions` All Permissions
+
+`api/permissions/{id}` specific permission by ID
+
+`api/menu/{catId}` Get the entire category
 
 #### POST:
 `api/employees` Add a new employee with given params.
+
+`api/permissions` Add a new permission
 
 `api/employees/delete/{id}` Delete employee by id
 
