@@ -6,8 +6,9 @@ Web-based POS system for restaurants!
 #### Important updates:
 In permission table, each action title (column) needs to be uppercase. Make sure you have these: ADD_PRODUCT, ADD_EMPLOYEE, CANCEL_ORDER, ADD_DISCOUNT, EDIT_MENU
 
----
 <b>Currently working on:</b> MySql tables, connections and REST
+
+----
 
 <b>Tools to use:</b>
 
