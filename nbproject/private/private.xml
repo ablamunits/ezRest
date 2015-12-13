@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/MenuCategory.java</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/items/MenuItem.java</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/resources/MenuCategoriesResource.java</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/MenuEntry.java</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/dao/SqlMenuCategoryDao.java</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/dao/MenuCategoryDao.java</file>
+            <file>file:/C:/Users/Shay/Documents/ezRest/src/java/core/menu/items/resources/MenuItemsResource.java</file>
+            <file>file:/C:/Users/Shay/Documents/ezRest/src/java/core/menu/items/dao/MenuItemDao.java</file>
+            <file>file:/C:/Users/Shay/Documents/ezRest/README.md</file>
         </group>
     </open-files>
 </project-private>

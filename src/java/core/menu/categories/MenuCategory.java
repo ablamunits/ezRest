@@ -17,7 +17,12 @@ public class MenuCategory extends MenuEntry {
     public MenuCategory() {
         super.isCategory = true;
     };
-      
+    
+    public MenuCategory(int parentId){
+        super.isCategory = true;
+        this.parentId = parentId;
+    }
+    
     public int getParentId(){
         return parentId;
     }

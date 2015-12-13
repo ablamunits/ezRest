@@ -25,40 +25,55 @@ import javax.ws.rs.core.MediaType;
 // Resource for MySQL table - all menu categories
 @Path("/menu")
 public class MenuCategoriesResource {    
-    private final SqlMenuCategoryDao menuDao;
+    private final SqlMenuCategoryDao menuCategoryDao;
     
     public MenuCategoriesResource() {
-        menuDao = new SqlMenuCategoryDao();
+        menuCategoryDao = new SqlMenuCategoryDao();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MenuEntry> getAllMenu() {
+        List<MenuEntry> allMenu = menuCategoryDao.getMenu();
+        return allMenu;
     }
     
     // Get a category items by id from db via GET request
     @GET
     @Path("/category-{catId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MenuEntry> getMenuCategory(@PathParam("catId") int catId) {
-        List<MenuEntry> menuCategory = menuDao.getCategoryItems(catId);
+    public List<MenuEntry> getMenuCategory(@PathParam("catId") int categoryId) {
+        List<MenuEntry> menuCategory = menuCategoryDao.getCategoryById(categoryId);
         return menuCategory;
     }
 
     // Add a new menu category to db via a POST request
     @POST
+    @Path("/category")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewMenuCat(@QueryParam("catId") int catId,
-                               @QueryParam("title") String title,
-                               @QueryParam("parentId") int parentId)
+    public void addNewMenuCat(@QueryParam("categoryId") int categoryId,
+                              @QueryParam("title") String title,
+                              @QueryParam("parentId") int parentId)
     {
-        MenuCategory newMenuCategory = new MenuCategory();
-        newMenuCategory.setCategoryId(catId);
+        MenuEntry newMenuCategory = new MenuCategory(parentId);
+        newMenuCategory.setCategoryId(categoryId);
         newMenuCategory.setTitle(title);
-        newMenuCategory.setParentId(parentId);
 
-        menuDao.createMenuCat(newMenuCategory);
+        menuCategoryDao.createMenuCategory(newMenuCategory);
     }
     
     @POST
-    @Path("/delete/{catId}")
-    public void deleteMenuCatById(@PathParam("catId") int catId) {
-        menuDao.deleteMenuCatById(catId);
+    @Path("/category-{catId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateMenuCategory() {
+        // TODO
+        menuCategoryDao.updateMenuCategory(null);
+    }
+    
+    @POST
+    @Path("/category/delete/{catId}")
+    public void deleteMenuCatById(@PathParam("catId") int categoryId) {
+        menuCategoryDao.deleteMenuCategoryById(categoryId);
     }
     
 }

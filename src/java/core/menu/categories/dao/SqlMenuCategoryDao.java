@@ -11,6 +11,7 @@ import core.menu.items.MenuItem;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
@@ -22,7 +23,13 @@ import utils.MySqlUtils;
 public class SqlMenuCategoryDao implements MenuCategoryDao{
 
     @Override
-    public ArrayList<MenuEntry> getCategoryItems(int catId) {
+    public List<MenuEntry> getMenu() {
+        //TODO
+        return null;
+    }
+        
+    @Override
+    public ArrayList<MenuEntry> getCategoryById(int catId) {
        ResultSet categoryItemsSet = MySqlUtils.getQuery("(SELECT Title, Cat_id as next_category" +
                                                    " FROM MenuCategories Where Parent_id = " + catId + ")" +
                                                    " UNION " +
@@ -32,17 +39,30 @@ public class SqlMenuCategoryDao implements MenuCategoryDao{
            ArrayList<MenuEntry> categoryItems = buildCategoryItems(categoryItemsSet, catId);          
            return categoryItems;
     }
-
+    
+    
     @Override
-    public void deleteMenuCatById(int catId) {
+    public void deleteMenuCategoryById(int catId) {
+        //TODO:
         //Manager wants to delete Menu Category - assuming every menu category has children
         //of another categories or menu items, we will need to delete them also.
         //*assuming we will need to loop by all the children and delete.
     }
     
     @Override
-    public void createMenuCat(MenuCategory newMenuCat) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateMenuCategory(MenuEntry menuCat){
+        //TODO
+    }
+    
+    @Override
+    public void createMenuCategory(MenuEntry menuCategory) {
+           String qString = "INSERT INTO menucategoris "
+                            + "(Cat_id, Title, Parent_id) "
+                            + "VALUES " + MySqlUtils.valueString(menuCategory.getCategoryId(),
+                                                                menuCategory.getTitle(),
+                                                                ((MenuCategory)menuCategory).getParentId());
+
+        MySqlUtils.updateQuery(qString);
     }
 
     private ArrayList<MenuEntry> buildCategoryItems(ResultSet categoryItemsSet, int categoryId) 
@@ -76,4 +96,6 @@ public class SqlMenuCategoryDao implements MenuCategoryDao{
             return null;
         }
     }
+
+
 }
