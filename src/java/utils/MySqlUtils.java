@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -52,19 +55,19 @@ public class MySqlUtils {
         } 
     }
     
-    public static void updateQuery(String query) { 
-        Statement statement;
-        Connection connection;
-
+    public static void updateQuery(String query) {
         try {
+            Statement statement;
+            Connection connection;
+            
             connection = connect();
             statement = connection.createStatement();
             statement.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(MySqlUtils.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error sending query: " + query);
         }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+
     }
     
     public static String valueString(Object... values) {

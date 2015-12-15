@@ -18,7 +18,7 @@ public class Permission {
     
     private int permissionId;
     private String title;
-    private ArrayList<AuthorizedActions> actions;
+    private ArrayList<AuthorizedActions> authorizedActions;
         
     public Permission() {};
     
@@ -39,10 +39,10 @@ public class Permission {
     }
     
     public ArrayList<AuthorizedActions> getAuthorizedActions() {
-        return this.actions;
+        return this.authorizedActions;
     }
     
     public void setAuthorizedActions(ArrayList<AuthorizedActions> actions) {
-        this.actions = actions;
+        this.authorizedActions = actions;
     }
 }

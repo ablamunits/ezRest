@@ -24,7 +24,6 @@ public class SqlPermissionDao implements PermissionDao {
     @Override
     public List<Permission> getAllPermissions() {
        ResultSet permissionSet = MySqlUtils.getQuery("SELECT * FROM permissions;");
-       
        try {
            ArrayList<Permission> permissions = new ArrayList<Permission>() {};
            
@@ -66,6 +65,7 @@ public class SqlPermissionDao implements PermissionDao {
             "EDIT_MENU"
         };
                 
+        System.out.println(permission.getTitle());
         Object[] values = {
             permission.getPermissionId(),
             permission.getTitle(),
@@ -82,7 +82,7 @@ public class SqlPermissionDao implements PermissionDao {
                 .append(StringUtils.objectsArrayToString(values))
                 .append(")")
                 .toString();
-
+        
         MySqlUtils.updateQuery(qString);
     }
 

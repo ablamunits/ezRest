@@ -29,12 +29,18 @@ public class StringUtils {
         int lastIndex = arr.length - 1;
         
         for (int index = 0; index < lastIndex; index++) {
-            sb.append(arr[index].toString());
+            
+            if (arr[index] instanceof String) {
+                sb.append("\"");
+                sb.append(arr[index].toString());
+                sb.append("\"");
+            } else {
+                sb.append(arr[index].toString());
+            }
             sb.append(", ");
         }
         
         sb.append(arr[lastIndex].toString());
-        System.out.println(sb.toString());
         return sb.toString();
     }
 }
