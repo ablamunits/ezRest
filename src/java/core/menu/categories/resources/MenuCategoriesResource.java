@@ -23,7 +23,7 @@ import javax.ws.rs.core.MediaType;
  * @author Shay
  */
 // Resource for MySQL table - all menu categories
-@Path("/menu")
+@Path("/menu/category")
 public class MenuCategoriesResource {    
     private final SqlMenuCategoryDao menuCategoryDao;
     
@@ -40,7 +40,7 @@ public class MenuCategoriesResource {
     
     // Get a category items by id from db via GET request
     @GET
-    @Path("/category-{catId}")
+    @Path("/{catId}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<MenuEntry> getMenuCategory(@PathParam("catId") int categoryId) {
         List<MenuEntry> menuCategory = menuCategoryDao.getCategoryById(categoryId);
@@ -49,7 +49,6 @@ public class MenuCategoriesResource {
 
     // Add a new menu category to db via a POST request
     @POST
-    @Path("/category")
     @Consumes(MediaType.APPLICATION_JSON)
     public void addNewMenuCat(@QueryParam("categoryId") int categoryId,
                               @QueryParam("title") String title,
@@ -63,7 +62,7 @@ public class MenuCategoriesResource {
     }
     
     @POST
-    @Path("/category-{catId}")
+    @Path("/{catId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updateMenuCategory() {
         // TODO
@@ -71,7 +70,7 @@ public class MenuCategoriesResource {
     }
     
     @POST
-    @Path("/category/delete/{catId}")
+    @Path("/delete/{catId}")
     public void deleteMenuCatById(@PathParam("catId") int categoryId) {
         menuCategoryDao.deleteMenuCategoryById(categoryId);
     }

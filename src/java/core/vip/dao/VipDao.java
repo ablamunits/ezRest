@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core.menu.items.dao;
+package core.vip.dao;
 
-import core.menu.MenuEntry;
+import core.vip.Vip;
 
 /**
  *
  * @author Shay
  */
 // CRUD -> Create, Retrieve, Update, Delete
-public interface MenuItemDao {
-    MenuEntry getItemById(int itemId);
-    void deleteMenuItemById(int itemId);
-    void createMenuItem(MenuEntry newMenuCat);
-    void updateMenuItem(MenuEntry menuCat);
+public interface VipDao {
+    Vip getVipById(int id);
+    void deleteVipById(int orderId);
+    void createVip(Vip newVip);
+    void updateVip(Vip newVip);
 }

@@ -45,11 +45,17 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 # Menu
 
-`api/menu/category-{catId}` Get the entire category
+`api/menu/category/{catId}` Get the entire category
 
-'api/menu/item/{itemId}' Get menu item
+`api/menu/item/{itemId}` Get menu item
 
+# Orders
 
+`api/orders/{orderId}` Get order
+
+# Vip
+
+`api/vip/{id} Get vip
 
 #### POST:
 
@@ -69,4 +75,4 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 `api/menu/category/delete/{id}` Delete menu category by id.
 
-'api/menu/item' Add a new menu item with given params.
+`api/menu/item` Add a new menu item with given params.

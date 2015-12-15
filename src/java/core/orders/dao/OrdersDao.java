@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core.menu.items.dao;
+package core.orders.dao;
 
-import core.menu.MenuEntry;
+import core.orders.Order;
 
 /**
  *
  * @author Shay
  */
 // CRUD -> Create, Retrieve, Update, Delete
-public interface MenuItemDao {
-    MenuEntry getItemById(int itemId);
-    void deleteMenuItemById(int itemId);
-    void createMenuItem(MenuEntry newMenuCat);
-    void updateMenuItem(MenuEntry menuCat);
+public interface OrdersDao {
+    Order getOrderById(int orderId);
+    void deleteOrderById(int orderId);
+    void createOrder(Order newOrder);
+    void updateOrder(Order newOrder);
 }

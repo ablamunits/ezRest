@@ -42,7 +42,7 @@ public class MenuItemsResource {
     // Add a new menu item to db via a POST request
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewMenuCat(@QueryParam("itemId") int itemId,
+    public void addNewMenuItem(@QueryParam("itemId") int itemId,
                               @QueryParam("price") int price,
                               @QueryParam("title") String title,
                               @QueryParam("catId") int categoryId)
@@ -52,5 +52,19 @@ public class MenuItemsResource {
         newMenuItem.setTitle(title);
 
         menuItemDao.createMenuItem(newMenuItem);
+    }
+    
+    @POST
+    @Path("/{itemId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateMenuItem() {
+        // TODO
+        menuItemDao.updateMenuItem(null);
+    }
+    
+    @POST
+    @Path("/delete/{itemId}")
+    public void deleteMenuItemById(@PathParam("itemId") int itemId) {
+        menuItemDao.deleteMenuItemById(itemId);
     }
 }

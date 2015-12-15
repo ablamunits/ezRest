@@ -36,7 +36,7 @@ public class SqlMenuItemDao implements MenuItemDao{
 
     @Override
     public void deleteMenuItemById(int itemId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MySqlUtils.updateQuery("DELETE FROM MenuItems WHERE Item_id = " + itemId );
     }
 
     @Override
