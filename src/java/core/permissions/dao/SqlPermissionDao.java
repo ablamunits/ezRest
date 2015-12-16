@@ -65,7 +65,6 @@ public class SqlPermissionDao implements PermissionDao {
             "EDIT_MENU"
         };
                 
-        System.out.println(permission.getTitle());
         Object[] values = {
             permission.getPermissionId(),
             permission.getTitle(),

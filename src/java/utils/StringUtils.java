@@ -28,19 +28,24 @@ public class StringUtils {
         StringBuilder sb = new StringBuilder();
         int lastIndex = arr.length - 1;
         
-        for (int index = 0; index < lastIndex; index++) {
+        for (int index = 0; index <= lastIndex; index++) {
             
             if (arr[index] instanceof String) {
                 sb.append("\"");
                 sb.append(arr[index].toString());
                 sb.append("\"");
-            } else {
+            } 
+            else if (arr[index] == null) {
+                sb.append("NULL");
+            }
+            else {
                 sb.append(arr[index].toString());
             }
-            sb.append(", ");
+            
+            if(index != lastIndex)
+                sb.append(", ");
         }
         
-        sb.append(arr[lastIndex].toString());
         return sb.toString();
     }
 }

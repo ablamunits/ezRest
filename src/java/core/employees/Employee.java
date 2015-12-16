@@ -8,28 +8,26 @@ package core.employees;
 // Plain Java Object - "STAM" - POJO
 
 public class Employee {
+    public static enum Gender {
+        MALE, FEMALE; 
+    }
+        
     private int id;
-    private String password;
+    private int permissionId;
     private String firstName;
     private String lastName;
-    private String gender;
-
+    private String position;
     private int age;
-    private int permissionId;
+//    private String gender;
+    private Gender gender;
     private String city;
     private String address;
     private String email;
     private String phoneNumber;
-    private String position;
+    private String password;
 
-    private Employee() {};
-    public Employee(int id, String firstName, String lastName, String gender) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-    }
-    
+    public Employee() {};
+
     public String getPosition() {
         return position;
     }
@@ -38,6 +36,10 @@ public class Employee {
         this.position = position;
     }
     
+    public void setCity(String city) {
+        this.city = city;
+    }
+        
     public String getAddress() {
         return address;
     }
@@ -90,8 +92,8 @@ public class Employee {
         return lastName;
     }
     
-    public String getGender() {
-        return gender;
+    public Gender getGender() {
+        return this.gender;
     }
     
     public void setId(int emp_id) {
@@ -118,7 +120,7 @@ public class Employee {
         return this.city;
     }
     
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 }

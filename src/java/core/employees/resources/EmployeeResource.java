@@ -31,34 +31,15 @@ public class EmployeeResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Employee> getAllEmployees() {
-        List<Employee> employees = employeeDao.getAllEmployees();
-        return employees;
+        return employeeDao.getAllEmployees();
     }
-
-    // Add a new employee to db via a POST request
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewEmployee(@QueryParam("id") int id,
-                               @QueryParam("firstName") String firstName,
-                               @QueryParam("lastName") String lastName,
-                               @QueryParam("gender") String gender,
-                               @QueryParam("permissionId") int permissionId,
-                               @QueryParam("age") int age,
-                               @QueryParam("email") String email,
-                               @QueryParam("position") String position,
-                               @QueryParam("phoneNumber") String phoneNumber,
-                               @QueryParam("password") String password)
+    public void addNewEmployee(Employee employee)
     {
-        Employee newEmployee = new Employee(id, firstName, lastName, gender);
-        
-        newEmployee.setPassword(password);
-        newEmployee.setPermissionId(permissionId);
-        newEmployee.setAge(age);
-        newEmployee.setEmail(email);
-        newEmployee.setPosition(position);
-        newEmployee.setPhoneNumber(phoneNumber);
-
-        employeeDao.createEmployee(newEmployee);
+        System.out.println(employee.getFirstName());
+        employeeDao.createEmployee(employee);
     }
     
     @POST

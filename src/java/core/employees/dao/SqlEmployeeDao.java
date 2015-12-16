@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
+import utils.StringUtils;
 
 /**
  *
@@ -35,19 +36,43 @@ public class SqlEmployeeDao implements EmployeeDao {
 
     @Override
     public void createEmployee(Employee employee) {
-        // INSERT INTO tbl_name (a,b,c) VALUES(1,2,3);
-        // valueString() takes strings and turns them into ("string", "string", "string") for easier database usage
-        String qString = "INSERT INTO employees "
-                + "(Employee_id, Password, First_Name, Last_Name, Permission_id, Position, Age, Gender) "
-                + "VALUES" + MySqlUtils.valueString(employee.getId(),
-                                                    employee.getPassword(),
-                                                    employee.getFirstName(),
-                                                    employee.getLastName(),
-                                                    employee.getPermissionId(),
-                                                    employee.getPosition(),
-                                                    employee.getAge(),
-                                                    employee.getGender());
-
+        String[] columnNames = {
+            "Employee_id",
+            "Permission_id",
+            "First_Name",
+            "Last_Name",
+            "Position",
+            "Age",
+            "Gender",
+            "City",
+            "Address",
+            "Email",
+            "Phone_Number",
+            "Password"
+        };
+                
+        Object[] values = {
+            employee.getId(),
+            employee.getPermissionId(),
+            employee.getFirstName(),
+            employee.getLastName(),
+            employee.getPosition(),
+            employee.getAge(),
+            employee.getGender(),
+            employee.getCity(),
+            employee.getAddress(),
+            employee.getEmail(),
+            employee.getPhoneNumber(),
+            employee.getPassword()
+        };
+        
+        String qString = new StringBuilder("INSERT INTO employees ")
+                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+                .append(" VALUES (")
+                .append(StringUtils.objectsArrayToString(values))
+                .append(")")
+                .toString();
+        
         MySqlUtils.updateQuery(qString);
     }
 
@@ -85,18 +110,31 @@ public class SqlEmployeeDao implements EmployeeDao {
     private Employee buildEmployee(ResultSet employeeRow) throws SQLException
     {
         int id = employeeRow.getInt("Employee_id");
+        int permissionId = employeeRow.getInt("Permission_id");
         String firstName = employeeRow.getString("First_Name");
         String lastName = employeeRow.getString("Last_Name");
-        int permissionId = employeeRow.getInt("Permission_id");
         String position = employeeRow.getString("Position");
         int age = employeeRow.getInt("Age");
         String gender = employeeRow.getString("Gender");
+        String city = employeeRow.getString("City");
+        String address = employeeRow.getString("Address");
+        String email = employeeRow.getString("Email");
+        String phone = employeeRow.getString("Phone_Number");
+        String password = employeeRow.getString("Password");
         
-        Employee employee = new Employee(id, firstName, lastName, null);
+        Employee employee = new Employee();
+        employee.setId(id);
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
         employee.setAge(age);
         employee.setPosition(position);
         employee.setPermissionId(permissionId);
-        employee.setGender(gender);
+        employee.setGender(Employee.Gender.valueOf(gender.toUpperCase()));
+        employee.setCity(city);
+        employee.setAddress(address);
+        employee.setEmail(email);
+        employee.setPhoneNumber(phone);
+        employee.setPassword(password);
 
         return employee;
     }
