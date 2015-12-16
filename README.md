@@ -29,25 +29,29 @@ In permission table, each action title (column) needs to be uppercase. Make sure
 
 Here is a <b>list of all API request</b>, which we will also need to submit with EX2, so lets update here with what is working.
 
-#### GET:
-
 # Employee
 
-`api/employees` List of all employees
+`api/employees` GET & POST
 
-`api/employees/{id}` Employee
+`api/employees/{id}`
+
+`api/employee/delete/{id}`
 
 # Permissions
 
-`api/permissions` All Permissions
+`api/permissions` GET & POST
 
 `api/permissions/{id}` specific permission by ID
 
 # Menu
 
-`api/menu/category/{catId}` Get the entire category
+`api/menu/category/{catId}` Get & POST category
+
+`api/menu/item` Add new Item
 
 `api/menu/item/{itemId}` Get menu item
+
+`api/menu/category/delete/{id}` Delete menu category by id.
 
 # Orders
 
@@ -55,24 +59,4 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 # Vip
 
-`api/vip/{id} Get vip
-
-#### POST:
-
-# Employees
-
-`api/employees` Add a new employee with given params.
-
-`api/employees/delete/{id}` Delete employee by id
-
-# Permissions 
-
-`api/permissions` Add a new permission
-
-# Menu
-
-`api/menu/category' Add a new menu category with given params.
-
-`api/menu/category/delete/{id}` Delete menu category by id.
-
-`api/menu/item` Add a new menu item with given params.
+`api/vip/{id}` Get vip
