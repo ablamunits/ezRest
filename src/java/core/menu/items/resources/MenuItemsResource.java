@@ -42,16 +42,9 @@ public class MenuItemsResource {
     // Add a new menu item to db via a POST request
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewMenuItem(@QueryParam("itemId") int itemId,
-                              @QueryParam("price") int price,
-                              @QueryParam("title") String title,
-                              @QueryParam("catId") int categoryId)
+    public void addNewMenuItem(MenuItem menuItem)
     {
-        MenuEntry newMenuItem = new MenuItem(itemId, price);
-        newMenuItem.setCategoryId(categoryId);
-        newMenuItem.setTitle(title);
-
-        menuItemDao.createMenuItem(newMenuItem);
+        menuItemDao.createMenuItem(menuItem);
     }
     
     @POST

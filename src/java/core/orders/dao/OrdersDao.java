@@ -11,7 +11,6 @@ import core.orders.Order;
  *
  * @author Shay
  */
-// CRUD -> Create, Retrieve, Update, Delete
 public interface OrdersDao {
     Order getOrderById(int orderId);
     void deleteOrderById(int orderId);

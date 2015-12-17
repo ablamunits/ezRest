@@ -34,8 +34,8 @@ public class MenuCategoriesResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<MenuEntry> getAllMenu() {
-        List<MenuEntry> allMenu = menuCategoryDao.getMenu();
-        return allMenu;
+        // TODO
+        return menuCategoryDao.getMenu();
     }
     
     // Get a category items by id from db via GET request
@@ -48,17 +48,22 @@ public class MenuCategoriesResource {
     }
 
     // Add a new menu category to db via a POST request
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void addNewMenuCat(@QueryParam("categoryId") int categoryId,
+//                              @QueryParam("title") String title,
+//                              @QueryParam("parentId") int parentId)
+//    {
+//        MenuEntry newMenuCategory = new MenuCategory(parentId);
+//        newMenuCategory.setCategoryId(categoryId);
+//        newMenuCategory.setTitle(title);
+//
+//        menuCategoryDao.createMenuCategory(newMenuCategory);
+//    }
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewMenuCat(@QueryParam("categoryId") int categoryId,
-                              @QueryParam("title") String title,
-                              @QueryParam("parentId") int parentId)
-    {
-        MenuEntry newMenuCategory = new MenuCategory(parentId);
-        newMenuCategory.setCategoryId(categoryId);
-        newMenuCategory.setTitle(title);
-
-        menuCategoryDao.createMenuCategory(newMenuCategory);
+    public void addNewMenuCategory(MenuCategory menuCategory) {
+        menuCategoryDao.createMenuCategory(menuCategory);
     }
     
     @POST

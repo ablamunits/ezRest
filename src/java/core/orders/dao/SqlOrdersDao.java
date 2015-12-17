@@ -8,11 +8,11 @@ package core.orders.dao;
 import core.orders.Order;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
+import utils.StringUtils;
 
 /**
  *
@@ -41,16 +41,30 @@ public class SqlOrdersDao implements OrdersDao {
     }
 
     @Override
-    public void createOrder(Order newOrder) {
-        String qString = "INSERT INTO Orders "
-                + "(Order_id, Employee_id, Table_Num, Order_Date, Total_sum) "
-                + "VALUES " + MySqlUtils.valueString(newOrder.getOrderId(),
-                                                     newOrder.getEmployeeId(),
-                                                     newOrder.getTableNum(),
-                                                     //check if order date is working
-                                                     newOrder.getOrderDate(),
-                                                     newOrder.getTotalSum());
-
+    public void createOrder(Order order) {
+        String[] columnNames = {
+            "Order_id",
+            "Employee_id",
+            "Table_Num",
+            "Order_Date",
+            "Total_sum"
+        };
+                        
+        Object[] values = {
+            order.getOrderId(),
+            order.getEmployeeId(),
+            order.getTableNum(),
+            order.getOrderDate().toString(),
+            order.getTotalSum()
+        };
+        
+        String qString = new StringBuilder("INSERT INTO Orders ")
+                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+                .append(" VALUES (")
+                .append(StringUtils.objectsArrayToString(values))
+                .append(")")
+                .toString();
+        
         MySqlUtils.updateQuery(qString);
     }
 
@@ -64,11 +78,15 @@ public class SqlOrdersDao implements OrdersDao {
             int orderId = orderSet.getInt("Order_id");
             int employeeId = orderSet.getInt("Employee_id");
             int tableNum = orderSet.getInt("Table_Num");
-            String stringOrderDate = orderSet.getString("Order_date");
+            Date orderDate = orderSet.getDate("Order_date");
             int totalSum = orderSet.getInt("Total_sum");
             
-            DateFormat orderDate = new SimpleDateFormat(stringOrderDate);
-            Order order = new Order(orderId, employeeId, tableNum, orderDate, totalSum);
+            Order order = new Order();
+            order.setOrderId(orderId);
+            order.setEmployeeId(employeeId);
+            order.setTableNum(tableNum);
+            order.setOrderDate(orderDate);
+            order.setTotalSum(totalSum);
            
             return order;
         } catch (SQLException ex) {

@@ -6,15 +6,13 @@
 package core.vip.dao;
 
 import core.vip.Vip;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
+import utils.StringUtils;
 
 /**
  *
@@ -41,18 +39,32 @@ public class SqlVipDao implements VipDao{
     public void deleteVipById(int id) {
         MySqlUtils.updateQuery("DELETE FROM VIP WHERE id = " + id );
     }
-
+    
     @Override
-    public void createVip(Vip newVip) {
-        String qString = "INSERT INTO VIP "
-                + "(id, First_Name, Last_Name, BirthDay, EMail) "
-                + "VALUES " + MySqlUtils.valueString(newVip.getId(),
-                                                     newVip.getFirstName(),
-                                                     newVip.getLastName(),
-                                                     //check if birth day is working
-                                                     newVip.getBirthDay(),
-                                                     newVip.geteMail());
-
+    public void createVip(Vip vip) {
+        String[] columnNames = {
+            "Id",
+            "First_Name",
+            "Last_Name",
+            "Birthday",
+            "Email"
+        };
+                        
+        Object[] values = {
+            vip.getId(),
+            vip.getFirstName(),
+            vip.getLastName(),
+            vip.getBirthday().toString(),
+            vip.getEmail()
+        };
+        
+        String qString = new StringBuilder("INSERT INTO VIP ")
+                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+                .append(" VALUES (")
+                .append(StringUtils.objectsArrayToString(values))
+                .append(")")
+                .toString();
+        
         MySqlUtils.updateQuery(qString);
     }
 
@@ -66,16 +78,18 @@ public class SqlVipDao implements VipDao{
             int id = vipSet.getInt("id");
             String firstName = vipSet.getString("First_Name");
             String lastName = vipSet.getString("Last_Name");
-            String stringBirthDay = vipSet.getString("BirthDay");
-            String eMail = vipSet.getString("EMail");
+            String email = vipSet.getString("email");
+            Date birthday = vipSet.getDate("Birthday");
 
-            DateFormat birthDayDateFormat = new SimpleDateFormat();
-            Date birthDay = (Date) birthDayDateFormat.parse(stringBirthDay);
-
-            Vip vip = new Vip(id, firstName, lastName, birthDay, eMail);
+            Vip vip = new Vip();
+            vip.setId(id);
+            vip.setFirstName(firstName);
+            vip.setLastName(lastName);
+            vip.setBirthday(birthday);
+            vip.setEmail(email);
 
             return vip;
-        } catch (SQLException | ParseException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(SqlVipDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }

@@ -19,11 +19,6 @@ public class MenuItem extends MenuEntry {
         super.isCategory = false;
     };     
     
-    public MenuItem(int itemId, int price){
-        super.isCategory = false;
-        this.itemId = itemId;
-        this.price = price;
-    }
     public int getItemId() {
         return itemId;
     }

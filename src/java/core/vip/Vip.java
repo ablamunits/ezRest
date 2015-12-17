@@ -5,29 +5,23 @@
  */
 package core.vip;
 
-import java.sql.Date;
+import java.util.Date;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import utils.JsonDateAdapter;
 
 /**
  *
  * @author Shay
  */
-//POJO
 public class Vip {
     int id;
     String firstName;
     String lastName;
-    Date birthDay;
-    String eMail;
+    Date birthday;
+    String email;
 
-    public Vip(int id, String firstName, String lastName, Date birthDay, String eMail) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.eMail = eMail;
-    }
-
-    
+    public Vip(){}
+ 
     public int getId() {
         return id;
     }
@@ -40,12 +34,13 @@ public class Vip {
         return lastName;
     }
 
-    public Date getBirthDay() {
-        return birthDay;
+    @XmlJavaTypeAdapter(JsonDateAdapter.class)
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public String geteMail() {
-        return eMail;
+    public String getEmail() {
+        return email;
     }
 
     public void setId(int id) {
@@ -60,12 +55,12 @@ public class Vip {
         this.lastName = lastName;
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthday(Date birthDay) {
+        this.birthday = birthDay;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
+    public void setEmail(String eMail) {
+        this.email = eMail;
     }
     
     

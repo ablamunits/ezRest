@@ -87,7 +87,7 @@ public class SqlPermissionDao implements PermissionDao {
 
     @Override
     public void deletePermissionById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MySqlUtils.updateQuery("DELETE FROM Permissions WHERE Permission_id = " + id );
     }
 
     @Override

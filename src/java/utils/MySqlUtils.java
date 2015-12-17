@@ -67,7 +67,6 @@ public class MySqlUtils {
             Logger.getLogger(MySqlUtils.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error sending query: " + query);
         }
-
     }
     
     public static String valueString(Object... values) {

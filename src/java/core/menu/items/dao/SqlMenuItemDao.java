@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
+import utils.StringUtils;
 
 /**
  *
@@ -41,13 +42,27 @@ public class SqlMenuItemDao implements MenuItemDao{
 
     @Override
     public void createMenuItem(MenuEntry menuItem) {
-        String qString = "INSERT INTO MenuItems "
-                + "(Cat_id, Title, Price, Item_id) "
-                + "VALUES " + MySqlUtils.valueString(menuItem.getCategoryId(),
-                                                     menuItem.getTitle(),
-                                                     ((MenuItem) menuItem).getPrice(),
-                                                     ((MenuItem) menuItem).getItemId());
-
+        String[] columnNames = {
+            "Item_id",
+            "Price",
+            "Cat_id",
+            "Title",
+        };
+                        
+        Object[] values = {
+            ((MenuItem)menuItem).getItemId(),
+            ((MenuItem)menuItem).getPrice(),
+            menuItem.getCategoryId(),
+            menuItem.getTitle()
+        };
+        
+        String qString = new StringBuilder("INSERT INTO MenuItems ")
+                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+                .append(" VALUES (")
+                .append(StringUtils.objectsArrayToString(values))
+                .append(")")
+                .toString();
+        
         MySqlUtils.updateQuery(qString);
     }
 
@@ -63,7 +78,9 @@ public class SqlMenuItemDao implements MenuItemDao{
             String title = menuItemRow.getString("Title");
             int categoryId = menuItemRow.getInt("Cat_id");
             
-            MenuEntry menuItem = new MenuItem(itemId, price);
+            MenuEntry menuItem = new MenuItem();
+            ((MenuItem)menuItem).setItemId(itemId);
+            ((MenuItem)menuItem).setPrice(price);
             menuItem.setTitle(title);
             menuItem.setCategoryId(categoryId);
 

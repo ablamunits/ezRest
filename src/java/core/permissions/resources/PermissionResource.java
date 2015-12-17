@@ -52,5 +52,11 @@ public class PermissionResource {
         return permission;
     }
     
+    @POST
+    @Path("/delete/{id}")
+    public void deletePermissionById(@PathParam("id") int id) {
+        permissionDao.deletePermissionById(id);
+    }
+    
 
 }

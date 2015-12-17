@@ -10,8 +10,39 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        
+        <script>
+            function doAjaxPost() {
+                console.log('Trying to ajax post...');
+                var destination = $('#destination').val();
+                var content = $('#json').val();
+                content = eval('(' + content + ')');
+                
+                console.log(destination);
+                console.log(content);
+                
+                $.ajax({
+                    url: 'http://localhost:8080/ezRest/api/' + destination,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(content)
+                }).done(function(res){
+                    console.log(res);
+                    $('#response').text(res);
+                });
+            }
+        </script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>Test post</div>
+        Type the destination resource over ezRest/api
+        <input id="destination" type="text" />
+        Type a valid JSON to check
+        <textarea id="json"></textarea>
+        <button onclick="doAjaxPost()">DO!</button>
+        Response:
+        <div id="response" style="border: 1px solid #e2e2e2; border-style: dashed; border-radius: 2px">
+            <!--JSON response goes here-->
+        </div>
     </body>
 </html>

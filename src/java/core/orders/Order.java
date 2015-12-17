@@ -5,27 +5,22 @@
  */
 package core.orders;
 
-import java.text.DateFormat;
+import java.util.Date;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import utils.JsonDateAdapter;
 
 /**
  *
  * @author Shay
  */
-//POJO
 public class Order {
     private int orderId;
     private int employeeId;
     private int tableNum;
-    private DateFormat orderDate;
+    private Date orderDate;
     private int totalSum;
     
-    public Order(int orderId, int employeeId, int tableNum, DateFormat orderDate, int totalSum){
-        this.orderId = orderId;
-        this.employeeId = employeeId;
-        this.tableNum = tableNum;
-        this.totalSum = totalSum;
-        this.orderDate = orderDate;
-    }
+    public Order() {}
 
     public int getOrderId() {
         return orderId;
@@ -38,8 +33,9 @@ public class Order {
     public int getTableNum() {
         return tableNum;
     }
-
-    public DateFormat getOrderDate() {
+    
+    @XmlJavaTypeAdapter(JsonDateAdapter.class)
+    public Date getOrderDate() {
         return orderDate;
     }
 
@@ -59,7 +55,7 @@ public class Order {
         this.tableNum = tableNum;
     }
 
-    public void setOrderDate(DateFormat orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
+import utils.StringUtils;
 
 /**
  *
@@ -56,12 +57,25 @@ public class SqlMenuCategoryDao implements MenuCategoryDao{
     
     @Override
     public void createMenuCategory(MenuEntry menuCategory) {
-           String qString = "INSERT INTO menucategoris "
-                            + "(Cat_id, Title, Parent_id) "
-                            + "VALUES " + MySqlUtils.valueString(menuCategory.getCategoryId(),
-                                                                menuCategory.getTitle(),
-                                                                ((MenuCategory)menuCategory).getParentId());
-
+        String[] columnNames = {
+            "Cat_id",
+            "Title",
+            "Parent_id",
+        };
+                        
+        Object[] values = {
+            menuCategory.getCategoryId(),
+            menuCategory.getTitle(),
+            ((MenuCategory)menuCategory).getParentId()
+        };
+        
+        String qString = new StringBuilder("INSERT INTO MenuCategories ")
+                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+                .append(" VALUES (")
+                .append(StringUtils.objectsArrayToString(values))
+                .append(")")
+                .toString();
+        
         MySqlUtils.updateQuery(qString);
     }
 
