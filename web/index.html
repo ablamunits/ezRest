@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>ezRest</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -34,11 +34,11 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div>Test post</div>
+        <div><h1>Test POST requests</h1></div>
         Type the destination resource over ezRest/api
-        <input id="destination" type="text" />
+        <input id="destination" type="text" placeholder="example: vip/1"/>
         Type a valid JSON to check
-        <textarea id="json"></textarea>
+        <textarea id="json" placeholder="example: {firstName: 'shlomo'}"></textarea>
         <button onclick="doAjaxPost()">DO!</button>
         Response:
         <div id="response" style="border: 1px solid #e2e2e2; border-style: dashed; border-radius: 2px">
