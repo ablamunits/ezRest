@@ -23,9 +23,7 @@ import javax.ws.rs.core.MediaType;
  * @author borisa
  */
 @Path("/permissions")
-public class PermissionResource {
-    @Context private HttpServletResponse response;
-    
+public class PermissionResource {    
     private final SqlPermissionDao permissionDao;
     
     public PermissionResource() {

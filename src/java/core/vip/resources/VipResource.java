@@ -45,9 +45,8 @@ public class VipResource {
     @POST
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateVip() {
-        // TODO
-        vipDao.updateVip(null);
+    public void updateVip(@PathParam("id") int id, Vip vip) {
+        vipDao.updateVip(id, vip);
     }
     
     @POST

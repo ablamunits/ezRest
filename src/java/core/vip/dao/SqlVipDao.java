@@ -19,7 +19,8 @@ import utils.StringUtils;
  * @author Shay
  */
 public class SqlVipDao implements VipDao{
-
+    String[] columnNames = {"Id", "First_Name", "Last_Name", "Birthday", "Email"};
+    
     @Override
     public Vip getVipById(int id) {
          ResultSet vipSet = MySqlUtils.getQuery("SELECT * FROM VIP WHERE id = " + id + ";");
@@ -41,25 +42,11 @@ public class SqlVipDao implements VipDao{
     }
     
     @Override
-    public void createVip(Vip vip) {
-        String[] columnNames = {
-            "Id",
-            "First_Name",
-            "Last_Name",
-            "Birthday",
-            "Email"
-        };
-                        
-        Object[] values = {
-            vip.getId(),
-            vip.getFirstName(),
-            vip.getLastName(),
-            vip.getBirthday().toString(),
-            vip.getEmail()
-        };
+    public void createVip(Vip vip) {                        
+        Object[] values = getObjectValues(vip);
         
         String qString = new StringBuilder("INSERT INTO VIP ")
-                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+                .append("(").append(StringUtils.arrayToString(this.columnNames)).append(")")
                 .append(" VALUES (")
                 .append(StringUtils.objectsArrayToString(values))
                 .append(")")
@@ -69,10 +56,29 @@ public class SqlVipDao implements VipDao{
     }
 
     @Override
-    public void updateVip(Vip newVip) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateVip(int id, Vip vip) {
+        Object[] values = getObjectValues(vip);
+        
+        StringBuilder qString = new StringBuilder("UPDATE VIP SET ");
+        qString.append(MySqlUtils.updateSetString(this.columnNames, values))
+               .append(" WHERE id=").append(id);
+      
+        System.out.println("update query:" + qString.toString());
+        MySqlUtils.updateQuery(qString.toString());
     }
 
+    private Object[] getObjectValues(Vip vip) {
+        Object[] values = {
+            vip.getId() == 0 ? null : vip.getId(),
+            vip.getFirstName(),
+            vip.getLastName(),
+            vip.getBirthday(),
+            vip.getEmail()
+        }; 
+        
+        return values;
+    }
+    
     private Vip buildVip(ResultSet vipSet) {
         try {
             int id = vipSet.getInt("id");

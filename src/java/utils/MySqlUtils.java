@@ -14,9 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 
 /**
  *
@@ -81,5 +78,24 @@ public class MySqlUtils {
         }
         
         return queryString.toString();
+    }
+    
+    public static String updateSetString(String[] columnNames, Object[] values) {
+        StringBuilder qString = new StringBuilder();
+        
+        for (int i = 0; i < columnNames.length; i++) {
+            if (values[i] != null) {
+                qString.append(columnNames[i])
+                    .append("=\"")
+                    .append(values[i]).append("\"");
+                
+                if(i < columnNames.length - 1)
+                    qString.append(",");
+            }
+        }
+        
+        qString.setLength(qString.length() - 1); // Trim last ',' char
+        
+        return qString.toString();
     }
 }

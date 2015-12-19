@@ -16,5 +16,5 @@ public interface VipDao {
     Vip getVipById(int id);
     void deleteVipById(int orderId);
     void createVip(Vip newVip);
-    void updateVip(Vip newVip);
+    void updateVip(int id, Vip vip);
 }
