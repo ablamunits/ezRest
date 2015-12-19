@@ -5,10 +5,13 @@
  */
 package core.vip.dao;
 
+import config.MySqlConfig;
 import core.vip.Vip;
 import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
@@ -23,7 +26,7 @@ public class SqlVipDao implements VipDao{
     
     @Override
     public Vip getVipById(int id) {
-         ResultSet vipSet = MySqlUtils.getQuery("SELECT * FROM VIP WHERE id = " + id + ";");
+         ResultSet vipSet = MySqlUtils.getQuery("SELECT * FROM " + MySqlConfig.Tables.VIP + " WHERE id = " + id + ";");
 
         try {
             vipSet.first();
@@ -35,17 +38,35 @@ public class SqlVipDao implements VipDao{
             return null;
         }
     }
+    
+    @Override
+    public List<Vip> getAllVip() {
+       ResultSet vipSet = MySqlUtils.getQuery("SELECT * FROM " + MySqlConfig.Tables.VIP);
+       
+       try {
+           ArrayList<Vip> vips = new ArrayList<Vip>() {};
+           
+           while(vipSet.next()) {
+               vips.add(buildVip(vipSet));
+           }
+           
+           return vips;
+       } catch (SQLException ex) {
+           Logger.getLogger(SqlVipDao.class.getName()).log(Level.SEVERE, null, ex);
+           return null;
+       }    
+    }
 
     @Override
     public void deleteVipById(int id) {
-        MySqlUtils.updateQuery("DELETE FROM VIP WHERE id = " + id );
+        MySqlUtils.updateQuery("DELETE FROM " + MySqlConfig.Tables.VIP + " WHERE id = " + id );
     }
     
     @Override
     public void createVip(Vip vip) {                        
         Object[] values = getObjectValues(vip);
         
-        String qString = new StringBuilder("INSERT INTO VIP ")
+        String qString = new StringBuilder("INSERT INTO " + MySqlConfig.Tables.VIP)
                 .append("(").append(StringUtils.arrayToString(this.columnNames)).append(")")
                 .append(" VALUES (")
                 .append(StringUtils.objectsArrayToString(values))
@@ -59,7 +80,7 @@ public class SqlVipDao implements VipDao{
     public void updateVip(int id, Vip vip) {
         Object[] values = getObjectValues(vip);
         
-        StringBuilder qString = new StringBuilder("UPDATE VIP SET ");
+        StringBuilder qString = new StringBuilder("UPDATE " + MySqlConfig.Tables.VIP + " SET ");
         qString.append(MySqlUtils.updateSetString(this.columnNames, values))
                .append(" WHERE id=").append(id);
       

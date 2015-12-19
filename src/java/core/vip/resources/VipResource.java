@@ -7,6 +7,7 @@ package core.vip.resources;
 
 import core.vip.Vip;
 import core.vip.dao.SqlVipDao;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,6 +26,12 @@ public class VipResource {
     
     public VipResource() {
         vipDao = new SqlVipDao();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Vip> getAllVip() {
+        return vipDao.getAllVip();
     }
     
     @GET

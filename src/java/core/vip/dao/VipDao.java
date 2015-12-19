@@ -6,6 +6,7 @@
 package core.vip.dao;
 
 import core.vip.Vip;
+import java.util.List;
 
 /**
  *
@@ -14,6 +15,7 @@ import core.vip.Vip;
 // CRUD -> Create, Retrieve, Update, Delete
 public interface VipDao {
     Vip getVipById(int id);
+    List<Vip> getAllVip();
     void deleteVipById(int orderId);
     void createVip(Vip newVip);
     void updateVip(int id, Vip vip);
