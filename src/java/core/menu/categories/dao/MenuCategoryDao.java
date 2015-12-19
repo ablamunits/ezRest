@@ -15,9 +15,9 @@ import java.util.List;
  */
 // CRUD -> Create, Retrieve, Update, Delete
 public interface MenuCategoryDao {
-    List<MenuEntry> getMenu();
+    List<MenuCategory> getAllCategories();
     List<MenuEntry> getCategoryById(int catId);
     void deleteMenuCategoryById(int catId);
-    void createMenuCategory(MenuEntry newMenuCat);
-    void updateMenuCategory(MenuEntry menuCat);
+    void createMenuCategory(MenuCategory newMenuCat);
+    void updateMenuCategory(int id, MenuCategory menuCat);
 }

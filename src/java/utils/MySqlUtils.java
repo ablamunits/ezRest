@@ -89,8 +89,7 @@ public class MySqlUtils {
                     .append("=\"")
                     .append(values[i]).append("\"");
                 
-                if(i < columnNames.length - 1)
-                    qString.append(",");
+                qString.append(",");
             }
         }
         

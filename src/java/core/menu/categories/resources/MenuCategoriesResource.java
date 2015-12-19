@@ -15,7 +15,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -33,10 +32,10 @@ public class MenuCategoriesResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MenuEntry> getAllMenu() {
-        // TODO
-        return menuCategoryDao.getMenu();
+    public List<MenuCategory> getAllCategories() {
+        return menuCategoryDao.getAllCategories();
     }
+    
     
     // Get a category items by id from db via GET request
     @GET
@@ -47,19 +46,6 @@ public class MenuCategoriesResource {
         return menuCategory;
     }
 
-    // Add a new menu category to db via a POST request
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public void addNewMenuCat(@QueryParam("categoryId") int categoryId,
-//                              @QueryParam("title") String title,
-//                              @QueryParam("parentId") int parentId)
-//    {
-//        MenuEntry newMenuCategory = new MenuCategory(parentId);
-//        newMenuCategory.setCategoryId(categoryId);
-//        newMenuCategory.setTitle(title);
-//
-//        menuCategoryDao.createMenuCategory(newMenuCategory);
-//    }
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addNewMenuCategory(MenuCategory menuCategory) {
@@ -69,9 +55,8 @@ public class MenuCategoriesResource {
     @POST
     @Path("/{catId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateMenuCategory() {
-        // TODO
-        menuCategoryDao.updateMenuCategory(null);
+    public void updateMenuCategory(@PathParam("catId") int catId, MenuCategory menuCategory) {
+        menuCategoryDao.updateMenuCategory(catId, menuCategory);
     }
     
     @POST

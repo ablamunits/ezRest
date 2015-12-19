@@ -5,12 +5,14 @@
  */
 package core.menu.categories.dao;
 
+import config.MySqlConfig;
 import core.menu.MenuEntry;
 import core.menu.categories.MenuCategory;
 import core.menu.items.MenuItem;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,11 +24,28 @@ import utils.StringUtils;
  * @author Shay
  */
 public class SqlMenuCategoryDao implements MenuCategoryDao{
-
+    private final String[] columnNames = {
+            "Cat_id",
+            "Title",
+            "Parent_id",
+        };
+    
     @Override
-    public List<MenuEntry> getMenu() {
-        //TODO
-        return null;
+    public List<MenuCategory> getAllCategories() {
+       ResultSet categoriesSet = MySqlUtils.getQuery("SELECT * FROM " + MySqlConfig.Tables.MENU_CATEGORIES);
+       
+       try {
+           ArrayList<MenuCategory> categories = new ArrayList<MenuCategory>() {};
+           
+           while(categoriesSet.next()) {
+               categories.add(buildCategory(categoriesSet));
+           }
+           
+           return categories;
+       } catch (SQLException ex) {
+           Logger.getLogger(SqlMenuCategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+           return null;
+       } 
     }
         
     @Override
@@ -51,23 +70,18 @@ public class SqlMenuCategoryDao implements MenuCategoryDao{
     }
     
     @Override
-    public void updateMenuCategory(MenuEntry menuCat){
-        //TODO
-    }
+    public void updateMenuCategory(int catId, MenuCategory menuCategory){
+        Object[] values = getObjectValues(menuCategory);
+        
+        StringBuilder qString = new StringBuilder("UPDATE " + MySqlConfig.Tables.MENU_CATEGORIES + " SET ");
+        qString.append(MySqlUtils.updateSetString(this.columnNames, values))
+               .append(" WHERE Cat_id=").append(catId);
+      
+        MySqlUtils.updateQuery(qString.toString());    }
     
     @Override
-    public void createMenuCategory(MenuEntry menuCategory) {
-        String[] columnNames = {
-            "Cat_id",
-            "Title",
-            "Parent_id",
-        };
-                        
-        Object[] values = {
-            menuCategory.getCategoryId(),
-            menuCategory.getTitle(),
-            ((MenuCategory)menuCategory).getParentId()
-        };
+    public void createMenuCategory(MenuCategory menuCategory) {                    
+        Object[] values = getObjectValues((MenuCategory)menuCategory);
         
         String qString = new StringBuilder("INSERT INTO MenuCategories ")
                 .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
@@ -109,6 +123,31 @@ public class SqlMenuCategoryDao implements MenuCategoryDao{
             Logger.getLogger(SqlMenuCategoryDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    private Object[] getObjectValues(MenuCategory menuCategory) {
+        Object[] values = {
+            menuCategory.getCategoryId() == 0 ? null : menuCategory.getCategoryId(),
+            menuCategory.getTitle(),
+            menuCategory.getParentId() == 0 ? null : menuCategory.getCategoryId()
+        };
+        
+        return values;
+    }
+    
+    private MenuCategory buildCategory(ResultSet categorySet) throws SQLException {
+
+        int categoryId = categorySet.getInt("Cat_Id");
+        int parentId = categorySet.getInt("Parent_Id");
+        String title = categorySet.getString("Title");
+        
+        MenuCategory menuCategory = new MenuCategory();
+
+        menuCategory.setCategoryId(categoryId);
+        menuCategory.setParentId(parentId);
+        menuCategory.setTitle(title);
+        
+        return menuCategory;
     }
 
 
