@@ -30,13 +30,13 @@ public class RedisEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
-        // TODO
+    public List<Employee> getAllEmployees() {
+        return null;
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return null;
+    public void updateEmployee(int id, Employee employee) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

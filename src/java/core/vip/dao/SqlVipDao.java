@@ -63,7 +63,6 @@ public class SqlVipDao implements VipDao{
         qString.append(MySqlUtils.updateSetString(this.columnNames, values))
                .append(" WHERE id=").append(id);
       
-        System.out.println("update query:" + qString.toString());
         MySqlUtils.updateQuery(qString.toString());
     }
 

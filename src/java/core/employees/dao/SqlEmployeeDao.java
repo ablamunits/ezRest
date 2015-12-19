@@ -5,6 +5,7 @@
  */
 package core.employees.dao;
 
+import config.MySqlConfig;
 import core.employees.Employee;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,24 +20,7 @@ import utils.StringUtils;
  * @author borisa
  */
 public class SqlEmployeeDao implements EmployeeDao {
-    @Override
-    public Employee findEmployeeById(int id) {     
-       ResultSet employeeSet = MySqlUtils.getQuery("SELECT * FROM employees WHERE Employee_id = " + id + ";");
-       
-       try {
-           employeeSet.first();
-           Employee employee = buildEmployee(employeeSet);
-           employeeSet.close();
-           return employee;
-       } catch (SQLException ex) {
-           Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
-           return null;
-       }
-    }
-
-    @Override
-    public void createEmployee(Employee employee) {
-        String[] columnNames = {
+    private final String[] columnNames = {
             "Employee_id",
             "Permission_id",
             "First_Name",
@@ -50,24 +34,28 @@ public class SqlEmployeeDao implements EmployeeDao {
             "Phone_Number",
             "Password"
         };
-                
-        Object[] values = {
-            employee.getId(),
-            employee.getPermissionId(),
-            employee.getFirstName(),
-            employee.getLastName(),
-            employee.getPosition(),
-            employee.getAge(),
-            employee.getGender(),
-            employee.getCity(),
-            employee.getAddress(),
-            employee.getEmail(),
-            employee.getPhoneNumber(),
-            employee.getPassword()
-        };
+    
+    @Override
+    public Employee findEmployeeById(int id) {     
+       ResultSet employeeSet = MySqlUtils.getQuery("SELECT * FROM " + MySqlConfig.Tables.EMPLOYEES + " WHERE Employee_id = " + id + ";");
+       
+       try {
+           employeeSet.first();
+           Employee employee = buildEmployee(employeeSet);
+           employeeSet.close();
+           return employee;
+       } catch (SQLException ex) {
+           Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
+           return null;
+       }
+    }
+
+    @Override
+    public void createEmployee(Employee employee) {           
+        Object[] values = getObjectValues(employee);
         
-        String qString = new StringBuilder("INSERT INTO employees ")
-                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+        String qString = new StringBuilder("INSERT INTO " + MySqlConfig.Tables.EMPLOYEES)
+                .append("(").append(StringUtils.arrayToString(this.columnNames)).append(")")
                 .append(" VALUES (")
                 .append(StringUtils.objectsArrayToString(values))
                 .append(")")
@@ -78,20 +66,24 @@ public class SqlEmployeeDao implements EmployeeDao {
 
     @Override
     public void deleteEmployeeById(int id) {
-        MySqlUtils.updateQuery("DELETE FROM employees WHERE Employee_id = " + id );
+        MySqlUtils.updateQuery("DELETE FROM " + MySqlConfig.Tables.EMPLOYEES + " WHERE Employee_id = " + id );
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
-        // TODO
-        // 2 ways that this can be done:
-        //      1. by doing SELECT by id from db, into a ResultSet, and updating the ResultSet (which will update the db I think)
-        //      2. with a MySQL query directly, like in createEmployee
+    public void updateEmployee(int id, Employee employee) {
+        Object[] values = getObjectValues(employee);
+        
+        StringBuilder qString = new StringBuilder("UPDATE " + MySqlConfig.Tables.EMPLOYEES + " SET ");
+        qString.append(MySqlUtils.updateSetString(this.columnNames, values))
+               .append(" WHERE Employee_id=").append(id);
+      
+        System.out.println("update query:" + qString.toString());
+        MySqlUtils.updateQuery(qString.toString());
     }
     
     @Override
     public ArrayList<Employee> getAllEmployees() {
-       ResultSet employeesSet = MySqlUtils.getQuery("SELECT * FROM employees;");
+       ResultSet employeesSet = MySqlUtils.getQuery("SELECT * FROM " + MySqlConfig.Tables.EMPLOYEES);
        
        try {
            ArrayList<Employee> employees = new ArrayList<Employee>() {};
@@ -105,6 +97,25 @@ public class SqlEmployeeDao implements EmployeeDao {
            Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
            return null;
        }
+    }
+    
+    private Object[] getObjectValues(Employee employee) {
+        Object[] values = {
+            employee.getId() == 0 ? null : employee.getId(),
+            employee.getPermissionId() == 0 ? null : employee.getPermissionId(),
+            employee.getFirstName(),
+            employee.getLastName(),
+            employee.getPosition(),
+            employee.getAge() == 0 ? null : employee.getAge(),
+            employee.getGender(),
+            employee.getCity(),
+            employee.getAddress(),
+            employee.getEmail(),
+            employee.getPhoneNumber(),
+            employee.getPassword()
+        };    
+        
+        return values;
     }
     
     private Employee buildEmployee(ResultSet employeeRow) throws SQLException

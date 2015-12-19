@@ -26,7 +26,6 @@ public class EmployeeResource {
         employeeDao = new SqlEmployeeDao();
     }
     
-    // Get a list of all employees from db via GET request
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Employee> getAllEmployees() {
@@ -44,12 +43,8 @@ public class EmployeeResource {
     @POST
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateEmployee() {
-        // TODO:
-        // 1. Get all the params of the employee, same as in addNewEmployee (above)
-        // 2. Build new employee, same as above
-        // 3. Send it to employeeDao.updateEmployee(employee).
-        employeeDao.updateEmployee(null);
+    public void updateEmployee(@PathParam("id") int id, Employee employee) {
+        employeeDao.updateEmployee(id, employee);
     }
     
     @GET
