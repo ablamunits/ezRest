@@ -91,7 +91,7 @@ public class WorkingHoursResource {
         int recordId = (int) request.getSession().getAttribute("clockInId");
         if (recordId > 0) {
             workingHoursDao.clockOut(recordId, employeeId);
-            request.getSession().invalidate();
+            request.getSession().removeAttribute("clockInId");
         }
         else {
             try {

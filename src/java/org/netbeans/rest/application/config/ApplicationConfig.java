@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(authentication.AuthResource.class);
         resources.add(core.employees.resources.ActiveEmployeeResource.class);
         resources.add(core.employees.resources.EmployeeResource.class);
         resources.add(core.menu.categories.resources.MenuCategoriesResource.class);
