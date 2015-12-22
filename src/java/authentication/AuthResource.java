@@ -54,11 +54,13 @@ public class AuthResource {
                 System.out.println("logged in!");
                     result.put("loggedIn", true)
                           .put("email", session.getAttribute(SessionUtils.USER_EMAIL))
-                          .put("employeeId", session.getAttribute(SessionUtils.USER_ID));
+                          .put("employeeId", session.getAttribute(SessionUtils.USER_ID))
+                          .put("firstName", session.getAttribute(SessionUtils.USER_FIRST_NAME))
+                          .put("lastName", session.getAttribute(SessionUtils.USER_LAST_NAME));
             }
             else {
                 System.out.println("not logged in!");
-                result.put("isLoggedIn", false);
+                result.put("loggedIn", false);
             }
                 response.getWriter().print(result);
                 response.flushBuffer();
@@ -83,11 +85,16 @@ public class AuthResource {
             String email = result.getString("Email");
             String password = result.getString("Password");
             String uid = result.getString("Employee_id");
+            String firstName = result.getString("First_Name");
+            String lastName = result.getString("Last_Name");
             
             if (auth.getPassword().equals(password) && auth.getEmail().equals(email)) {
-                request.getSession().setAttribute(SessionUtils.USER_EMAIL, email);
-                request.getSession().setAttribute(SessionUtils.IS_LOGGED_IN, true);
-                request.getSession().setAttribute(SessionUtils.USER_ID, uid);
+                HttpSession session = request.getSession();
+                session.setAttribute(SessionUtils.USER_EMAIL, email);
+                session.setAttribute(SessionUtils.IS_LOGGED_IN, true);
+                session.setAttribute(SessionUtils.USER_ID, uid);
+                session.setAttribute(SessionUtils.USER_FIRST_NAME, firstName);
+                session.setAttribute(SessionUtils.USER_LAST_NAME, lastName);
                 response.setStatus(200);
             }
         } catch (SQLException ex) {

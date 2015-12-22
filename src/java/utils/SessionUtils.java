@@ -13,4 +13,6 @@ public class SessionUtils {
     public static final String IS_LOGGED_IN = "isLoggedIn";
     public static final String USER_EMAIL = "userEmail";
     public static final String USER_ID = "userId";
+    public static final String USER_FIRST_NAME = "userFirstName";
+    public static final String USER_LAST_NAME = "userLastName";
 }
