@@ -111,17 +111,28 @@ public class SqlWorkingHoursDao implements WorkingHoursDao {
     }
 
     @Override
-    public void clockIn(int recordId, int employeeId) {
-        Object[] values = getObjectValues(recordId, employeeId);
+    public int clockIn(int employeeId) {
+        try {
+            //        Object[] values = getObjectValues(recordId, employeeId);
 
-        String qString = new StringBuilder("INSERT INTO WorkingHours ")
-                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
-                .append(" VALUES (")
-                .append(StringUtils.objectsArrayToString(values))
-                .append(")")
-                .toString();
-
-        MySqlUtils.updateQuery(qString);
+            String qString = new StringBuilder("INSERT INTO WorkingHours (Employee_id) VALUES (" + employeeId + ")")
+//                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+//                .append(" VALUES (")
+//                .append(StringUtils.objectsArrayToString(values))
+//                .append(")")
+                    .toString();
+            
+            MySqlUtils.updateQuery(qString);
+            ResultSet rs = MySqlUtils.getQuery("SELECT max(Record_id) FROM WorkingHours");
+            rs.first();
+            int recordId = rs.getInt(1);
+            System.out.println(rs.getInt(1));
+            return recordId;
+//        return 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlWorkingHoursDao.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
     }
 
     @Override
@@ -149,14 +160,14 @@ public class SqlWorkingHoursDao implements WorkingHoursDao {
         }
     }
 
-    private Object[] getObjectValues(int recordId, int employeeId) {
-        Object[] values = {
-            recordId,
-            employeeId,
-            new Timestamp(new java.util.Date().getTime()),
-            null
-        };
-
-        return values;
-    }
+//    private Object[] getObjectValues(int recordId, int employeeId) {
+//        Object[] values = {
+//            recordId,
+//            employeeId,
+//            new Timestamp(new java.util.Date().getTime()),
+//            null
+//        };
+//
+//        return values;
+//    }
 }

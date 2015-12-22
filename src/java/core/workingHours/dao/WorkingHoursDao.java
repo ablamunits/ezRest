@@ -19,6 +19,6 @@ public interface WorkingHoursDao {
     String getDurationHoursForEmployeeByRecordId(int employeeId, int recordId);
     WorkingHours getHoursForEmployeeByRecordId(int employeeId, int recordId);
     void deleteWorkingHoursByRecordId(int recordId);
-    void clockIn(int recordId, int employeeId);
+    int clockIn(int employeeId);
     void clockOut(int recordId, int employeeId);
 }

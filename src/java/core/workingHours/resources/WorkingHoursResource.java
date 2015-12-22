@@ -7,13 +7,19 @@ package core.workingHours.resources;
  */
 import core.workingHours.WorkingHours;
 import core.workingHours.dao.SqlWorkingHoursDao;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import utils.StringList;
 
@@ -23,6 +29,9 @@ import utils.StringList;
  */
 @Path("/workingHours")
 public class WorkingHoursResource {
+    @Context HttpServletResponse response;
+    @Context HttpServletRequest request;
+    
     private final SqlWorkingHoursDao workingHoursDao;
     
     public WorkingHoursResource() {
@@ -60,17 +69,39 @@ public class WorkingHoursResource {
     @POST
     @Path("/clockIn/{employeeId}")
     public void clockIn(@PathParam("employeeId") int employeeId) {
-        // Should maybe store the record id in a session?...
-        int recordId = 33;
-        workingHoursDao.clockIn(recordId, employeeId);
+        System.out.println("Clock-in for session: " + request.getSession().getId());
+        int recordId = workingHoursDao.clockIn(employeeId);
+        if (recordId != -1)
+            request.getSession().setAttribute("clockInId", recordId);
+        else {
+            try {
+                response.getWriter().print("Clock in failed.");
+                response.setStatus(500);
+                response.flushBuffer();
+            } catch (IOException ex) {
+                Logger.getLogger(WorkingHoursResource.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }
     
     @POST
     @Path("/clockOut/{employeeId}")
     public void clockOut(@PathParam("employeeId") int employeeId) {
-        // Should maybe check if a clock-in exists in a session?...
-        int recordId = 33; // This is a test recordId. Should be taken from a session.
-        workingHoursDao.clockOut(recordId, employeeId);
+        int recordId = (int) request.getSession().getAttribute("clockInId");
+        if (recordId > 0) {
+            workingHoursDao.clockOut(recordId, employeeId);
+            request.getSession().invalidate();
+        }
+        else {
+            try {
+                response.getWriter().print("Clock out failed.");
+                response.setStatus(500);
+                response.flushBuffer();
+            } catch (IOException ex) {
+                Logger.getLogger(WorkingHoursResource.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     
