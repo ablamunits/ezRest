@@ -7,14 +7,15 @@ package core.menu.items.resources;
 
 import core.menu.MenuEntry;
 import core.menu.items.MenuItem;
+import core.menu.items.MenuItemsOverview;
 import core.menu.items.dao.SqlMenuItemDao;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -28,6 +29,12 @@ public class MenuItemsResource {
     
     public MenuItemsResource() {
         menuItemDao = new SqlMenuItemDao();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<MenuItemsOverview> getMenuItemsOverview(){
+        return menuItemDao.getMenuItemsOverview();
     }
     
     // Get a menu items by id from db via GET request
@@ -50,9 +57,8 @@ public class MenuItemsResource {
     @POST
     @Path("/{itemId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateMenuItem() {
-        // TODO
-        menuItemDao.updateMenuItem(null);
+    public void updateMenuItem(@PathParam("itemId") int itemId, MenuItem menuItem) {
+        menuItemDao.updateMenuItem(itemId, menuItem);
     }
     
     @POST

@@ -44,9 +44,8 @@ public class OrdersResource {
     @POST
     @Path("/{orderId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateMenuItem() {
-        // TODO
-        ordersDao.updateOrder(null);
+    public void updateMenuItem(@PathParam("orderId") int orderId, Order menuItem) {
+        ordersDao.updateOrder(orderId, menuItem);
     }
     
     @POST

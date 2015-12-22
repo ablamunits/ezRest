@@ -15,5 +15,5 @@ public interface OrdersDao {
     Order getOrderById(int orderId);
     void deleteOrderById(int orderId);
     void createOrder(Order newOrder);
-    void updateOrder(Order newOrder);
+    void updateOrder(int orderId, Order order);
 }

@@ -12,7 +12,6 @@ import core.menu.items.MenuItem;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,8 +137,8 @@ public class SqlMenuCategoryDao implements MenuCategoryDao{
     private MenuCategory buildCategory(ResultSet categorySet) throws SQLException {
 
         int categoryId = categorySet.getInt("Cat_Id");
-        int parentId = categorySet.getInt("Parent_Id");
         String title = categorySet.getString("Title");
+        int parentId = categorySet.getInt("Parent_Id");
         
         MenuCategory menuCategory = new MenuCategory();
 

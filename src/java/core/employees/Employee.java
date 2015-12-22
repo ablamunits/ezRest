@@ -18,7 +18,6 @@ public class Employee {
     private String lastName;
     private String position;
     private int age;
-//    private String gender;
     private Gender gender;
     private String city;
     private String address;

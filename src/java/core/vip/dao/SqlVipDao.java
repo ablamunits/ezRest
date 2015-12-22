@@ -22,7 +22,13 @@ import utils.StringUtils;
  * @author Shay
  */
 public class SqlVipDao implements VipDao{
-    String[] columnNames = {"Id", "First_Name", "Last_Name", "Birthday", "Email"};
+    String[] columnNames = {
+        "Id",
+        "First_Name",
+        "Last_Name",
+        "Birthday",
+        "Email"
+    };
     
     @Override
     public Vip getVipById(int id) {
@@ -82,7 +88,7 @@ public class SqlVipDao implements VipDao{
         
         StringBuilder qString = new StringBuilder("UPDATE " + MySqlConfig.Tables.VIP + " SET ");
         qString.append(MySqlUtils.updateSetString(this.columnNames, values))
-               .append(" WHERE id=").append(id);
+               .append(" WHERE id = ").append(id);
       
         MySqlUtils.updateQuery(qString.toString());
     }

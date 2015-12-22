@@ -20,9 +20,10 @@ import java.util.logging.Logger;
  * @author borisa
  */
 public class MySqlUtils {
+
     public static Connection connect() {
         Connection connection;
-      
+
         try {
             Class.forName(MySqlConfig.JDBC_DRIVER);
             connection = DriverManager.getConnection(MySqlConfig.DB_URL, MySqlConfig.USERNAME, MySqlConfig.PASSWORD);
@@ -32,8 +33,8 @@ public class MySqlUtils {
             return null;
         }
     }
-    
-    public static ResultSet getQuery(String query) { 
+
+    public static ResultSet getQuery(String query) {
         Statement statement;
         Connection connection;
         ResultSet result;
@@ -42,21 +43,19 @@ public class MySqlUtils {
             connection = connect();
             statement = connection.createStatement();
             result = statement.executeQuery(query);
-            
+
             return result;
-        }
-        catch (SQLException ex)
-        {
+        } catch (SQLException ex) {
             Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } 
+        }
     }
-    
+
     public static void updateQuery(String query) {
         try {
             Statement statement;
             Connection connection;
-            
+
             connection = connect();
             statement = connection.createStatement();
             statement.executeUpdate(query);
@@ -65,36 +64,44 @@ public class MySqlUtils {
             System.out.println("Error sending query: " + query);
         }
     }
-    
+
     public static String valueString(Object... values) {
         StringBuilder queryString = new StringBuilder("(");
-        
-        for (int i=0; i < values.length; i++) {
+
+        for (int i = 0; i < values.length; i++) {
             queryString.append(values[i]);
-            if (i == values.length - 1)
+            if (i == values.length - 1) {
                 queryString.append(")");
-            else
+            } else {
                 queryString.append(",");
-        }
-        
-        return queryString.toString();
-    }
-    
-    public static String updateSetString(String[] columnNames, Object[] values) {
-        StringBuilder qString = new StringBuilder();
-        
-        for (int i = 0; i < columnNames.length; i++) {
-            if (values[i] != null) {
-                qString.append(columnNames[i])
-                    .append("=\"")
-                    .append(values[i]).append("\"");
-                
-                qString.append(",");
             }
         }
-        
+
+        return queryString.toString();
+    }
+
+    public static String updateSetString(String[] columnNames, Object[] values) {
+        StringBuilder qString = new StringBuilder();
+
+        for (int i = 0; i < columnNames.length; i++) {
+            if (values[i] != null && !(values[i] instanceof Integer) && !(values[i] instanceof Boolean)) {
+                qString.append(columnNames[i])
+                        .append("=\"")
+                        .append(values[i]).append("\"");
+
+                qString.append(",");
+            } else {
+                qString.append(columnNames[i])
+                        .append("=")
+                        .append(values[i]);
+
+                qString.append(",");
+            }
+
+        }
+
         qString.setLength(qString.length() - 1); // Trim last ',' char
-        
+
         return qString.toString();
     }
 }

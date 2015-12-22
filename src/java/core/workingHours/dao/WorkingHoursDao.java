@@ -7,14 +7,18 @@ package core.workingHours.dao;
 
 import core.workingHours.WorkingHours;
 import java.util.List;
+import utils.StringList;
 
 /**
  *
  * @author borisa
  */
 public interface WorkingHoursDao {
-    List <WorkingHours> getAllHoursForEmployee(int employeeId);
+    List<WorkingHours> getAllHoursForEmployee(int employeeId);
+    StringList getWorkingMonthlyHours(int employeeId, int month);
+    String getDurationHoursForEmployeeByRecordId(int employeeId, int recordId);
+    WorkingHours getHoursForEmployeeByRecordId(int employeeId, int recordId);
     void deleteWorkingHoursByRecordId(int recordId);
-    void clockIn(int employeeId);
+    void clockIn(int recordId, int employeeId);
     void clockOut(int recordId, int employeeId);
 }

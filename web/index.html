@@ -16,7 +16,8 @@ and open the template in the editor.
                 console.log('Trying to ajax post...');
                 var destination = $('#destination').val();
                 var content = $('#json').val();
-                content = eval('(' + content + ')');
+                if (content)
+                    content = eval('(' + content + ')');
                 
                 console.log(destination);
                 console.log(content);
@@ -25,7 +26,7 @@ and open the template in the editor.
                     url: 'http://localhost:8080/ezRest/api/' + destination,
                     method: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify(content)
+                    data: JSON.stringify(content) || null
                 }).done(function(res){
                     console.log(res);
                     $('#response').text(res);

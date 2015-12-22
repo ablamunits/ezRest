@@ -8,14 +8,12 @@ package core.permissions.resources;
 import core.permissions.Permission;
 import core.permissions.dao.SqlPermissionDao;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -40,6 +38,13 @@ public class PermissionResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void addPermission(Permission permission) {        
         permissionDao.createPermission(permission);
+    }
+    
+    @POST
+    @Path("/{permissionId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updatePermission(@PathParam("permissionId") int permissionId, Permission permission){
+        permissionDao.updatePermission(permissionId, permission);
     }
     
     @GET

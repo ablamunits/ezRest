@@ -31,32 +31,95 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 # Employee
 
-`api/employees` GET & POST
+`api/employees` GET all employee
 
-`api/employees/{id}`
+`api/employees/{id}` GET employee {id}
 
-`api/employee/delete/{id}`
+`api/employees` POST add new employee
+
+`api/employees/{id}` POST update employee {id}
+
+`api/employee/delete/{id}` POST delete employee 
+
 
 # Permissions
 
-`api/permissions` GET & POST
+`api/permissions` GET all permissions
 
-`api/permissions/{id}` specific permission by ID
+`api/permissions/{id}` GET specific permission by {id}
+
+`api/permissions` POST add new permission
+
+`api/permissions/{id}` POST update permission {id}
+
+`api/permissions/delete/{id} POST delete permission {id}
 
 # Menu
 
-`api/menu/category/{catId}` Get & POST category
+    # Category
 
-`api/menu/item` Add new Item
+    `api/menu/category/{catId}` Get menu category by {catId}
 
-`api/menu/item/{itemId}` Get menu item
+    `api/menu/category` Get all menu categories
 
-`api/menu/category/delete/{id}` Delete menu category by id.
+    `api/menu/category/{catId}` POST update menu category by {catId}
+
+    `api/menu/category/delete/{catId}` POST Delete menu category by {catId}
+
+    `api/menu/category` POST new menu category
+
+    # Item
+
+    `api/menu/item/{itemId}` Get menu item
+
+    `api/menu/item` Get menu item overview (each menu item will have row with: title, item id, number of tables, quantity)
+
+    `api/menu/item` POST new menu item
+
+    `api/menu/item/{itemId} POST update menu item by {itemId}
+
+    `api/menu/item/delete/{itemId} POST delete menu item by {itemId}
 
 # Orders
 
-`api/orders/{orderId}` Get order
+`api/orders/{id}` Get order by {id}
+
+`api/orders` POST new order 
+
+`api/orders/{id}` POST update order by {id}
+
+`api/orders/delete/{id} POST Delete order by {id}
 
 # Vip
 
-`api/vip/{id}` Get vip
+`api/vip/{id}` GET vip by {id}
+
+`api/vip` GET all vip
+
+`api/vip` POST new vip
+
+`api/vip/delete/{id} POST Delete vip by {id}
+
+# OrderItems
+
+`api/orderItems/{id}` GET items of {id}
+
+`api/orderItems` POST new orderItems to db (will use this function after order was closed - otherwise use Redis)
+
+`api/orderItems/delete/{orderId}` Delete all lines of orderItems by orderId
+
+# WorkingHours
+
+`api/workingHours/{employeeId}` GET all working hours of employee {id}
+
+`api/workingHours/record/{employeeId}?recordId={recordId}` GET working hours by recordId
+
+`api/workingHours/durationRecord/{employeeId}?recordId={recordId}` GET the duration working hours by {recordId} of {employeeId}
+
+`api/workingHours/durationMonth/{employeeId}?month={month[1-12]}` GET the duration month {1-12} working hours of {employeeId}
+
+`api/workingHours/clockIn/{employeeId}` POST employee {employeeId} clock in shift
+
+`api/workingHours/clockOut/{employeeId}` POST employee {employeeId} clock out shift
+
+`api/workingHours/delete/{recordId}` POST Delete record {recordId}

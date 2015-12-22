@@ -6,6 +6,9 @@
 package core.menu.items.dao;
 
 import core.menu.MenuEntry;
+import core.menu.items.MenuItem;
+import core.menu.items.MenuItemsOverview;
+import java.util.List;
 
 /**
  *
@@ -15,6 +18,7 @@ import core.menu.MenuEntry;
 public interface MenuItemDao {
     MenuEntry getItemById(int itemId);
     void deleteMenuItemById(int itemId);
-    void createMenuItem(MenuEntry newMenuCat);
-    void updateMenuItem(MenuEntry menuCat);
+    void createMenuItem(MenuItem newMenuItem);
+    void updateMenuItem(int itemId, MenuItem menuItem);
+    List<MenuItemsOverview> getMenuItemsOverview();
 }

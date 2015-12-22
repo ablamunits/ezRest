@@ -54,7 +54,7 @@ public class Order {
     public void setTableNum(int tableNum) {
         this.tableNum = tableNum;
     }
-
+    
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }

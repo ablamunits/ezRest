@@ -30,14 +30,14 @@ public class StringUtils {
         
         for (int index = 0; index <= lastIndex; index++) {
             
-            if (arr[index] instanceof String) {
+            if (arr[index] == null){
+                sb.append("NULL");
+            }            
+            else if (!(arr[index] instanceof Integer) && !(arr[index] instanceof Boolean) ) {
                 sb.append("\"");
                 sb.append(arr[index].toString());
                 sb.append("\"");
             } 
-            else if (arr[index] == null) {
-                sb.append("NULL");
-            }
             else {
                 sb.append(arr[index].toString());
             }

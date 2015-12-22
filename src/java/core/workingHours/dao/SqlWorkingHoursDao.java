@@ -13,44 +13,120 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
+import utils.StringUtils;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import utils.StringList;
 
 /**
  *
  * @author borisa
  */
 public class SqlWorkingHoursDao implements WorkingHoursDao {
-    
+
+    private final String[] columnNames = {
+        "Record_id",
+        "Employee_id",
+        "Clock_in",
+        "Clock_out"
+    };
+
     @Override
-    public List<WorkingHours> getAllHoursForEmployee(int employeeId) {
+    public ArrayList<WorkingHours> getAllHoursForEmployee(int employeeId) {
         ResultSet workingHoursSet = MySqlUtils.getQuery("SELECT * FROM WorkingHours WHERE Employee_id = " + employeeId + ";");
 
-       try {
-           ArrayList<WorkingHours> workingHours = new ArrayList<WorkingHours>() {};
-           
-           while(workingHoursSet.next()) {
-               workingHours.add(buildWorkingHours(workingHoursSet));
-           }
-           
-           return workingHours;
-       } catch (SQLException ex) {
-           Logger.getLogger(SqlWorkingHoursDao.class.getName()).log(Level.SEVERE, null, ex);
-           return null;
-       }
+        try {
+            ArrayList<WorkingHours> workingHours = new ArrayList<WorkingHours>() {
+            };
+
+            while (workingHoursSet.next()) {
+                workingHours.add(buildWorkingHours(workingHoursSet));
+            }
+
+            return workingHours;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlWorkingHoursDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public WorkingHours getHoursForEmployeeByRecordId(int employeeId, int recordId) {
+        ResultSet workingHoursSet = MySqlUtils.getQuery("SELECT * FROM WorkingHours WHERE Employee_id = " + employeeId + " AND Record_id = " + recordId + ";");
+
+        try {
+            workingHoursSet.first();
+            WorkingHours workingHours = buildWorkingHours(workingHoursSet);
+            workingHoursSet.close();
+
+            return workingHours;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlWorkingHoursDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public String getDurationHoursForEmployeeByRecordId(int employeeId, int recordId) {
+        ResultSet hoursReportSet = MySqlUtils.getQuery("SELECT TimeDiff(Clock_out, Clock_in) as Duration "
+                                                     + "FROM WorkingHours "
+                                                     + "WHERE Employee_id = " + employeeId + " and Record_id = " + recordId);
+        try {
+            hoursReportSet.first();
+                String durationHours = hoursReportSet.getString("Duration");
+            hoursReportSet.close();
+            
+            return durationHours;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlWorkingHoursDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    @Override
+    public StringList getWorkingMonthlyHours(int employeeId, int month) {
+        ResultSet hoursReportSet = MySqlUtils.getQuery("SELECT TimeDiff(Clock_out, Clock_in) as Duration "
+                + "FROM WorkingHours "
+                + "WHERE Employee_id = " + employeeId + " and MONTH(Clock_in) = " + month);
+        try {
+            ArrayList<String> monthlyHoursReport = new ArrayList<String>() {
+            };
+
+            while (hoursReportSet.next()) {
+                monthlyHoursReport.add(hoursReportSet.getString("Duration"));
+            }
+
+            return new StringList(monthlyHoursReport);
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlWorkingHoursDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override
     public void deleteWorkingHoursByRecordId(int recordId) {
-        MySqlUtils.updateQuery("DELETE FROM WorkingHours WHERE Record_id = " + recordId );
+        MySqlUtils.updateQuery("DELETE FROM WorkingHours WHERE Record_id = " + recordId);
     }
 
     @Override
-    public void clockIn(int employeeId) {
-        MySqlUtils.updateQuery("INSERT INTO WorkingHours (Employee_id) VALUES (" + employeeId + ")");
+    public void clockIn(int recordId, int employeeId) {
+        Object[] values = getObjectValues(recordId, employeeId);
+
+        String qString = new StringBuilder("INSERT INTO WorkingHours ")
+                .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
+                .append(" VALUES (")
+                .append(StringUtils.objectsArrayToString(values))
+                .append(")")
+                .toString();
+
+        MySqlUtils.updateQuery(qString);
     }
 
     @Override
     public void clockOut(int recordId, int employeeId) {
-        MySqlUtils.updateQuery("UPDATE WorkingHours SET Clock_out=now() WHERE Record_id = " + recordId);
+        MySqlUtils.updateQuery("UPDATE WorkingHours SET Clock_out = now() WHERE Record_id = " + recordId + " and Employee_id = " + employeeId);
     }
 
     private WorkingHours buildWorkingHours(ResultSet workingHoursSet) {
@@ -59,17 +135,28 @@ public class SqlWorkingHoursDao implements WorkingHoursDao {
             int employeeId = workingHoursSet.getInt("Employee_id");
             String clockInTimestamp = workingHoursSet.getString("Clock_in");
             String clockOutTimestamp = workingHoursSet.getString("Clock_out");
-            
+
             WorkingHours workingHours = new WorkingHours();
             workingHours.setRecordId(recordId);
             workingHours.setEmployeeId(employeeId);
             workingHours.setClockInTimestamp(clockInTimestamp);
             workingHours.setClockOutTimestamp(clockOutTimestamp);
-            
+
             return workingHours;
         } catch (SQLException ex) {
             Logger.getLogger(SqlWorkingHoursDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+
+    private Object[] getObjectValues(int recordId, int employeeId) {
+        Object[] values = {
+            recordId,
+            employeeId,
+            new Timestamp(new java.util.Date().getTime()),
+            null
+        };
+
+        return values;
     }
 }

@@ -17,5 +17,5 @@ public interface PermissionDao {
     Permission findPermissionById(int id);
     void createPermission(Permission permission);
     void deletePermissionById(int id);
-    void updatePermission(Permission permission);
+    void updatePermission(int permissionId, Permission permission);
 }
