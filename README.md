@@ -29,6 +29,14 @@ In permission table, each action title (column) needs to be uppercase. Make sure
 
 Here is a <b>list of all API request</b>, which we will also need to submit with EX2, so lets update here with what is working.
 
+# Authentication
+
+`api/auth` GET is logged in ? if logged in - some information.
+
+`api/auth/login` POST login with {email, password}
+
+`api/auth/logout` POST logout
+
 # Employee
 
 `api/employees` GET all employee
