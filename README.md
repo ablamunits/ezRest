@@ -52,33 +52,33 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 `api/permissions/{id}` POST update permission {id}
 
-`api/permissions/delete/{id} POST delete permission {id}
+`api/permissions/delete/{id}` POST delete permission {id}
 
 # Menu
 
-    # Category
+# Category
 
-    `api/menu/category/{catId}` Get menu category by {catId}
+  `api/menu/category/{catId}` Get menu category by {catId}
 
-    `api/menu/category` Get all menu categories
+  `api/menu/category` Get all menu categories
 
-    `api/menu/category/{catId}` POST update menu category by {catId}
+  `api/menu/category/{catId}` POST update menu category by {catId}
 
-    `api/menu/category/delete/{catId}` POST Delete menu category by {catId}
+  `api/menu/category/delete/{catId}` POST Delete menu category by {catId}
 
-    `api/menu/category` POST new menu category
+  `api/menu/category` POST new menu category
 
-    # Item
+# Item
 
-    `api/menu/item/{itemId}` Get menu item
+  `api/menu/item/{itemId}` Get menu item
 
-    `api/menu/item` Get menu item overview (each menu item will have row with: title, item id, number of tables, quantity)
+  `api/menu/item` GET menu item overview (each menu item will have row with: title, item id, number of tables, quantity)
 
-    `api/menu/item` POST new menu item
+  `api/menu/item` POST new menu item
 
-    `api/menu/item/{itemId} POST update menu item by {itemId}
+  `api/menu/item/{itemId}` POST update menu item by {itemId}
 
-    `api/menu/item/delete/{itemId} POST delete menu item by {itemId}
+  `api/menu/item/delete/{itemId}` POST delete menu item by {itemId}
 
 # Orders
 
@@ -88,7 +88,7 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 `api/orders/{id}` POST update order by {id}
 
-`api/orders/delete/{id} POST Delete order by {id}
+`api/orders/delete/{id}` POST Delete order by {id}
 
 # Vip
 
@@ -98,7 +98,7 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 `api/vip` POST new vip
 
-`api/vip/delete/{id} POST Delete vip by {id}
+`api/vip/delete/{id}` POST Delete vip by {id}
 
 # OrderItems
 
@@ -118,8 +118,8 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 `api/workingHours/durationMonth/{employeeId}?month={month[1-12]}` GET the duration month {1-12} working hours of {employeeId}
 
-`api/workingHours/clockIn/{employeeId}` POST employee {employeeId} clock in shift
+`api/workingHours/clockIn/{employeeId}` POST employee {employeeId} clock in shift (Saving to session)
 
-`api/workingHours/clockOut/{employeeId}` POST employee {employeeId} clock out shift
+`api/workingHours/clockOut/{employeeId}` POST employee {employeeId} clock out shift (Deleting session)
 
 `api/workingHours/delete/{recordId}` POST Delete record {recordId}
