@@ -3,13 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Shay/Documents/ezRest/src/java/core/employees/dao/SqlEmployeeDao.java</file>
-            <file>file:/C:/Users/Shay/Documents/ezRest/src/java/core/workingHours/resources/WorkingHoursResource.java</file>
-            <file>file:/C:/Users/Shay/Documents/ezRest/README.md</file>
-            <file>file:/C:/Users/Shay/Documents/ezRest/src/java/core/workingHours/dao/WorkingHoursDao.java</file>
-            <file>file:/C:/Users/Shay/Documents/ezRest/src/java/utils/StringList.java</file>
-            <file>file:/C:/Users/Shay/Documents/ezRest/src/java/core/employees/resources/EmployeeResource.java</file>
-            <file>file:/C:/Users/Shay/Documents/ezRest/src/java/core/workingHours/dao/SqlWorkingHoursDao.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/vip/dao/SqlVipDao.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/utils/StringUtils.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/employees/dao/SqlEmployeeDao.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/config/MySqlConfig.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/utils/MySqlUtils.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/resources/MenuCategoriesResource.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/web/index.html</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/dao/SqlMenuCategoryDao.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/employees/resources/EmployeeResource.java</file>
         </group>
     </open-files>
 </project-private>
