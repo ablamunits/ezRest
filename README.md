@@ -118,11 +118,11 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 # WorkingHours
 
-`api/workingHours/{employeeId}` GET all working hours of employee {id}
+`api/workingHours/{employeeId}` GET all working hours of employee {employeeId}
 
-`api/workingHours/record/{employeeId}?recordId={recordId}` GET working hours by recordId
+`api/workingHours/record/{recordId}` GET working hours by recordId
 
-`api/workingHours/durationRecord/{employeeId}?recordId={recordId}` GET the duration working hours by {recordId} of {employeeId}
+`api/workingHours/durationRecord/{recordId}` GET the duration working hours by {recordId}
 
 `api/workingHours/durationMonth/{employeeId}?month={month[1-12]}` GET the duration month {1-12} working hours of {employeeId}
 

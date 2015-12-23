@@ -45,17 +45,15 @@ public class WorkingHoursResource {
     }
     
     @GET
-    @Path("/record/{employeeId}")  //record/{employeeId}?recordId={recordId}
-    public WorkingHours getEmployeeWorkingHoursByRecordId(@PathParam("employeeId") int employeeId,
-                                                          @QueryParam("recordId")  int recordId) {
-        return workingHoursDao.getHoursForEmployeeByRecordId(employeeId, recordId);
+    @Path("/record/{recordId}") 
+    public WorkingHours getEmployeeWorkingHoursByRecordId(@PathParam("recordId") int recordId) {
+        return workingHoursDao.getHoursForEmployeeByRecordId(recordId);
     }
     
     @GET
-    @Path("/durationRecord/{employeeId}")  //durationRecord/{employeeId}?recordId={recordId}
-    public String getEmployeeWorkingHoursDurationByRecordId(@PathParam("employeeId") int employeeId,
-                                                            @QueryParam("recordId")  int recordId) {
-        return workingHoursDao.getDurationHoursForEmployeeByRecordId(employeeId, recordId);
+    @Path("/durationRecord/{recordId}") 
+    public String getEmployeeWorkingHoursDurationByRecordId(@PathParam("recordId") int recordId) {
+        return workingHoursDao.getDurationHoursForEmployeeByRecordId(recordId);
     }
     
     @GET

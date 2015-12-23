@@ -16,8 +16,8 @@ import utils.StringList;
 public interface WorkingHoursDao {
     List<WorkingHours> getAllHoursForEmployee(int employeeId);
     StringList getWorkingMonthlyHours(int employeeId, int month);
-    String getDurationHoursForEmployeeByRecordId(int employeeId, int recordId);
-    WorkingHours getHoursForEmployeeByRecordId(int employeeId, int recordId);
+    String getDurationHoursForEmployeeByRecordId(int recordId);
+    WorkingHours getHoursForEmployeeByRecordId(int recordId);
     void deleteWorkingHoursByRecordId(int recordId);
     int clockIn(int employeeId);
     void clockOut(int recordId, int employeeId);

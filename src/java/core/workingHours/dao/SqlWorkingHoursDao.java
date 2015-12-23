@@ -53,8 +53,8 @@ public class SqlWorkingHoursDao implements WorkingHoursDao {
     }
 
     @Override
-    public WorkingHours getHoursForEmployeeByRecordId(int employeeId, int recordId) {
-        ResultSet workingHoursSet = MySqlUtils.getQuery("SELECT * FROM WorkingHours WHERE Employee_id = " + employeeId + " AND Record_id = " + recordId + ";");
+    public WorkingHours getHoursForEmployeeByRecordId(int recordId) {
+        ResultSet workingHoursSet = MySqlUtils.getQuery("SELECT * FROM WorkingHours WHERE Record_id = " + recordId + ";");
 
         try {
             workingHoursSet.first();
@@ -69,10 +69,10 @@ public class SqlWorkingHoursDao implements WorkingHoursDao {
     }
 
     @Override
-    public String getDurationHoursForEmployeeByRecordId(int employeeId, int recordId) {
+    public String getDurationHoursForEmployeeByRecordId(int recordId) {
         ResultSet hoursReportSet = MySqlUtils.getQuery("SELECT TimeDiff(Clock_out, Clock_in) as Duration "
                                                      + "FROM WorkingHours "
-                                                     + "WHERE Employee_id = " + employeeId + " and Record_id = " + recordId);
+                                                     + "WHERE Record_id = " + recordId);
         try {
             hoursReportSet.first();
                 String durationHours = hoursReportSet.getString("Duration");

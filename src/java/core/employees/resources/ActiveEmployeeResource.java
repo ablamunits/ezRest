@@ -3,7 +3,9 @@ package core.employees.resources;
 import core.employees.Employee;
 import core.employees.dao.RedisEmployeeDao;
 import java.util.List;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -23,5 +25,11 @@ public class ActiveEmployeeResource {
     public String getAllActiveEmployees() {
         List<Employee> allEmployees = employeeDao.getAllEmployees();
         return "ALL ACTIVE EMPLOYEES FROM REDIS :D";
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addActiveEmployee(Employee employee){
+        
     }
 }
