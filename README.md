@@ -37,6 +37,20 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 `api/auth/logout` POST logout
 
+# Tables (Redis)
+
+`api/tables` - TODO!
+
+`api/tables` - POST add a new table (must provide id in JSON, which is the table number)
+
+`api/tables/{id}` - GET table by ID
+
+`api/tables/{id}` - POST update table
+
+`api/makeOrder/{tableId}` - POST add an order for the table, as an array of `SingleOrder`.
+
+`api/delete/{id}` - POST delete a table and remove it from all related sets.
+
 # Employee
 
 `api/employees` GET all employee
