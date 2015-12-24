@@ -17,5 +17,5 @@ public interface TableDao {
     Table getTableById(int id);
     void createTable(Table table);
     void deleteTableById(int id);
-    void updateTable(Table table);
+    void updateTable(int id, Table table);
 }

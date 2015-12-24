@@ -5,37 +5,112 @@
  */
 package core.tables.dao;
 
+import config.RedisConfig;
+import core.tables.SingleTableOrder;
 import core.tables.Table;
+import java.util.HashMap;
 import java.util.List;
+import redis.clients.jedis.Jedis;
+import utils.RedisUtils;
 
 /**
  *
  * @author borisa
  */
-    // Todo
 public class RedisTableDao implements TableDao {
+    private final Jedis redisAccess;
+    
+    public RedisTableDao() {
+        redisAccess = new Jedis(RedisConfig.CONNECTION);
+    }
+    
     @Override
     public List<Table> getAllTables() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // TODO: A set 'tables' has the table id's of the tables that are currently eating.
+        // We need to find out how to iterate over these Id's and this way return a list of table objects.
+        return null;
     }
 
     @Override
     public Table getTableById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (redisAccess.exists("tables:" + id)) {
+            Table table = new Table();
+            List<String> tableInfo = redisAccess.hmget("tables:" + id, "numOfGuests", "description", "serverId");
+            
+            table.setId(id);
+            table.setNumOfGuests(Integer.parseInt(tableInfo.get(RedisUtils.Tables.TABLE_NUM_OF_GUESTS)));
+            table.setDescription(tableInfo.get(RedisUtils.Tables.TABLE_DESCRIPTION));
+            table.setServerId(Integer.parseInt(tableInfo.get(RedisUtils.Tables.TABLE_SERVER_ID)));  
+            
+            return table;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
     public void createTable(Table table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        HashMap<String,String> map = buildTableMap(table);
+        
+        int tableNumber = table.getId();
+        String serverId = String.valueOf(table.getServerId());
+                      
+        if (redisAccess.exists("tables:" + tableNumber) == false){
+            // The table does not exist.. create it:
+            
+            // 1. Create the table HASHMAP
+            redisAccess.hmset("tables:" + tableNumber, map);
+            
+            // 2. Create the table:id:servicedBy SET
+            redisAccess.sadd("tables:" + tableNumber + ":servicedBy", serverId);
+            
+            // 3. Add the table to a SET of active tables
+            redisAccess.sadd("tables", String.valueOf(tableNumber));
+        }
     }
 
     @Override
     public void deleteTableById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        redisAccess.del("tables:" + id);
+        redisAccess.del("tables:" + id + "order");
+        redisAccess.del("tables:" + id + "servicedBy");
+        redisAccess.srem("tables", String.valueOf(id));
     }
 
     @Override
-    public void updateTable(Table table) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateTable(int id, Table table) {
+        HashMap<String,String> map = new HashMap<>();
+
+        if (table.getDescription() != null)
+            map.put("description", table.getDescription());
+        
+        if (table.getNumOfGuests() != 0)
+            map.put("numOfGuests", String.valueOf(table.getNumOfGuests()));
+        
+        if (table.getServerId() != 0)
+            map.put("serverId", String.valueOf(table.getServerId()));
+        
+        if (redisAccess.exists("tables:" + id))
+            redisAccess.hmset("tables:" + id, map);    
+    }
+    
+    public void updateTableOrder(int tableId, List<SingleTableOrder> tableOrders) {
+        if (redisAccess.exists("tables:" + tableId)) {
+            for (SingleTableOrder tableOrder : tableOrders) {
+                String itemId = String.valueOf(tableOrder.getItemId());
+                redisAccess.zincrby("tables:" + tableId + ":order", tableOrder.getQuantity(),itemId);
+            }
+        }
+    }
+    
+    private HashMap<String, String> buildTableMap(Table table) {
+        HashMap<String,String> map = new HashMap<>();
+
+        map.put("description", table.getDescription());
+        map.put("numOfGuests", String.valueOf(table.getNumOfGuests()));
+        map.put("serverId", String.valueOf(table.getServerId()));
+        
+        return map;
     }
 }

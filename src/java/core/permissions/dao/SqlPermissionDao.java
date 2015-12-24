@@ -21,7 +21,6 @@ import utils.StringUtils;
  * @author borisa
  */
 public class SqlPermissionDao implements PermissionDao {
-
     private final String[] columnNames = {
         "Permission_id",
         "Title",

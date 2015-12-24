@@ -38,6 +38,7 @@ public class ApplicationConfig extends Application {
         resources.add(core.orderItems.resources.OrderItemsResource.class);
         resources.add(core.orders.resources.OrdersResource.class);
         resources.add(core.permissions.resources.PermissionResource.class);
+        resources.add(core.tables.resources.TableResource.class);
         resources.add(core.vip.resources.VipResource.class);
         resources.add(core.workingHours.resources.WorkingHoursResource.class);
     }
