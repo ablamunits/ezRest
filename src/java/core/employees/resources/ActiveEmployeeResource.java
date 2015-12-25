@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 // Get the clocked-in employees (who is working now?) - Redis
 @Path("/employees/active")
 public class ActiveEmployeeResource {
+
     private final RedisEmployeeDao employeeDao;
 
     public ActiveEmployeeResource() {
@@ -21,15 +23,27 @@ public class ActiveEmployeeResource {
     }
     
     @GET
+    @Path("/{employeeId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllActiveEmployees() {
-        List<Employee> allEmployees = employeeDao.getAllEmployees();
-        return "ALL ACTIVE EMPLOYEES FROM REDIS :D";
+    public Employee getEmployeeById(@PathParam("employeeId") int employeeId) {
+        return employeeDao.findEmployeeById(employeeId);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Employee> getAllActiveEmployees() {
+        return employeeDao.getAllEmployees();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addActiveEmployee(Employee employee) {
+        employeeDao.createEmployee(employee);
     }
     
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void addActiveEmployee(Employee employee){
-        
+    @Path("/delete/{employeeId}")
+    public void deleteActiveEmployeeById(@PathParam("employeeId") int employeeId) {
+        employeeDao.deleteEmployeeById(employeeId);
     }
 }

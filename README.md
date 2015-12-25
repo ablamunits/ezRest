@@ -39,7 +39,7 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 # Tables (Redis)
 
-`api/tables` - TODO!
+`api/tables` - GET all tables 
 
 `api/tables` - POST add a new table (must provide id in JSON, which is the table number)
 
@@ -63,6 +63,15 @@ Here is a <b>list of all API request</b>, which we will also need to submit with
 
 `api/employee/delete/{id}` POST delete employee 
 
+# Employee(Redis)
+
+`api/employees/active/{id}` GET active employee {id}
+
+`api/employees/active` GET all active employess
+
+`api/employees/active` POST add new active employee to shift
+
+`api/employees/active/delete/{id}` POST delete active employee {id}
 
 # Permissions
 
