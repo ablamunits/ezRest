@@ -32,8 +32,7 @@ public class RedisTableDao implements TableDao {
         // TODO: A set 'tables' has the table id's of the tables that are currently eating.
         // We need to find out how to iterate over these Id's and this way return a list of table objects.
         Set<String> activeTablesSet = redisAccess.smembers("tables");
-        ArrayList<Table> activeTables = new ArrayList<Table>() {
-        };
+        ArrayList<Table> activeTables = new ArrayList<>();
 
         activeTablesSet.stream().forEach((table) -> {
             activeTables.add(getTableById(Integer.parseInt(table)));
@@ -47,6 +46,8 @@ public class RedisTableDao implements TableDao {
         if (redisAccess.exists("tables:" + id)) {
             Table table = new Table();
             List<String> tableInfo = redisAccess.hmget("tables:" + id, "numOfGuests", "description", "serverId");
+            if (tableInfo.isEmpty())
+                return null;
 
             table.setId(id);
             table.setNumOfGuests(Integer.parseInt(tableInfo.get(RedisUtils.Tables.TABLE_NUM_OF_GUESTS)));
@@ -55,6 +56,7 @@ public class RedisTableDao implements TableDao {
 
             return table;
         } else {
+            System.out.println("Returning null");
             return null;
         }
     }
