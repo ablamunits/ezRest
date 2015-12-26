@@ -1,4 +1,5 @@
 
+import config.MySqlConfig;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
@@ -16,6 +17,14 @@ import javax.ws.rs.core.Application;
 public class EzRestApp extends Application {
     public EzRestApp() {
         System.out.println("Initializing EzRest ...");
-        // TODO: Create tables with CREATE IF NOT EXIST
+        
+        MySqlConfig.Tables.build(MySqlConfig.Tables.EMPLOYEES);
+        MySqlConfig.Tables.build(MySqlConfig.Tables.MENU_CATEGORIES);
+        MySqlConfig.Tables.build(MySqlConfig.Tables.MENU_ITEMS);
+        MySqlConfig.Tables.build(MySqlConfig.Tables.ORDERS);
+        MySqlConfig.Tables.build(MySqlConfig.Tables.ORDER_ITEMS);
+        MySqlConfig.Tables.build(MySqlConfig.Tables.PERMISSIONS);
+        MySqlConfig.Tables.build(MySqlConfig.Tables.VIP);
+        MySqlConfig.Tables.build(MySqlConfig.Tables.WORKING_HOURS);
     }
 }
