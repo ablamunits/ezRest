@@ -31,12 +31,12 @@ public class SqlMenuItemDao implements MenuItemDao {
     };
             
     @Override
-    public MenuEntry getItemById(int itemId) {
+    public MenuItem getItemById(int itemId) {
         ResultSet menuItemSet = MySqlUtils.getQuery("SELECT * FROM MenuItems WHERE Item_id = " + itemId + ";");
 
         try {
             menuItemSet.first();
-            MenuEntry menuItem = buildMenuItem(menuItemSet);
+            MenuItem menuItem = buildMenuItem(menuItemSet);
             menuItemSet.close();
             return menuItem;
         } catch (SQLException ex) {
@@ -76,14 +76,14 @@ public class SqlMenuItemDao implements MenuItemDao {
         MySqlUtils.updateQuery(qString.toString());
     }
 
-    private MenuEntry buildMenuItem(ResultSet menuItemRow) {
+    private MenuItem buildMenuItem(ResultSet menuItemRow) {
         try {
             int itemId = menuItemRow.getInt("Item_id");
             int price = menuItemRow.getInt("Price");
             String title = menuItemRow.getString("Title");
             int categoryId = menuItemRow.getInt("Cat_id");
 
-            MenuEntry menuItem = new MenuItem();
+            MenuItem menuItem = new MenuItem();
             ((MenuItem) menuItem).setItemId(itemId);
             ((MenuItem) menuItem).setPrice(price);
             menuItem.setTitle(title);

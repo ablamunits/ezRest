@@ -11,7 +11,6 @@ public class Employee {
     public static enum Gender {
         MALE, FEMALE; 
     }
-        
     private int id;
     private int permissionId;
     private String firstName;

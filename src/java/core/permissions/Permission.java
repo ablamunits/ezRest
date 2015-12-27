@@ -19,7 +19,7 @@ public class Permission {
     private int permissionId;
     private String title;
     private ArrayList<AuthorizedActions> authorizedActions;
-        
+            
     public Permission() {};
     
     public int getPermissionId() {

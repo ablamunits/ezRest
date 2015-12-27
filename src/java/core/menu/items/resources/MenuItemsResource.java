@@ -41,8 +41,8 @@ public class MenuItemsResource {
     @GET
     @Path("/{itemId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public MenuEntry getMenuItem(@PathParam("itemId") int itemId) {
-        MenuEntry menuItem = menuItemDao.getItemById(itemId);
+    public MenuItem getMenuItem(@PathParam("itemId") int itemId) {
+        MenuItem menuItem = menuItemDao.getItemById(itemId);
         return menuItem;
     }
     
