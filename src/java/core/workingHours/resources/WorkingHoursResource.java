@@ -21,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import utils.ConnectionUtils;
 import utils.StringList;
 
 /**
@@ -72,13 +73,7 @@ public class WorkingHoursResource {
         if (recordId != -1)
             request.getSession().setAttribute("clockInId", recordId);
         else {
-            try {
-                response.getWriter().print("Clock in failed.");
-                response.setStatus(500);
-                response.flushBuffer();
-            } catch (IOException ex) {
-                Logger.getLogger(WorkingHoursResource.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ConnectionUtils.sendErrorResponse(response, "Clock in failed!");
         }
 
     }
@@ -92,13 +87,7 @@ public class WorkingHoursResource {
             request.getSession().removeAttribute("clockInId");
         }
         else {
-            try {
-                response.getWriter().print("Clock out failed.");
-                response.setStatus(500);
-                response.flushBuffer();
-            } catch (IOException ex) {
-                Logger.getLogger(WorkingHoursResource.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ConnectionUtils.sendErrorResponse(response, "Clock out failed!");
         }
     }
     

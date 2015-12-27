@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author borisa
  */
-public class ConnectionUtils {
+public abstract class ConnectionUtils {
     public static void sendErrorResponse(HttpServletResponse response, String errorMessage) {
         try {
             response.setStatus(500);
-            response.getWriter().println("Invalid input provided");
+            response.getWriter().println(errorMessage);
             response.flushBuffer();
         } catch (IOException ex) {
             Logger.getLogger(ConnectionUtils.class.getName()).log(Level.SEVERE, null, ex);

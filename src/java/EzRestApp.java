@@ -16,7 +16,7 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/api")
 public class EzRestApp extends Application {
     public EzRestApp() {
-        System.out.println("Initializing EzRest ...");
+        System.out.println("Initializing EzRest Database and tables ...");
         
         MySqlConfig.Database.create();
         

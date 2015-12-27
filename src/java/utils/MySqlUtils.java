@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author borisa
  */
-public class MySqlUtils {
+public abstract class MySqlUtils {
 
     public static Connection connect() {
         Connection connection;

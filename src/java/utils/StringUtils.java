@@ -9,7 +9,7 @@ package utils;
  *
  * @author borisa
  */
-public class StringUtils {
+public abstract class StringUtils {
     public static String arrayToString(String[] arr) {
         StringBuilder sb = new StringBuilder();
         int lastIndex = arr.length - 1;
