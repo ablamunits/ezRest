@@ -75,7 +75,7 @@ public class SqlWorkingHoursDao implements WorkingHoursDao {
                                                      + "WHERE Record_id = " + recordId);
         try {
             hoursReportSet.first();
-                String durationHours = hoursReportSet.getString("Duration");
+            String durationHours = hoursReportSet.getString("Duration");
             hoursReportSet.close();
             
             return durationHours;

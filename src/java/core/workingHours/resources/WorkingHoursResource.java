@@ -21,6 +21,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import org.json.JSONException;
+import org.json.JSONObject;
 import utils.ConnectionUtils;
 import utils.StringList;
 
@@ -53,8 +55,20 @@ public class WorkingHoursResource {
     
     @GET
     @Path("/durationRecord/{recordId}") 
-    public String getEmployeeWorkingHoursDurationByRecordId(@PathParam("recordId") int recordId) {
-        return workingHoursDao.getDurationHoursForEmployeeByRecordId(recordId);
+    @Produces(MediaType.APPLICATION_JSON)
+    public void getEmployeeWorkingHoursDurationByRecordId(@PathParam("recordId") int recordId) {
+        JSONObject res = new JSONObject();
+        try {
+            String workingHours = workingHoursDao.getDurationHoursForEmployeeByRecordId(recordId);
+            res.put("duration", workingHours);
+            response.getWriter().print(res);
+            response.flushBuffer();
+        } catch (JSONException ex) {
+            Logger.getLogger(WorkingHoursResource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(WorkingHoursResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   
     }
     
     @GET
