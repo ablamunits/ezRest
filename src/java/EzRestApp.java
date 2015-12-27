@@ -18,6 +18,8 @@ public class EzRestApp extends Application {
     public EzRestApp() {
         System.out.println("Initializing EzRest ...");
         
+        MySqlConfig.Database.create();
+        
         MySqlConfig.Tables.build(MySqlConfig.Tables.EMPLOYEES);
         MySqlConfig.Tables.build(MySqlConfig.Tables.MENU_CATEGORIES);
         MySqlConfig.Tables.build(MySqlConfig.Tables.MENU_ITEMS);
