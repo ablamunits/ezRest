@@ -8,6 +8,7 @@ package core.workingHours.resources;
 import core.workingHours.WorkingHours;
 import core.workingHours.dao.SqlWorkingHoursDao;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,29 +33,32 @@ import utils.StringList;
  */
 @Path("/workingHours")
 public class WorkingHoursResource {
-    @Context HttpServletResponse response;
-    @Context HttpServletRequest request;
-    
+
+    @Context
+    HttpServletResponse response;
+    @Context
+    HttpServletRequest request;
+
     private final SqlWorkingHoursDao workingHoursDao;
-    
+
     public WorkingHoursResource() {
         workingHoursDao = new SqlWorkingHoursDao();
     }
-    
+
     @GET
     @Path("/{employeeId}")
     public List<WorkingHours> getEmployeeAllWorkingHours(@PathParam("employeeId") int employeeId) {
         return workingHoursDao.getAllHoursForEmployee(employeeId);
     }
-    
+
     @GET
-    @Path("/record/{recordId}") 
+    @Path("/record/{recordId}")
     public WorkingHours getEmployeeWorkingHoursByRecordId(@PathParam("recordId") int recordId) {
         return workingHoursDao.getHoursForEmployeeByRecordId(recordId);
     }
-    
+
     @GET
-    @Path("/durationRecord/{recordId}") 
+    @Path("/durationRecord/{recordId}")
     @Produces(MediaType.APPLICATION_JSON)
     public void getEmployeeWorkingHoursDurationByRecordId(@PathParam("recordId") int recordId) {
         JSONObject res = new JSONObject();
@@ -68,48 +72,62 @@ public class WorkingHoursResource {
         } catch (IOException ex) {
             Logger.getLogger(WorkingHoursResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-   
+
     }
-    
+
     @GET
     @Path("/durationMonth/{employeeId}") //durationMonth/{employeeId}?month={month[1-12]}
     @Produces(MediaType.APPLICATION_JSON)
-    public StringList getEmployeeWorkingHoursDurationByMonth(@PathParam("employeeId") int employeeId, 
-                                                             @QueryParam("month")     int month) {
+    public StringList getEmployeeWorkingHoursDurationByMonth(@PathParam("employeeId") int employeeId,
+            @QueryParam("month") int month) {
         return workingHoursDao.getWorkingMonthlyHours(employeeId, month);
     }
-    
+
     @POST
     @Path("/clockIn/{employeeId}")
     public void clockIn(@PathParam("employeeId") int employeeId) {
         System.out.println("Clock-in for session: " + request.getSession().getId());
+        HashMap<Integer, Integer> clockInEmployees;
         int recordId = workingHoursDao.clockIn(employeeId);
-        if (recordId != -1)
-            request.getSession().setAttribute("clockInId", recordId);
-        else {
+
+        if (recordId != -1) {
+            clockInEmployees = (HashMap<Integer, Integer>) request.getSession().getAttribute("clockInId");
+            clockInEmployees = updateMap(clockInEmployees, employeeId, recordId);
+            request.getSession().setAttribute("clockInId", clockInEmployees);
+        } else {
             ConnectionUtils.sendErrorResponse(response, "Clock in failed!");
         }
 
     }
-    
+
     @POST
     @Path("/clockOut/{employeeId}")
     public void clockOut(@PathParam("employeeId") int employeeId) {
-        int recordId = (int) request.getSession().getAttribute("clockInId");
+        HashMap<Integer, Integer> clockInEmployees = (HashMap<Integer, Integer>) request.getSession().getAttribute("clockInId");
+        int recordId = clockInEmployees.get(employeeId);
+        
         if (recordId > 0) {
             workingHoursDao.clockOut(recordId, employeeId);
-            request.getSession().removeAttribute("clockInId");
-        }
-        else {
+            clockInEmployees.remove(employeeId);
+            request.getSession().setAttribute("clockInId", clockInEmployees);
+        } else {
             ConnectionUtils.sendErrorResponse(response, "Clock out failed!");
         }
     }
-    
-    
+
     @POST
     @Path("/delete/{recordId}")
     public void deleteRecord(@PathParam("recordId") int recordId) {
         workingHoursDao.deleteWorkingHoursByRecordId(recordId);
     }
-    
+
+    private HashMap<Integer, Integer> updateMap(HashMap<Integer, Integer> clockInEmployees, int employeeId, int recordId) {
+        if (clockInEmployees == null) {
+            clockInEmployees = new HashMap<>();
+        }
+        clockInEmployees.put(employeeId, recordId);
+
+        return clockInEmployees;
+    }
+
 }

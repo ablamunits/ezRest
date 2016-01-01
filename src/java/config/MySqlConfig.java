@@ -25,7 +25,7 @@ public class MySqlConfig {
    public static final String SHAY_PORT = "3306";  
    public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
    public static final String DB_NAME = "ezRest";
-   public static final String DB_URL = "jdbc:mysql://localhost:" + BORIS_PORT;
+   public static final String DB_URL = "jdbc:mysql://localhost:" + SHAY_PORT;
    public static final String USERNAME = "root";
    public static final String PASSWORD = "root";
    
@@ -85,6 +85,7 @@ public class MySqlConfig {
           + "Email varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL, "
           + "Phone_Number varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL, "
           + "Password varchar(20) COLLATE utf8_unicode_ci NOT NULL, "
+          + "Bank_Information varchar(40) COLLATE utf8_unicode_ci NOT NULL, "
           + "PRIMARY KEY (Employee_id))";    
         
         MySqlUtils.updateQuery(qString);
