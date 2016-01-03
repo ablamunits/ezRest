@@ -85,7 +85,7 @@ public class MySqlConfig {
           + "Email varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL, "
           + "Phone_Number varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL, "
           + "Password varchar(20) COLLATE utf8_unicode_ci NOT NULL, "
-          + "Bank_Information varchar(40) COLLATE utf8_unicode_ci NOT NULL, "
+          + "FOREIGN KEY(Permission_id) REFERENCES Permissions(Permission_id), "
           + "PRIMARY KEY (Employee_id))";    
         
         MySqlUtils.updateQuery(qString);
@@ -96,6 +96,7 @@ public class MySqlConfig {
             + "Cat_id int(11) NOT NULL AUTO_INCREMENT, "
             + "Title varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL, "
             + "Parent_id int(11) NOT NULL, "
+            + "FOREIGN KEY(Parent_id) REFERENCES MenuCategories(Cat_id), "
             + "PRIMARY KEY (Cat_id))";
         
         MySqlUtils.updateQuery(qString);
@@ -107,6 +108,7 @@ public class MySqlConfig {
             + "Cat_id int(11) NOT NULL, "
             + "Title varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL, "
             + "Price int(11) NOT NULL, "
+            + "FOREIGN KEY(Cat_id) REFERENCES MenuCategories(Cat_id),"
             + "PRIMARY KEY (Item_id))";
           
           MySqlUtils.updateQuery(qString);
@@ -119,6 +121,7 @@ public class MySqlConfig {
             + "Table_Num int(11) NOT NULL, "
             + "Order_Date date NOT NULL, "
             + "Total_sum int(11) NOT NULL, "
+            + "FOREIGN KEY(Employee_id) REFERENCES employees(Employee_id), "
             + "PRIMARY KEY (Order_id))";
            
             MySqlUtils.updateQuery(qString);
@@ -156,6 +159,7 @@ public class MySqlConfig {
             + "Employee_id int(11) NOT NULL, "
             + "Clock_in timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, "
             + "Clock_out timestamp NULL DEFAULT NULL, "
+            + "FOREIGN KEY(Employee_id) REFERENCES employees(Employee_id), "
             + "PRIMARY KEY (Record_id))";
            
            MySqlUtils.updateQuery(qString);
@@ -165,7 +169,8 @@ public class MySqlConfig {
            String qString = "CREATE TABLE IF NOT EXISTS OrderItems ("
             + "Order_id int(11) NOT NULL, "
             + "Item_id int(11) NOT NULL, "
-            + "Quantity int(11) NOT NULL)";
+            + "Quantity int(11) NOT NULL, "
+            + "FOREIGN KEY(Order_id) REFERENCES Orders(Order_id))";
            
            MySqlUtils.updateQuery(qString);           
        }
