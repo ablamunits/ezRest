@@ -33,7 +33,7 @@ public class SqlPermissionDao implements PermissionDao {
 
     @Override
     public List<Permission> getAllPermissions() {
-        ResultSet permissionSet = MySqlUtils.getQuery("SELECT * FROM permissions;");
+        ResultSet permissionSet = MySqlUtils.getQuery("SELECT * FROM Permissions;");
         try {
             ArrayList<Permission> permissions = new ArrayList<Permission>() {
             };

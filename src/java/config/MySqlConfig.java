@@ -23,12 +23,14 @@ public class MySqlConfig {
     */
    public static final String BORIS_PORT = "8889";  
    public static final String SHAY_PORT = "3306";  
+   public static final String DB_PORT = "3306";  
+       
    public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
    public static final String DB_NAME = "ezRest";
-   public static final String DB_URL = "jdbc:mysql://localhost:" + SHAY_PORT;
+   public static final String DB_URL = "jdbc:mysql://localhost:" + DB_PORT;
    public static final String USERNAME = "root";
-   public static final String PASSWORD = "root";
-   
+   public static final String PASSWORD = "mta1Dev!";
+
    // Tables
    public static abstract class Tables {
        public static final String EMPLOYEES = "employees";
