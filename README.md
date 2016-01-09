@@ -3,154 +3,19 @@
 Web-based POS system for restaurants!
 ----
 
-#### Important updates:
-In permission table, each action title (column) needs to be uppercase. Make sure you have these: ADD_PRODUCT, ADD_EMPLOYEE, CANCEL_ORDER, ADD_DISCOUNT, EDIT_MENU
+MTA 2015-6 Internet and Web Applications course project.
+---
 
-<b>Currently working on:</b> MySql tables, connections and REST
+By Shay Jerby (200949261) and Boris Ablamunits (310370689)
+
+#### Updates since the first submission:
+
+1. The `workingHours` table now has a `recordId` column, to differentiate between clock-in/out records.
+2. A foreign key has been added to the `Parent_id` field in `MenuCategories`, to reference `Cat_id` in the same table.
+3. Permissions that were chosen for the `Permissions` table: ADD_PRODUCT, ADD_EMPLOYEE, CANCEL_ORDER, ADD_DISCOUNT, EDIT_MENU.
+4. Employee working hours will be calculated differently than specified in the original document - the total working hours on
+a specific month will be retrieved from the server and calculated client-side.
 
 ----
 
-<b>Tools to use:</b>
-
-1. Chrome extension to test GET / POST requests: https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo
-  
-    How? For GET requests, just enter a GET url like `../api/employees` and see the response.
-    For POST, choose the POST option, enter the url, and add Query Parameters (like Id, Name etc..) by clicking the little arrow on the side.
-
---
-
-<b>Configuration:</b> Files are in src.config, just change what you need there to connect to your own tables.
-
-<b>Utilities:</b> MySqlUtils has some functions to easily do queries. use `getQuery` for SELECT, and `updateQuery` for things like INSERT, DELETE - which do not return a result set.
-
-<b>Debugging:</b> If things are not working, look in the log (in netbeans) for the exceptions that are thrown, if something is wrong with mySQL queries for example..
-
---
-
-Here is a <b>list of all API request</b>, which we will also need to submit with EX2, so lets update here with what is working.
-
-# Authentication
-
-`api/auth` GET is logged in ? if logged in - some information.
-
-`api/auth/login` POST login with {email, password}
-
-`api/auth/logout` POST logout
-
-# Tables (Redis)
-
-`api/tables` - GET all tables 
-
-`api/tables` - POST add a new table (must provide id in JSON, which is the table number)
-
-`api/tables/{id}` - GET table by ID
-
-`api/tables/{id}` - POST update table
-
-`api/makeOrder/{tableId}` - POST add an order for the table, as an array of `SingleOrder`.
-
-`api/delete/{id}` - POST delete a table and remove it from all related sets.
-
-# Employee
-
-`api/employees` GET all employee
-
-`api/employees/{id}` GET employee {id}
-
-`api/employees` POST add new employee
-
-`api/employees/{id}` POST update employee {id}
-
-`api/employee/delete/{id}` POST delete employee 
-
-# Employee(Redis)
-
-`api/employees/active/{id}` GET active employee {id}
-
-`api/employees/active` GET all active employess
-
-`api/employees/active` POST add new active employee to shift
-
-`api/employees/active/delete/{id}` POST delete active employee {id}
-
-# Permissions
-
-`api/permissions` GET all permissions
-
-`api/permissions/{id}` GET specific permission by {id}
-
-`api/permissions` POST add new permission
-
-`api/permissions/{id}` POST update permission {id}
-
-`api/permissions/delete/{id}` POST delete permission {id}
-
-# Menu
-
-# Category
-
-  `api/menu/category/{catId}` Get menu category by {catId}
-
-  `api/menu/category` Get all menu categories
-
-  `api/menu/category/{catId}` POST update menu category by {catId}
-
-  `api/menu/category/delete/{catId}` POST Delete menu category by {catId}
-
-  `api/menu/category` POST new menu category
-
-# Item
-
-  `api/menu/item/{itemId}` Get menu item
-
-  `api/menu/item` GET menu item overview (each menu item will have row with: title, item id, number of tables, quantity)
-
-  `api/menu/item` POST new menu item
-
-  `api/menu/item/{itemId}` POST update menu item by {itemId}
-
-  `api/menu/item/delete/{itemId}` POST delete menu item by {itemId}
-
-# Orders
-
-`api/orders/{id}` Get order by {id}
-
-`api/orders` POST new order 
-
-`api/orders/{id}` POST update order by {id}
-
-`api/orders/delete/{id}` POST Delete order by {id}
-
-# Vip
-
-`api/vip/{id}` GET vip by {id}
-
-`api/vip` GET all vip
-
-`api/vip` POST new vip
-
-`api/vip/delete/{id}` POST Delete vip by {id}
-
-# OrderItems
-
-`api/orderItems/{id}` GET items of {id}
-
-`api/orderItems` POST new orderItems to db (will use this function after order was closed - otherwise use Redis)
-
-`api/orderItems/delete/{orderId}` Delete all lines of orderItems by orderId
-
-# WorkingHours
-
-`api/workingHours/{employeeId}` GET all working hours of employee {employeeId}
-
-`api/workingHours/record/{recordId}` GET working hours by recordId
-
-`api/workingHours/durationRecord/{recordId}` GET the duration working hours by {recordId}
-
-`api/workingHours/durationMonth/{employeeId}?month={month[1-12]}` GET the duration month {1-12} working hours of {employeeId}
-
-`api/workingHours/clockIn/{employeeId}` POST employee {employeeId} clock in shift (Saving to session)
-
-`api/workingHours/clockOut/{employeeId}` POST employee {employeeId} clock out shift (Deleting session)
-
-`api/workingHours/delete/{recordId}` POST Delete record {recordId}
+Full list of API requests available in `documentation/APIDocument`.

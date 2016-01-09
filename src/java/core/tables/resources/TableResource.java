@@ -27,8 +27,10 @@ import utils.ConnectionUtils;
  */
 @Path("/tables")
 public class TableResource {
-    @Context HttpServletResponse response;
-    @Context HttpServletRequest request;
+    @Context
+    HttpServletResponse response;
+    @Context
+    HttpServletRequest request;
     
     private final RedisTableDao tableDao;
     
@@ -61,10 +63,17 @@ public class TableResource {
     }
     
     @POST
-    @Path("/makeOrder/{tableId}")
+    @Path("/order/{tableId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void makeOrderForTable(@PathParam("tableId") int tableId, List<SingleTableOrder> newOrder) {
         tableDao.updateTableOrder(tableId, newOrder);
+    }
+    
+    @GET
+    @Path("/order/{tableId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<SingleTableOrder> getTableOrder(@PathParam("tableId") int tableId) {
+        return tableDao.getTableOrder(tableId);
     }
     
     @POST

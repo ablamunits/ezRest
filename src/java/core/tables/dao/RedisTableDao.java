@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Tuple;
 import utils.RedisUtils;
 
 /**
@@ -29,8 +30,6 @@ public class RedisTableDao implements TableDao {
 
     @Override
     public List<Table> getAllTables() {
-        // TODO: A set 'tables' has the table id's of the tables that are currently eating.
-        // We need to find out how to iterate over these Id's and this way return a list of table objects.
         Set<String> activeTablesSet = redisAccess.smembers("tables");
         ArrayList<Table> activeTables = new ArrayList<>();
 
@@ -117,6 +116,25 @@ public class RedisTableDao implements TableDao {
                 String itemId = String.valueOf(tableOrder.getItemId());
                 redisAccess.zincrby("tables:" + tableId + ":order", tableOrder.getQuantity(), itemId);
             }
+        }
+    }
+    
+    public List<SingleTableOrder> getTableOrder(int tableId) {
+        if (redisAccess.exists("tables:" + tableId)) {
+            ArrayList<SingleTableOrder> tableOrders = new ArrayList<>();
+            Set<Tuple> rSet = redisAccess.zrangeWithScores("tables:" + tableId + ":order", 0, -1);
+            for (Tuple member : rSet) {
+                SingleTableOrder order = new SingleTableOrder();
+                order.setItemId(Integer.parseInt(member.getElement()));
+                order.setQuantity((int) member.getScore());
+                
+                tableOrders.add(order);
+            }
+            
+            return tableOrders;
+        }
+        else {
+            return null;
         }
     }
 
