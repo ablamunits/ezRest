@@ -42,8 +42,28 @@ and open the template in the editor.
         <br>
         Type a valid JSON to check:
         <br>
-        <textarea rows="20" id="json" placeholder="example: {firstName: 'shlomo'}"></textarea>
+        <textarea rows="10" id="json" placeholder="example: {firstName: 'shlomo'}"></textarea>
         <button onclick="doAjaxPost()">DO!</button>
         </div>
+        GET quick links:
+        <ul>
+            <li>
+                <a href="/ezRest/api/employees">All Employees</a>
+            </li>
+            <li>
+                <a href="/ezRest/api/permissions">All Permissions</a>
+            </li>
+            <li>
+                <a href="ezRest/api/menu/category/5">Category number 5 ("Pizzas") example</a>
+            </li>
+            <li>
+                <a href="ezRest/api/menu/item/1">Get item with id 1</a>
+            </li>    
+            <li>
+                <a href="/ezRest/api/workingHours/1">Working hours report for employee with id 1</a>
+            </li>
+        </ul>
+        
+        More requests described in the API document.
     </body>
 </html>
