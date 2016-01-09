@@ -23,7 +23,7 @@ and open the template in the editor.
                 console.log(content);
                 
                 $.ajax({
-                    url: 'http://localhost:8080/ezRest/api/' + destination,
+                    url: '/ezRest/api/' + destination,
                     method: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(content) || null
@@ -36,14 +36,14 @@ and open the template in the editor.
     </head>
     <body>
         <div><h1>Test POST requests</h1></div>
-        Type the destination resource over ezRest/api
+        Type the destination resource over ezRest/api. The supported request URLs are documented in the file attached with this part's submission.
+        <div>
         <input id="destination" type="text" placeholder="example: vip/1"/>
-        Type a valid JSON to check
-        <textarea id="json" placeholder="example: {firstName: 'shlomo'}"></textarea>
+        <br>
+        Type a valid JSON to check:
+        <br>
+        <textarea rows="20" id="json" placeholder="example: {firstName: 'shlomo'}"></textarea>
         <button onclick="doAjaxPost()">DO!</button>
-        Response:
-        <div id="response" style="border: 1px solid #e2e2e2; border-style: dashed; border-radius: 2px">
-            <!--JSON response goes here-->
         </div>
     </body>
 </html>

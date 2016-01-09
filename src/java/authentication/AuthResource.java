@@ -39,7 +39,7 @@ import utils.SessionUtils;
 @Path("/auth")
 public class AuthResource {    
     
-    @Context
+    @Context 
     HttpServletResponse response;
     @Context
     HttpServletRequest request;
