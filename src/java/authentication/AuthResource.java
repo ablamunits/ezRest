@@ -39,8 +39,10 @@ import utils.SessionUtils;
 @Path("/auth")
 public class AuthResource {    
     
-    @Context HttpServletResponse response;
-    @Context HttpServletRequest request;
+    @Context
+    HttpServletResponse response;
+    @Context
+    HttpServletRequest request;
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
