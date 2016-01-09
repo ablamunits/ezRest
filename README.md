@@ -18,4 +18,6 @@ a specific month will be retrieved from the server and calculated client-side.
 
 ----
 
+When using `api/auth` - authentication is done with the employee's email (mandatory field in the database) and password.
+
 Full list of API requests available in `documentation/APIDocument`.

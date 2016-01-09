@@ -84,7 +84,7 @@ public class MySqlConfig {
           + "Gender varchar(10) COLLATE utf8_unicode_ci NOT NULL, "
           + "City varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL, "
           + "Address varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL, "
-          + "Email varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL, "
+          + "Email varchar(40) COLLATE utf8_unicode_ci NOT NULL, "
           + "Phone_Number varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL, "
           + "Password varchar(20) COLLATE utf8_unicode_ci NOT NULL, "
           + "FOREIGN KEY(Permission_id) REFERENCES Permissions(Permission_id), "
