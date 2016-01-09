@@ -32,6 +32,7 @@ public class MenuItemsResource {
     }
     
     @GET
+    @Path("/report")
     @Produces(MediaType.APPLICATION_JSON)
     public List<MenuItemsOverview> getMenuItemsOverview(){
         return menuItemDao.getMenuItemsOverview();
