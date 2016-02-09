@@ -4,8 +4,10 @@ var allEmployees = [];
 var activeEmployeeLis = [];
 
 function updateEmployeeList() {
-  var obj = doAjaxPost('employees')
-  console.log(obj);
+  doAjaxGet('employees').done(function(response) {
+    allEmployees = response;
+    console.log(allEmployees);
+  });
 };
 
 $(document).ready(function() {
