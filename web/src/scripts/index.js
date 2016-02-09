@@ -7,6 +7,8 @@ function updateEmployeeList() {
   doAjaxGet('employees').done(function(response) {
     allEmployees = response;
     console.log(allEmployees);
+
+    doAjaxPost('employees/active', allEmployees[0]);
   });
 };
 

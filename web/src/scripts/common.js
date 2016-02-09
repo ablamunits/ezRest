@@ -20,7 +20,8 @@ function doAjaxPost(destination, JSONData) {
         url: API_URL + destination,
         method: 'POST',
         contentType: 'application/json',
-        data: JSONData
+        dataType: 'json',
+        data: JSON.stringify(JSONData)
     }).done(function (result)
     {
       return result;
