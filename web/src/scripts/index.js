@@ -8,7 +8,8 @@ $(document).ready(function() {
   EmployeeService.getAllEmployees(function(data) {
     allEmployees = data;
     $.each(allEmployees, function (index, employee) {
-      var $node = $('<li/>').html(employee.firstName);
+      var $node = $('<li/>').html(employee.firstName).attr('employee-id', employee.id).addClass('btn');;
+      $node.click(employeeFromListSelected);
       $('.all-employees-list').append($node);
     });
   });
@@ -16,8 +17,27 @@ $(document).ready(function() {
   EmployeeService.getActiveEmployees(function(data) {
     activeEmployeeList = data;
     $.each(activeEmployeeList, function (index, employee) {
-      var $node = $('<li/>').html(employee.firstName);
+      var $node = $('<li data-toggle="tooltip" />').html(employee.firstName)
+                            .attr('data-original-title', employee.position)
+                            .tooltip({'placement': 'top'})
+                            .attr('employee-id', employee.id)
+                            .addClass('btn btn-success');
+      $node.click(activeEmployeeSelected);
       $('.available-employees-list').append($node);
     });
   });
 });
+
+function activeEmployeeSelected(event) {
+  var $target = $(event.target);
+  var employeeId = $target.attr('employee-id');
+
+  console.log('Navigate to table for employee id ' + employeeId);
+}
+
+function employeeFromListSelected(event) {
+  var $target = $(event.target);
+  var employeeId = $target.attr('employee-id');
+
+  console.log(employeeId);
+}
