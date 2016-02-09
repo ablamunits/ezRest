@@ -86,11 +86,10 @@ public class RedisEmployeeDao implements EmployeeDao {
         employeeMap.put("position", employee.getPosition());
         employeeMap.put("age", String.valueOf(employee.getAge()));
         employeeMap.put("gender", employee.getGender().name());
-        employeeMap.put("city", employee.getCity());
-        employeeMap.put("city", employee.getCity());
-        employeeMap.put("address", employee.getAddress());
+//        employeeMap.put("city", employee.getCity());
+//        employeeMap.put("address", employee.getAddress());
         employeeMap.put("email", employee.getEmail());
-        employeeMap.put("phoneNumber", employee.getPhoneNumber());
+//        employeeMap.put("phoneNumber", employee.getPhoneNumber());
         employeeMap.put("password", employee.getPassword());
 
         return employeeMap;

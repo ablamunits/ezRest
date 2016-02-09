@@ -16,7 +16,7 @@ function doAjaxGet(destination, JSONData) {
 function doAjaxPost(destination, JSONData) {
     console.log('Trying to ajax POST...');
 
-    $.ajax({
+    return $.ajax({
         url: API_URL + destination,
         method: 'POST',
         contentType: 'application/json',
