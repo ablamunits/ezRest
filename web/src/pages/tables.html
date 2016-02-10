@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.-->
+
+<html>
+    <head>
+        <title>ezRest - Tables</title>
+
+        <link href="../styles/index.css" rel="stylesheet" type="text/css">
+        <link href="../styles/tables.css" rel="stylesheet" type="text/css">
+        <!-- Bootstrap & Bootflat styles -->
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
+
+        <script src="../../bower_components/jquery/dist/jquery.js"></script>
+
+        <!-- Bootstrap -->
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+        <!-- Bootflat's JS files.-->
+        <script src="https://bootflat.github.io/bootflat/js/icheck.min.js"></script>
+        <script src="https://bootflat.github.io/bootflat/js/jquery.fs.selecter.min.js"></script>
+        <script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
+
+        <script src="../scripts/services/tables.srv.js"></script>
+        <script src="../scripts/common.js"></script>
+        <script src="../scripts/tables.js"></script>
+    </head>
+    <body>
+        <div class="content-wrapper">
+            <h1>Tables</h1>
+
+            <ul class="alerts-list">
+
+            </ul>
+
+            <div class="available-tables-wrapper panel panel-success">
+                <div class="panel-heading"><b>Occupied</b> Tables:</div>
+                <ul class="available-tables-list panel-body">
+
+                </ul>
+            </div>
+
+            <div class="all-tables-wrapper panel panel-default">
+                <div class="panel-heading"><b>Unoccupied</b> tables, choose to add to occupied tables.</div>
+                <ul class="all-tables-list panel-body">
+
+                </ul>
+            </div>
+
+            <div class="modal-content" id="addTablePopup" aria-hidden="true">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Table 
+                        <span class="label label-default pull-right" id="tableNumber"></span>
+                    </h4>
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>Server Id</label>
+                            <input type="number" class="form-control" placeholder="Server Id" id="serverIdInput">
+                        </div>
+                        <div class="col-xs-6">
+                            <label>Number Of Guests</label>
+                            <input type="number" class="form-control" placeholder="Number of Guests" id="numOfGuestsInput">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>Description</label>
+                            <textarea class="form-control" rows="3" id="descriptionText"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal-content" onclick="onClosePopup()">Close</button>
+                    <button type="button" class="btn btn-success" onclick="onAddTableClick()">Add</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

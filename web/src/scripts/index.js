@@ -1,4 +1,6 @@
-'use strict'
+/* global EmployeeService */
+
+'use strict';
 
 var allEmployees = [];
 var activeEmployeeList = [];
@@ -8,7 +10,7 @@ $(document).ready(function() {
   EmployeeService.getAllEmployees(function(data) {
     allEmployees = data;
     $.each(allEmployees, function (index, employee) {
-      var $node = $('<li/>').html(employee.firstName).attr('employee-id', employee.id).addClass('btn');;
+      var $node = $('<li/>').html(employee.firstName).attr('employee-id', employee.id).addClass('btn');
       $node.click(employeeFromListSelected);
       $('.all-employees-list').append($node);
     });
@@ -33,6 +35,7 @@ function activeEmployeeSelected(event) {
   var employeeId = $target.attr('employee-id');
 
   console.log('Navigate to table for employee id ' + employeeId);
+  window.location.href = 'tables.html?employeeId=' + employeeId;
 }
 
 function employeeFromListSelected(event) {
