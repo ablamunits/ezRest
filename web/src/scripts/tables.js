@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/* global TablesService, alertMechanism */
+/* global TablesService, alertMechanism, EmployeeService */
 
 var activeTablesList = [];
 var maxTables = 20;
@@ -41,6 +41,10 @@ function refreshTables() {
 }
 $(document).ready(function () {
     employeeId = getUrlParameter("employeeId");
+    EmployeeService.getEmployeeById(employeeId,
+            function (response) {
+                $("#employeeName").text(response.firstName);
+            });
     refreshTables();
 });
 
@@ -153,7 +157,7 @@ function validateFields(numOfGuests, serverId) {
     }
     if (serverId === "") {
         $('#serverIdInput').css("border-color", "red");
-        $('#serverIdInput').attr("placeholder","Mandatory Field");
+        $('#serverIdInput').attr("placeholder", "Mandatory Field");
         validFields = false;
     }
 

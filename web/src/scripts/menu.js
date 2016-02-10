@@ -13,7 +13,7 @@ $(document).ready(function () {
 
     EmployeeService.getEmployeeById(employeeId,
             function (response) {
-                $("#employeeName").text(response.firstName);
+                $("#employeeName").text("Hi " + response.firstName);
                 $("#tableId").text(tableId);
             });
 
