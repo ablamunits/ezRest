@@ -43,7 +43,8 @@ $(document).ready(function () {
     employeeId = getUrlParameter("employeeId");
     EmployeeService.getEmployeeById(employeeId,
             function (response) {
-                $("#employeeName").text(response.firstName);
+                $("#employeeName").attr('title', response.firstName);
+                $('[data-toggle="tooltip"]').tooltip(); 
             });
     refreshTables();
 });
@@ -53,7 +54,7 @@ function activeTableSelected(event) {
     var tableId = $target.attr('table-id');
 
     console.log('Navigate to menu for table id ' + tableId);
-    window.location.href = 'menu.html?employeeId=' + employeeId + '&tableId=' + tableId;
+    window.location.href = 'menu.html?employeeId=' + employeeId + '&tableId=' + tableId; //Maybe change here to first name
 }
 
 function isInActiveList(tableNum, activeTablesList) {

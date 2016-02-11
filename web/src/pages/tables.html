@@ -32,57 +32,61 @@ and open the template in the editor.-->
     <body>
         <div class="content-wrapper">
             <h1>Tables</h1>
+
+            <div class="btn-group">
+                <a href="index.html" class="btn btn-info" role="button" data-toggle="tooltip" title="Home"><i class="glyphicon glyphicon-home"></i></a>
+                <a class="btn btn-info" style="cursor: default" role="button" data-toggle="tooltip" title="" id="employeeName"><i class="glyphicon glyphicon-user"></i></a>
+            </div><br>
             
-            <h4><label class="label label-primary" id="employeeName"></label></h4>
             <ul class="alerts-list">
 
             </ul>
+            
+        <div class="available-tables-wrapper panel panel-success">
+            <div class="panel-heading"><b>Occupied</b> Tables:</div>
+            <ul class="available-tables-list panel-body">
 
-            <div class="available-tables-wrapper panel panel-success">
-                <div class="panel-heading"><b>Occupied</b> Tables:</div>
-                <ul class="available-tables-list panel-body">
+            </ul>
+        </div>
 
-                </ul>
+        <div class="all-tables-wrapper panel panel-default">
+            <div class="panel-heading"><b>Unoccupied</b> tables, choose to add to occupied tables.</div>
+            <ul class="all-tables-list panel-body">
+
+            </ul>
+        </div>
+
+        <div class="modal-content" id="addTablePopup" aria-hidden="true">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Table 
+                    <span class="label label-default pull-right" id="tableNumber"></span>
+                </h4>
+
             </div>
-
-            <div class="all-tables-wrapper panel panel-default">
-                <div class="panel-heading"><b>Unoccupied</b> tables, choose to add to occupied tables.</div>
-                <ul class="all-tables-list panel-body">
-
-                </ul>
-            </div>
-
-            <div class="modal-content" id="addTablePopup" aria-hidden="true">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Table 
-                        <span class="label label-default pull-right" id="tableNumber"></span>
-                    </h4>
-
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <label>Server Id</label>
-                            <input type="number" class="form-control" placeholder="Server Id" id="serverIdInput">
-                        </div>
-                        <div class="col-xs-6">
-                            <label>Number Of Guests</label>
-                            <input type="number" class="form-control" placeholder="Number of Guests" id="numOfGuestsInput">
-                        </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>Server Id</label>
+                        <input type="number" class="form-control" placeholder="Server Id" id="serverIdInput">
                     </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>Description</label>
-                            <textarea class="form-control" rows="3" id="descriptionText"></textarea>
-                        </div>
+                    <div class="col-xs-6">
+                        <label>Number Of Guests</label>
+                        <input type="number" class="form-control" placeholder="Number of Guests" id="numOfGuestsInput">
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal-content" onclick="onClosePopup()">Close</button>
-                    <button type="button" class="btn btn-success" onclick="onAddTableClick()">Add</button>
+                <br>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="3" id="descriptionText"></textarea>
+                    </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal-content" onclick="onClosePopup()">Close</button>
+                <button type="button" class="btn btn-success" onclick="onAddTableClick()">Add</button>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>

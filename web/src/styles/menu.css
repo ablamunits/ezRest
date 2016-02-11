@@ -1,0 +1,35 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 11, 2016, 12:45:17 PM
+    Author     : shay
+*/
+
+#menuCategoryTitle {
+    background-color: #006442;
+    color: white;
+}
+
+.btn-category{
+    background-color: #006442;
+}
+
+#menuItemTitle{
+    background-color: #87D37C;
+    color: white;
+}
+
+.btn-item{
+    background-color: #87D37C;
+}
+
+.breadCrumbButton{
+  cursor: pointer;
+}
+
+.summary-wrapper{
+    height: 450px;
+}

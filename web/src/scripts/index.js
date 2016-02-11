@@ -30,12 +30,12 @@ $(document).ready(function() {
   });
 });
 
-function activeEmployeeSelected(event) {
+function activeEmployeeSelected(event) { 
   var $target = $(event.target);
   var employeeId = $target.attr('employee-id');
 
   console.log('Navigate to table for employee id ' + employeeId);
-  window.location.href = 'tables.html?employeeId=' + employeeId;
+  window.location.href = 'tables.html?employeeId=' + employeeId; //Maybe change here to first name
 }
 
 function employeeFromListSelected(event) {

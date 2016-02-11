@@ -6,15 +6,19 @@
 /* global doAjaxGet, doAjaxPost */
 
 var TablesService = {
-  getActiveTables: function(cb) {
-    doAjaxGet('tables').done(function(response) {
-      cb(response);
-    });
-  },
-  
-  addNewTable: function(JSONData, cb){
-    doAjaxPost('tables', JSONData).done(function(response) {
-        cb(response); 
-    });
-  }
+    getActiveTables: function (cb) {
+        doAjaxGet('tables').done(function (response) {
+            cb(response);
+        });
+    },
+    addNewTable: function (JSONData, cb) {
+        doAjaxPost('tables', JSONData).done(function (response) {
+            cb(response);
+        });
+    },
+    getTableById: function (tableId, cb) {
+        doAjaxGet('tables/' + tableId).done(function (response) {
+            cb(response);
+        });
+    }
 };

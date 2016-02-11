@@ -9,6 +9,7 @@ and open the template in the editor.
         <title>ezRest - Menu</title>
 
         <link href="../styles/index.css" rel="stylesheet" type="text/css">
+        <link href="../styles/menu.css" rel="stylesheet" type="text/css">
         <!-- Bootstrap & Bootflat styles -->
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
@@ -24,6 +25,9 @@ and open the template in the editor.
         <script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
 
         <script src="../scripts/services/employee.srv.js"></script>
+        <script src="../scripts/services/menu.srv.js"></script>
+        <script src="../scripts/services/orders.srv.js"></script>
+        <script src="../scripts/services/tables.srv.js"></script>
         <script src="../scripts/common.js"></script>
         <script src="../scripts/index.js"></script>
         <script src="../scripts/menu.js"></script>
@@ -31,19 +35,73 @@ and open the template in the editor.
     <body>
         <div class="content-wrapper">
             <h1>Menu</h1>
-            
-            <h3><label class="label label-primary">Table <span class="badge badge-default" id="tableId" style="font-size : 14px"></span></label></h3>
-            <h4><label class="label label-primary" id="employeeName"></label></h4>
-            <div>
-            </div>
-            <br>
-            <div class="menu-list-wrapper panel panel-success">
-                <div class="panel-heading">Title:</div>
-                <ul class="menu-list panel-body">
-                    
-                </ul>
-            </div>
 
+            <div class="btn-group">
+                <a href="index.html" class="btn btn-info" role="button" data-toggle="tooltip" title="Home"><i class="glyphicon glyphicon-home"></i></a>
+                <a class="btn btn-info " style="cursor: default" role="button" data-toggle="tooltip" title="" id="employeeName"><i class="glyphicon glyphicon-user"></i></a>
+                <a class="btn btn-info " role="button" data-toggle="tooltip" title="" id="tableId"><i class="glyphicon glyphicon-cutlery"></i></a>
+            </div><br><br>
+
+            <div class="row">
+                <div class="col-xs-8">
+
+                    <ol class="breadcrumb breadcrumb-arrow" id="breadCrumbCategroies">
+
+                    </ol>
+                    <div class="panel-heading" id="menuCategoryTitle"></div>
+                    <div class="menu-category-list-wrapper panel" >
+                        <ul class="menu-category-list panel-body">
+
+                        </ul>
+                    </div>
+
+                    <div class="menu-item-list-wrapper panel">
+                        <div class="panel-heading" id="menuItemTitle"><strong>Items: </strong></div>
+                        <ul class="menu-item-list panel-body">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+
+                    <div class="summary-wrapper panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="badge pull-right" id="tableNumberPanel"></div>
+                            <h3 class="panel-title"><Strong>Summary:</Strong></h3>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Item</th>
+                                        <th>Amount</th>
+                                        <th>Price</th>
+                                        <th>Sum</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="all-orders-table">
+
+                                </tbody>
+                            </table>
+
+                            <div>
+                                <label>Description</label>
+                                <textarea class="form-control" rows="2" id="descriptionTextSummary"></textarea>
+                                <label>Number Of Guests</label>
+                                <input type="number" class="form-control" placeholder="Number of Guests" id="numOfGuestsInputSummary">
+                                <div>
+                                <label>Server:</label>
+                                <input type="number" class="form-control" placeholder="Server Id:" id="serverIdSummary">
+                                </div>
+                                <h4 id="sumBillSummary"></h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
     </body>
 </html>
