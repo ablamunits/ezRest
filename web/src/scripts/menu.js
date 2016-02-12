@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/* global EmployeeService, MenuService, OrdersService, TablesService */
+/* global EmployeeService, MenuService, OrdersService, TablesService, alertMechanism */
 var tableId;
 var sumBill;
+var itemsCount;
 
 $(document).ready(function () {
+    itemsCount = 0;
     sumBill = 0;
     tableId = getUrlParameter('tableId');
     $('#tableNumberPanel').html(tableId);
@@ -28,30 +30,68 @@ $(document).ready(function () {
 
     refreshMainMenu();
     refreshSummaryPanel();
+
 });
+
+function initPopups() {
+    var $elements = $('.my-popover');
+    $elements.each(function () {
+        var $element = $(this);
+        $('#content').attr('item-id', $(this).attr('id'));
+        
+        $element.popover({
+            html: true,
+            placement: 'bottom',
+            container: $('body'), // This is just so the btn-group doesn't get messed up... also makes sorting the z-index issue easier
+            content: $('#content').html()
+        });
+
+        $element.on('shown.bs.popover', function () {
+            var popover = $element.data('bs.popover');
+            if (typeof popover !== "undefined") {
+                var $tip = popover.tip();
+                zindex = $tip.css('z-index');
+
+                $tip.find('.close').bind('click', function () {
+                    popover.hide();
+                });
+
+                $tip.mouseover(function () {
+                    $tip.css('z-index', function () {
+                        return zindex + 1;
+                    });
+                })
+                        .mouseout(function () {
+                            $tip.css('z-index', function () {
+                                return zindex;
+                            });
+                        });
+            }
+        });
+    });
+}
 
 function refreshSummaryPanel() {
     OrdersService.getTableOrder(tableId,
             function (orderTableList) {
                 $.each(orderTableList,
                         function (index, order) {
-                            appendMenuItemToOrder(order, index);
+                            appendMenuItemToOrder(order.itemId, order.quantity);
                         });
             });
 
     TablesService.getTableById(tableId,
             function (table) {
                 $('#descriptionTextSummary').val(table.description);
-                $('#numOfGuestsInputSummary').val(table.numOfGuests);
+                $('#numOfGuestsSummary').val(table.numOfGuests);
                 $('#serverIdSummary').val(table.serverId);
             });
 }
 
-function appendMenuItemToOrder(order, index) {
-    MenuService.getMenuItemById(order.itemId,
+function appendMenuItemToOrder(itemId, quantity) {
+    MenuService.getMenuItemById(itemId,
             function (menuItem) {
-                var quantity = order.quantity;
-                var $tableCellIndex = $('<td/>').html(index + 1);
+                var $tableCellIndex = $('<td/>').html(++itemsCount);
                 var $tableCellItemName = $('<td/>').html(menuItem.title);
                 var $tableCellQuantity = $('<td/>').html(quantity);
                 var $tableCellPriceForOne = $('<td/>').html(menuItem.price);
@@ -59,15 +99,15 @@ function appendMenuItemToOrder(order, index) {
                 var $tableCellSum = $('<td/>').html(sumOfItemPrice);
                 sumBill += sumOfItemPrice;
                 $('#sumBillSummary').text("Sum: " + sumBill);
-                
+
                 $('.all-orders-table').append($('<tr>').append($tableCellIndex)
                         .append($tableCellItemName)
                         .append($tableCellQuantity)
                         .append($tableCellPriceForOne)
                         .append($tableCellSum));
             });
-            
-    
+
+
 }
 
 function refreshMainMenu() {
@@ -80,11 +120,12 @@ function refreshMainMenu() {
 }
 
 function updateMenuLists(menuCategoryList) {
+    $('.popover').remove();
     $('.menu-category-list').empty();
     $('.menu-item-list').empty();
     $.each(menuCategoryList,
             function (index, menuEntry) {
-
+                
                 if (menuEntry.isCategory) {
                     var $node = $('<li/>').html(menuEntry.title)
                             .attr('category-id', menuEntry.categoryId)
@@ -96,13 +137,16 @@ function updateMenuLists(menuCategoryList) {
 
                 } else if (!(menuEntry.isCategory)) {
                     var $node = $('<li/>').html(menuEntry.title)
-                            .attr('category-id', menuEntry.categoryId)
+//                            .attr('item-id', menuEntry.itemId) //TODO: add to server: menu/category/2 - need also item-id in this resquet
+                            .attr('data-title', 'Amount:')
+                            .attr('id', menuEntry.itemId)
+                            .addClass('my-popover')
                             .css("background-color", "#87D37C")  //WTF not working in css
                             .addClass('btn btn-item');
-                    $node.click(menuItemClick);
                     $('.menu-item-list').append($node);
                 }
             });
+    initPopups();
 }
 
 function menuCategoryClick(event) {
@@ -144,13 +188,15 @@ function updateBreadCrumb(nextCategoryId, categoryTitle) {
     }
 }
 
-function menuItemClick(event) {
+function onPopupAddClick(event){
     var $target = $(event.target);
-
-    addToSummaryPanel($target);
-//    OrdersService.makeOrder(tableId,
+    var itemId = $target.parent('div').attr('item-id');
+    var quantity = $('#amountPopup').val();
+    
+    appendMenuItemToOrder(itemId, quantity);
+//    alertMechanism.Success(itemName + " was added to the Summary");
 }
 
-function addToSummaryPanel() {
-
+function onSummarySubmitButton(event){
+    //    OrdersService.makeOrder(tableId,
 }

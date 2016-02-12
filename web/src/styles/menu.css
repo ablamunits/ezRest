@@ -27,9 +27,41 @@ and open the template in the editor.
 }
 
 .breadCrumbButton{
-  cursor: pointer;
+    cursor: pointer;
 }
 
-.summary-wrapper{
-    height: 450px;
+.panel-body{
+    height:250px;
+    overflow: auto
+}
+
+.panel-footer{
+    height: 200px;
+}
+
+/* Popover styles */
+.popover .close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+}
+.popover-title {
+    padding-right: 30px;
+}
+
+.popover  {
+    background: #6B9362!important;
+    border-top: #87D37C!important;
+    border-bottom: #87D37C!important;
+    border-left: #87D37C!important;
+    border-right: #87D37C!important;
+}
+
+.popover.bottom>.arrow:after {
+    border-bottom: 2px;
+}
+
+.popover.bottom>.arrow {
+    color: white !important;
+    border-bottom-color: #6B9362 !important;
 }

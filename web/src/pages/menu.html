@@ -44,7 +44,11 @@ and open the template in the editor.
 
             <div class="row">
                 <div class="col-xs-8">
-
+                    
+                    <ul class="alerts-list">
+                        
+                    </ul>
+                    
                     <ol class="breadcrumb breadcrumb-arrow" id="breadCrumbCategroies">
 
                     </ol>
@@ -60,6 +64,13 @@ and open the template in the editor.
                         <ul class="menu-item-list panel-body">
 
                         </ul>
+
+                        <div id="content" class="hidden">
+                            <button type="button" class="close">&times;</button>
+                            <input type="number" id="amountPopup" class="form-control stepper-input" placeholder="Amount">
+                            <button type="button" id="addButton" class="btn btn-success pull-right" onclick="onPopupAddClick()">Add</button>
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-xs-4">
@@ -84,19 +95,30 @@ and open the template in the editor.
 
                                 </tbody>
                             </table>
+                        </div>
 
-                            <div>
+                        <div class="panel-footer">
+                            <div class="col-xs-12">
                                 <label>Description</label>
                                 <textarea class="form-control" rows="2" id="descriptionTextSummary"></textarea>
-                                <label>Number Of Guests</label>
-                                <input type="number" class="form-control" placeholder="Number of Guests" id="numOfGuestsInputSummary">
-                                <div>
-                                <label>Server:</label>
-                                <input type="number" class="form-control" placeholder="Server Id:" id="serverIdSummary">
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="serverId" >Server:</label>
+                                    <input id="serverIdSummary" class="form-control input-group-lg" type="number" name="Server Id" 
+                                           placeholder="Server">
+                                </div>       
+                                <div class="col-xs-6">
+                                    <label for="numOfGuests">Guests:</label>
+                                    <input id="numOfGuestsSummary" class="form-control input-group-lg" type="number" name="Number Of Guests" 
+                                           placeholder="Guests">
                                 </div>
+                            </div><!--/form-group-->
+                            <div class="col-xs-12">
                                 <h4 id="sumBillSummary"></h4>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -105,3 +127,5 @@ and open the template in the editor.
         </div>
     </body>
 </html>
+
+
