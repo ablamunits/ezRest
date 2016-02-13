@@ -30,7 +30,7 @@ $(document).ready(function() {
   });
 });
 
-function activeEmployeeSelected(event) { 
+function activeEmployeeSelected(event) {
   var $target = $(event.target);
   var employeeId = $target.attr('employee-id');
 
@@ -43,4 +43,42 @@ function employeeFromListSelected(event) {
   var employeeId = $target.attr('employee-id');
 
   console.log(employeeId);
+}
+
+function managerAccessOpen(event) {
+  $('.login-container').fadeIn();
+};
+
+function authenticateUser() {
+  $('.alert.login').hide();
+  $('.login-pending').show();
+
+  var loginEmail = $('.login.email').val();
+  var loginPassword = $('.login.password').val();
+
+  AuthService.login(loginEmail, loginPassword, function() {
+    AuthService.authState(function(authObject) {
+      if (authObject.loggedIn === false) {
+        handleFailedLogin();
+      } else {
+        handleSuccessLogin(authObject);
+      }
+    });
+  });
+}
+
+function handleFailedLogin() {
+  $('.alert.login').hide();
+  $('.alert.login-failed').show();
+};
+
+function handleSuccessLogin(authObject) {
+  console.log('login ok!');
+
+  $('.alert.login').hide();
+  $('.alert.login-success').append('<span>Hey ' + authObject.firstName + '! We will redirect you to your admin section in a second!</span>').show();
+
+  setTimeout(function() {
+    window.location.href = 'admin.html';
+  }, 3000);
 }

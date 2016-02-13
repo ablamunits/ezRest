@@ -7,7 +7,7 @@ function doAjaxGet(destination, JSONData) {
         method: 'GET',
         url: API_URL + destination,
         contentType: 'application/json',
-        data: JSONData
+        data: JSON.stringify(JSONData) // Stringify data here - Now you dont need to make ugly code on the outside!
     }).done(function (result) {
         return result;
     });
@@ -21,7 +21,7 @@ function doAjaxPost(destination, JSONData) {
         method: 'POST',
         contentType: 'application/json',
         dataType: 'json',
-        data: JSONData
+        data: JSON.stringify(JSONData) // Stringify data here - Now you dont need to make ugly code on the outside!
     }).done(function (result)
     {
         return result;
@@ -52,7 +52,7 @@ function alertTimeout(wait) {
     }, wait);
 }
 
-//example : menu.html?tableId=8 
+//example : menu.html?tableId=8
 //use : var tableId = getUrlParameter("tableId");
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),

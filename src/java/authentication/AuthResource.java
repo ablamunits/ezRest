@@ -49,6 +49,7 @@ public class AuthResource {
     public JSONObject isLoggedIn() {
         JSONObject result = new JSONObject();
         HttpSession session;
+        response.setContentType("application/json");
         
         session = request.getSession(false);
         try {
@@ -62,6 +63,7 @@ public class AuthResource {
             }
             else {
                 System.out.println("not logged in!");
+                // Report error in the form of an object to see whats wrong..
                 result.put("loggedIn", false);
             }
                 response.getWriter().print(result);

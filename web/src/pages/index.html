@@ -3,6 +3,10 @@
         <title>ezRest - Home</title>
 
         <link href="../styles/index.css" rel="stylesheet" type="text/css">
+
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
         <!-- Bootstrap & Bootflat styles -->
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
@@ -18,6 +22,7 @@
         <script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
 
         <script src="../scripts/services/employee.srv.js"></script>
+        <script src="../scripts/services/auth.srv.js"></script>
         <script src="../scripts/common.js"></script>
         <script src="../scripts/index.js"></script>
     </head>
@@ -41,8 +46,35 @@
 
           </ul>
         </div>
-        <div class="control-buttons">
-          <button class="btn btn-primary">Manager Access</button>
+
+        <div class="col-md-2">
+          <button class="btn btn-primary" onclick="managerAccessOpen(event)">Manager Access</button>
+        </div>
+
+        <div class="login-container">
+          <div class="row">
+            <!-- <div class="login-container"> -->
+              <div class="col-md-3">
+                <input type="text" class="form-control login email" placeholder="Employee email"/>
+              </div>
+              <div class="col-md-3">
+                <input type="password" class="form-control login password" placeholder="Employee password"/>
+              </div>
+              <div class="col-md-3">
+                <button class="btn btn-success login login-button" onclick="authenticateUser()">Login</button>
+              </div>
+            <!-- </div> -->
+          </div>
+          <br>
+          <div class="alert alert-warning login login-pending">
+            <i class="fa fa-spinner fa-spin"></i><strong> Verifying info...</strong> Hold tight.
+          </div>
+          <div class="alert alert-danger login login-failed">
+            <i class="fa fa-frown-o"></i><strong>Oops!</strong> Failed to log in with the supplied info. Please try again or contact a manager.
+          </div>
+          <div class="alert alert-success login login-success">
+            <i class="fa fa-check"></i><strong>Great! </strong>
+          </div>
         </div>
       </div>
     </body>

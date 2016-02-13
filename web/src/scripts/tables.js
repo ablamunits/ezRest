@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -44,7 +44,7 @@ $(document).ready(function () {
     EmployeeService.getEmployeeById(employeeId,
             function (response) {
                 $("#employeeName").attr('title', response.firstName);
-                $('[data-toggle="tooltip"]').tooltip(); 
+                $('[data-toggle="tooltip"]').tooltip();
             });
     refreshTables();
 });
@@ -125,12 +125,12 @@ function onAddTableClick() {
     var validFields = validateFields(numOfGuests, serverId);
 
     if (validFields === true) {
-        TablesService.addNewTable(JSON.stringify({
+        TablesService.addNewTable({
             description: description,
             id: tableId,
             numOfGuests: numOfGuests,
             serverId: serverId
-        }),
+        },
                 function (response) {
                     if (response === undefined) {
                         //success
