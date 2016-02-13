@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -16,7 +16,7 @@ $(document).ready(function () {
     $('#tableNumberPanel').html(tableId);
 
     var employeeId = getUrlParameter('employeeId');
-    EmployeeService.getEmployeeById(employeeId,
+    EmployeeService.getActiveEmployeeById(employeeId,
             function (employee) {
                 $("#employeeName").attr('title', employee.firstName);
                 $("#tableId").attr('title', tableId);

@@ -11,8 +11,14 @@ var EmployeeService = {
             cb(response);
         });
     },
-    
+
     getEmployeeById: function (employeeId, cb) {
+        doAjaxGet('employees/' + employeeId).done(function (response) {
+            cb(response);
+        });
+    },
+
+    getActiveEmployeeById: function (employeeId, cb) {
         doAjaxGet('employees/active/' + employeeId).done(function (response) {
             cb(response);
         });

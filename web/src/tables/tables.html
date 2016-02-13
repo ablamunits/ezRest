@@ -8,8 +8,6 @@ and open the template in the editor.-->
     <head>
         <title>ezRest - Tables</title>
 
-        <link href="../styles/index.css" rel="stylesheet" type="text/css">
-        <link href="../styles/tables.css" rel="stylesheet" type="text/css">
         <!-- Bootstrap & Bootflat styles -->
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
@@ -26,22 +24,25 @@ and open the template in the editor.-->
 
         <script src="../scripts/services/tables.srv.js"></script>
         <script src="../scripts/services/employee.srv.js"></script>
+
         <script src="../scripts/common.js"></script>
-        <script src="../scripts/tables.js"></script>
+        <link href="../index.css" rel="stylesheet" type="text/css">
+        <script src="tables.js"></script>
+        <link href="tables.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div class="content-wrapper">
             <h1>Tables</h1>
 
             <div class="btn-group">
-                <a href="index.html" class="btn btn-info" role="button" data-toggle="tooltip" title="Home"><i class="glyphicon glyphicon-home"></i></a>
+                <a href="../index.html" class="btn btn-info" role="button" data-toggle="tooltip" title="Home"><i class="glyphicon glyphicon-home"></i></a>
                 <a class="btn btn-info" style="cursor: default" role="button" data-toggle="tooltip" title="" id="employeeName"><i class="glyphicon glyphicon-user"></i></a>
             </div><br>
-            
+
             <ul class="alerts-list">
 
             </ul>
-            
+
         <div class="available-tables-wrapper panel panel-success">
             <div class="panel-heading"><b>Occupied</b> Tables:</div>
             <ul class="available-tables-list panel-body">
@@ -58,7 +59,7 @@ and open the template in the editor.-->
 
         <div class="modal-content" id="addTablePopup" aria-hidden="true">
             <div class="modal-header">
-                <h4 class="modal-title">Add Table 
+                <h4 class="modal-title">Add Table
                     <span class="label label-default pull-right" id="tableNumber"></span>
                 </h4>
 

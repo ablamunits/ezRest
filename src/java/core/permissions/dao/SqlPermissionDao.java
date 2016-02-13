@@ -51,7 +51,7 @@ public class SqlPermissionDao implements PermissionDao {
 
     @Override
     public Permission findPermissionById(int id) {
-        ResultSet permissionSet = MySqlUtils.getQuery("SELECT * FROM permissions WHERE Permission_id = " + id);
+        ResultSet permissionSet = MySqlUtils.getQuery("SELECT * FROM Permissions WHERE Permission_id = " + id);
         try {
             permissionSet.first();
             Permission permission = buildPermission(permissionSet);

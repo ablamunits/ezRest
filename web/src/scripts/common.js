@@ -1,8 +1,6 @@
 var API_URL = 'http://webedu3.mtacloud.co.il:8080/ezRest/api/';
 
 function doAjaxGet(destination, JSONData) {
-    console.log('Trying to ajax GET...');
-
     return $.ajax({
         method: 'GET',
         url: API_URL + destination,
@@ -14,8 +12,6 @@ function doAjaxGet(destination, JSONData) {
 }
 
 function doAjaxPost(destination, JSONData) {
-    console.log('Trying to ajax POST...');
-
     return $.ajax({
         url: API_URL + destination,
         method: 'POST',

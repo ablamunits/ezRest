@@ -35,7 +35,7 @@ function activeEmployeeSelected(event) {
   var employeeId = $target.attr('employee-id');
 
   console.log('Navigate to table for employee id ' + employeeId);
-  window.location.href = 'tables.html?employeeId=' + employeeId; //Maybe change here to first name
+  window.location.href = './tables/tables.html?employeeId=' + employeeId; //Maybe change here to first name
 }
 
 function employeeFromListSelected(event) {
@@ -79,6 +79,6 @@ function handleSuccessLogin(authObject) {
   $('.alert.login-success').append('<span>Hey ' + authObject.firstName + '! We will redirect you to your admin section in a second!</span>').show();
 
   setTimeout(function() {
-    window.location.href = 'admin.html';
+    window.location.href = './admin/admin.html';
   }, 3000);
 }

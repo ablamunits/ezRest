@@ -8,8 +8,6 @@ and open the template in the editor.
     <head>
         <title>ezRest - Menu</title>
 
-        <link href="../styles/index.css" rel="stylesheet" type="text/css">
-        <link href="../styles/menu.css" rel="stylesheet" type="text/css">
         <!-- Bootstrap & Bootflat styles -->
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
@@ -24,20 +22,25 @@ and open the template in the editor.
         <script src="https://bootflat.github.io/bootflat/js/jquery.fs.selecter.min.js"></script>
         <script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
 
+        <!-- Services -->
         <script src="../scripts/services/employee.srv.js"></script>
         <script src="../scripts/services/menu.srv.js"></script>
         <script src="../scripts/services/orders.srv.js"></script>
         <script src="../scripts/services/tables.srv.js"></script>
+
+        <!-- Page specific -->
         <script src="../scripts/common.js"></script>
-        <script src="../scripts/index.js"></script>
-        <script src="../scripts/menu.js"></script>
+        <script src="../index.js"></script>
+        <link href="../index.css" rel="stylesheet" type="text/css">
+        <link href="menu.css" rel="stylesheet" type="text/css">
+        <script src="menu.js"></script>
     </head>
     <body>
         <div class="content-wrapper">
             <h1>Menu</h1>
 
             <div class="btn-group">
-                <a href="index.html" class="btn btn-info" role="button" data-toggle="tooltip" title="Home"><i class="glyphicon glyphicon-home"></i></a>
+                <a href="../index.html" class="btn btn-info" role="button" data-toggle="tooltip" title="Home"><i class="glyphicon glyphicon-home"></i></a>
                 <a class="btn btn-info " style="cursor: default" role="button" data-toggle="tooltip" title="" id="employeeName"><i class="glyphicon glyphicon-user"></i></a>
                 <a class="btn btn-info " role="button" data-toggle="tooltip" title="" id="tableId"><i class="glyphicon glyphicon-cutlery"></i></a>
             </div><br><br>
@@ -104,12 +107,12 @@ and open the template in the editor.
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label for="serverId" >Server:</label>
-                                    <input id="serverIdSummary" class="form-control input-group-lg" type="number" name="Server Id" 
+                                    <input id="serverIdSummary" class="form-control input-group-lg" type="number" name="Server Id"
                                            placeholder="Server">
-                                </div>       
+                                </div>
                                 <div class="col-xs-6">
                                     <label for="numOfGuests">Guests:</label>
-                                    <input id="numOfGuestsSummary" class="form-control input-group-lg" type="number" name="Number Of Guests" 
+                                    <input id="numOfGuestsSummary" class="form-control input-group-lg" type="number" name="Number Of Guests"
                                            placeholder="Guests">
                                 </div>
                             </div><!--/form-group-->
@@ -131,5 +134,3 @@ and open the template in the editor.
         </div>
     </body>
 </html>
-
-
