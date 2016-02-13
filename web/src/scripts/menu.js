@@ -7,6 +7,7 @@
 var tableId;
 var sumBill;
 var itemsCount;
+var tableOrders = [];
 
 $(document).ready(function () {
     itemsCount = 0;
@@ -37,8 +38,8 @@ function initPopups() {
     var $elements = $('.my-popover');
     $elements.each(function () {
         var $element = $(this);
-        $('#content').attr('item-id', $(this).attr('id'));
-        
+        $('#content').children('button:last-child').attr('item-id', $(this).attr('id'));
+
         $element.popover({
             html: true,
             placement: 'bottom',
@@ -55,6 +56,11 @@ function initPopups() {
                 $tip.find('.close').bind('click', function () {
                     popover.hide();
                 });
+
+                $tip.find('.add').bind('click', function (event) {
+                    onPopupAddClick(event);
+                });
+
 
                 $tip.mouseover(function () {
                     $tip.css('z-index', function () {
@@ -74,10 +80,7 @@ function initPopups() {
 function refreshSummaryPanel() {
     OrdersService.getTableOrder(tableId,
             function (orderTableList) {
-                $.each(orderTableList,
-                        function (index, order) {
-                            appendMenuItemToOrder(order.itemId, order.quantity);
-                        });
+                updatePanel(orderTableList);
             });
 
     TablesService.getTableById(tableId,
@@ -88,26 +91,64 @@ function refreshSummaryPanel() {
             });
 }
 
-function appendMenuItemToOrder(itemId, quantity) {
+function updatePanel(orderTableList) {
+    $.each(orderTableList,
+            function (index, order) {
+                MenuService.getMenuItemById(order.itemId,
+                        function (menuItem) {
+                            appendMenuItemToOrder(menuItem, order.quantity, "Submitted");
+                        });
+            });
+}
+
+function getMenuItemById(itemId) {
     MenuService.getMenuItemById(itemId,
             function (menuItem) {
-                var $tableCellIndex = $('<td/>').html(++itemsCount);
-                var $tableCellItemName = $('<td/>').html(menuItem.title);
-                var $tableCellQuantity = $('<td/>').html(quantity);
-                var $tableCellPriceForOne = $('<td/>').html(menuItem.price);
-                var sumOfItemPrice = quantity * menuItem.price;
-                var $tableCellSum = $('<td/>').html(sumOfItemPrice);
-                sumBill += sumOfItemPrice;
-                $('#sumBillSummary').text("Sum: " + sumBill);
-
-                $('.all-orders-table').append($('<tr>').append($tableCellIndex)
-                        .append($tableCellItemName)
-                        .append($tableCellQuantity)
-                        .append($tableCellPriceForOne)
-                        .append($tableCellSum));
+                return menuItem;
             });
+}
+function appendMenuItemToOrder(menuItem, quantity, status) {
+    var $tableCellIndex;
+    var $tableCellItemName;
+    var $tableCellQuantity;
+    var $tableCellPriceForOne;
+    var sumOfItemPrice;
+    var $tableCellSum;
+    var $tableCellRemove;
 
+    if (status === "Submitted") {
+//        $tableCellRemove = $('<span/>').addClass('glyphicon glyphicon-remove').click(onRemoveItemClick);
+        $tableCellIndex = $('<td/>').html(++itemsCount);
+        $tableCellItemName = $('<td/>').html(menuItem.title);
+        $tableCellQuantity = $('<td/>').html(quantity);
+        $tableCellPriceForOne = $('<td/>').html(menuItem.price);
+        sumOfItemPrice = quantity * menuItem.price;
+        $tableCellSum = $('<td/>').html(sumOfItemPrice);
+        sumBill += sumOfItemPrice;
+        $('#sumBillSummary').text("Sum: " + sumBill).removeClass('toRed');
 
+    } else if (status === "Not Submitted") {
+//        $tableCellRemove = $('<span/>').addClass('glyphicon glyphicon-remove').click(onRemoveItemClick);
+        $tableCellIndex = $('<td/>').html(toStrong(++itemsCount));
+        $tableCellItemName = $('<td/>').html(toStrong(menuItem.title));
+        $tableCellQuantity = $('<td/>').html(toStrong(quantity));
+        $tableCellPriceForOne = $('<td/>').html(toStrong(menuItem.price));
+        sumOfItemPrice = quantity * menuItem.price;
+        $tableCellSum = $('<td/>').html(toStrong(sumOfItemPrice));
+        sumBill += sumOfItemPrice;
+        $('#sumBillSummary').html("Sum: " + sumBill).addClass('toRed');
+    }
+
+    $('.all-orders-table').append($('<tr>').append($tableCellRemove)
+            .append($tableCellIndex)
+            .append($tableCellItemName)
+            .append($tableCellQuantity)
+            .append($tableCellPriceForOne)
+            .append($tableCellSum));
+}
+
+function toStrong(html) {
+    return "<strong>" + html + "</strong>";
 }
 
 function refreshMainMenu() {
@@ -125,7 +166,7 @@ function updateMenuLists(menuCategoryList) {
     $('.menu-item-list').empty();
     $.each(menuCategoryList,
             function (index, menuEntry) {
-                
+
                 if (menuEntry.isCategory) {
                     var $node = $('<li/>').html(menuEntry.title)
                             .attr('category-id', menuEntry.categoryId)
@@ -137,9 +178,9 @@ function updateMenuLists(menuCategoryList) {
 
                 } else if (!(menuEntry.isCategory)) {
                     var $node = $('<li/>').html(menuEntry.title)
-//                            .attr('item-id', menuEntry.itemId) //TODO: add to server: menu/category/2 - need also item-id in this resquet
                             .attr('data-title', 'Amount:')
                             .attr('id', menuEntry.itemId)
+                            //in initPopups() it will take the 'id' and put it in 'content' of the popover
                             .addClass('my-popover')
                             .css("background-color", "#87D37C")  //WTF not working in css
                             .addClass('btn btn-item');
@@ -188,15 +229,36 @@ function updateBreadCrumb(nextCategoryId, categoryTitle) {
     }
 }
 
-function onPopupAddClick(event){
+function onPopupAddClick(event) {
+    event.preventDefault();
     var $target = $(event.target);
-    var itemId = $target.parent('div').attr('item-id');
-    var quantity = $('#amountPopup').val();
-    
-    appendMenuItemToOrder(itemId, quantity);
-//    alertMechanism.Success(itemName + " was added to the Summary");
+    var itemId = $target.attr('item-id');
+    var quantity = $target.siblings("input").val();
+    tableOrders.push({'itemId': itemId, 'quantity': quantity});
+    $('#submitSummaryButton').removeClass('btn-warning').addClass('btn-danger');
+
+    MenuService.getMenuItemById(itemId,
+            function (menuItem) {
+                appendMenuItemToOrder(menuItem, quantity, "Not Submitted");
+                alertMechanism.Success(menuItem.title + " was added to the Summary");
+            });
 }
 
-function onSummarySubmitButton(event){
-    //    OrdersService.makeOrder(tableId,
+function onSummarySubmitButton(event) {
+    if (tableOrders.length > 0) {
+        OrdersService.makeOrder(tableId, tableOrders,
+                function (response) {
+                    if (response === undefined) {
+                        $('.all-orders-table').empty();
+                        itemsCount = 0;
+                        sumBill = 0;
+                        refreshSummaryPanel();
+                        tableOrders = [];
+                        $('#submitSummaryButton').removeClass('btn-danger').addClass('btn-warning');
+                        alertMechanism.Success("Order has been submitted and placed");
+                    } else {
+                        alertMechanism.Error("An error was occured, please try again");
+                    }
+                });
+    }
 }

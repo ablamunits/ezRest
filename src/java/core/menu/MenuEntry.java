@@ -15,6 +15,18 @@ public abstract class MenuEntry {
     public boolean isCategory;
     private int nextCategoryId = 0;
     
+    //ADDED 12/02    
+    public int itemId;  
+    
+    public int getItemId(){
+        return itemId;
+    }
+    
+    public void setItemId(int itemId){
+        this.itemId = itemId;
+    }
+    //END ADDED 12/02    
+    
     public String getTitle(){
         return title;
     }

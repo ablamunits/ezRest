@@ -19,6 +19,11 @@ public class MenuItem extends MenuEntry {
         super.isCategory = false;
     };     
     
+    public MenuItem(int itemId) {
+        super.isCategory = false;
+        super.itemId = itemId;
+    };     
+    
     public int getItemId() {
         return itemId;
     }

@@ -44,11 +44,11 @@ and open the template in the editor.
 
             <div class="row">
                 <div class="col-xs-8">
-                    
+
                     <ul class="alerts-list">
-                        
+
                     </ul>
-                    
+
                     <ol class="breadcrumb breadcrumb-arrow" id="breadCrumbCategroies">
 
                     </ol>
@@ -68,7 +68,7 @@ and open the template in the editor.
                         <div id="content" class="hidden">
                             <button type="button" class="close">&times;</button>
                             <input type="number" id="amountPopup" class="form-control stepper-input" placeholder="Amount">
-                            <button type="button" id="addButton" class="btn btn-success pull-right" onclick="onPopupAddClick()">Add</button>
+                            <button type="button" class="btn btn-success pull-right add">Add</button>
                         </div>
 
                     </div>
@@ -92,7 +92,6 @@ and open the template in the editor.
                                     </tr>
                                 </thead>
                                 <tbody class="all-orders-table">
-
                                 </tbody>
                             </table>
                         </div>
@@ -114,8 +113,13 @@ and open the template in the editor.
                                            placeholder="Guests">
                                 </div>
                             </div><!--/form-group-->
-                            <div class="col-xs-12">
-                                <h4 id="sumBillSummary"></h4>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <h4 id="sumBillSummary"></h4>
+                                </div>
+                                <div class="col-xs-6">
+                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummarySubmitButton()" id='submitSummaryButton'>Submit</button>
+                                </div>
                             </div>
                         </div>
 

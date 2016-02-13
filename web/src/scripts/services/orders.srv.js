@@ -8,7 +8,7 @@
 
 var OrdersService = {
     makeOrder: function (tableId, menuItemList, cb) {
-        doAjaxPost('tables/order/' + tableId, menuItemList).done(function (response) {
+        doAjaxPost('tables/order/' + tableId, JSON.stringify(menuItemList)).done(function (response) {
             cb(response);
         });
     },

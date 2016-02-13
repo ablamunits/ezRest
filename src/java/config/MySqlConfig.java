@@ -190,6 +190,7 @@ public class MySqlConfig {
             Class.forName(MySqlConfig.JDBC_DRIVER);
             
             connection = DriverManager.getConnection(MySqlConfig.DB_URL, MySqlConfig.USERNAME, MySqlConfig.PASSWORD);
+//            connection = DriverManager.getConnection(MySqlConfig.DB_URL, "root", "");
 
             statement = connection.createStatement();
             statement.executeUpdate(qString);

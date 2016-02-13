@@ -65,3 +65,12 @@ and open the template in the editor.
     color: white !important;
     border-bottom-color: #6B9362 !important;
 }
+
+.toRed{
+    color: red;
+}
+
+.removeItem{
+    padding-top: 10px;
+    right: 6px;
+}

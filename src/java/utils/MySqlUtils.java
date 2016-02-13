@@ -28,6 +28,9 @@ public abstract class MySqlUtils {
             Class.forName(MySqlConfig.JDBC_DRIVER);
             String dbFullUrl = MySqlConfig.DB_URL + "/" + MySqlConfig.DB_NAME;
             connection = DriverManager.getConnection(dbFullUrl, MySqlConfig.USERNAME, MySqlConfig.PASSWORD);
+            
+//            connection = DriverManager.getConnection(dbFullUrl, "root", "");
+
             return connection;
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("Exception in MySqlUtils");
