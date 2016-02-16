@@ -131,7 +131,7 @@ public class SqlMenuCategoryDao implements MenuCategoryDao {
         Object[] values = {
             menuCategory.getCategoryId() == 0 ? null : menuCategory.getCategoryId(),
             menuCategory.getTitle(),
-            menuCategory.getParentId() == 0 ? null : menuCategory.getCategoryId()
+            menuCategory.getParentId() == 0 ? null : menuCategory.getParentId()
         };
 
         return values;

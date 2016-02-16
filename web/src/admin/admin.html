@@ -20,6 +20,7 @@
         <script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
 
         <script src="../scripts/services/employee.srv.js"></script>
+        <script src="../scripts/services/menu.srv.js"></script>
         <script src="../scripts/services/permission.srv.js"></script>
         <script src="../scripts/services/auth.srv.js"></script>
         <script src="../scripts/common.js"></script>
@@ -32,7 +33,6 @@
     <body>
       <div class="content-wrapper">
         <h1>Admin / Manager section</h1>
-        <h3>Welcome <span class="user-name"></span>!</h3>
 
         <div class="personal-info-wrapper">
           <div class="panel">
@@ -42,10 +42,11 @@
             </ul>
             <div class="tab-content">
               <div class="tab-pane fade active in" id="profile-tab">
-                <strong><p class="user-name"></p></strong>
-                <p>Age: <span class="user-age"></span></p>
-                <p><span class="user-position"></span>, <span class="user-permission-title"></span></p>
-                <p class="user-email"></p>
+                <h3>Welcome, <span class="user-name"></span></h3>
+                <p><b><i class="fa fa-user"></i> Age: </b><span class="user-age"></span></p>
+                <p><b><i class="fa fa-envelope-o"></i> Email: </b><span class="user-email"></span></p>
+                <p><b><i class="fa fa-tag"></i> Position: </b><span class="user-position"></span></p>
+                <p><b><i class="fa fa-key"></i> Permission level: </b><span class="user-permission-title"></span></p>
               </div>
               <div class="tab-pane fade" id="work-tab">
                 <p>Your work this month:</p>
@@ -54,16 +55,70 @@
           </div>
         </div>
 
-        <div class="edit-menu-wrapper">
-          <!-- TODO: Add category, add products .. -->
+        <div class="alert alert-success alert-dismissable data-submit-ok">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+          <!-- Populated on db-update success! -->
         </div>
 
-        <div class="edit-employees-wrapper">
-          <!-- TODO: Add new, edit existing .. -->
-        </div>
-
-        <div class="edit-vip-wrapper">
-          <!-- TODO: Add new, edit existing -->
+        <div class="row">
+          <div class="col-sm-6 col-md-4 edit-menu-wrapper">
+            <div class="thumbnail">
+              <img class="img-rounded" src="http://www.youtodesign.com/uploads/allimg/1512/4568.jpg">
+              <div class="caption text-center edit-menu-main">
+                <h3>Menu</h3>
+                <p>Select an existing category, and choose to add a new Item or Category</p>
+                <p class="select-category-wrapper">
+                  <select class="select-category">
+                    <!-- Populated from via menu service -->
+                  </select>
+                </p>
+                <p class="menu-buttons"><a class="btn btn-warning" role="button" onclick="newItemClick(event)">New Item</a> <a class="btn btn-default" role="button" onclick="newCategoryClick(event)">New Category</a></p>
+              </div>
+              <div class="caption text-center add-new-item">
+                <h3>Add a new item to <span class="selected-category"></span></h3>
+                <div class="form-group">
+                  <input type="text" class="form-control item-title" placeholder="Item title">
+                  <input type="text" class="form-control item-price" placeholder="Price">
+                </div>
+                <p>
+                  <button type="button" class="btn btn-success btn-block" onclick="submitNewItem(event)">Add it!</button>
+                  <p class="input-error">We had a problem with the info you provided. Check that the item title contains only letter and numbers, and that the price input contains numbers only.</p>
+                  <a onclick="closeEverything()">Close</a>
+                </p>
+              </div>
+              <div class="caption text-center add-new-category">
+                <h3>Add a new sub-category to <span class="selected-category"></span></h3>
+                <div class="form-group">
+                  <input type="text" class="form-control item-category-title" placeholder="Category title">
+                </div>
+                <p>
+                  <button type="button" class="btn btn-success btn-block" onclick="submitNewCategory(event)">Add it!</button>
+                  <p class="input-error">We had a problem with the info you provided. Check that the category title contains only letter and numbers.</p>
+                  <a onclick="closeEverything()">Close</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 edit-employees-wrapper">
+            <div class="thumbnail">
+              <img class="img-rounded" src="http://saadattarabar.com/reportSys/img/employee.png">
+              <div class="caption text-center">
+                <h3>Employees</h3>
+                <p>Add a new employee or edit information of your currently employeed ones.</p>
+                <p class="employees-buttons"><a class="btn btn-warning" role="button" onclick="newEmployeeClick(event)">New Employee</a> <a class="btn btn-default" role="button" onclick="editEmployeeClick(event)">Edit existing</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-4 edit-vip-wrapper">
+            <div class="thumbnail">
+              <img class="img-rounded" src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/gift-icon.png">
+              <div class="caption text-center">
+                <h3>VIPs</h3>
+                <p>Add a new VIP customer or edit information of your existing customers.</p>
+                <p class="vip-buttons"><a class="btn btn-warning" role="button" onclick="newVipClick(event)">New VIP</a> <a href="#" class="btn btn-default" role="button" onClick="editVipClick(event)">Edit existing</a></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </body>

@@ -64,3 +64,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
+
+function isValidString(input) {
+  return /^[a-zA-Z\s]*$/.test(input);
+};
