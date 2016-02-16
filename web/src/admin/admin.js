@@ -51,6 +51,7 @@ function displayInfo() {
   console.log(authorizedActions);
 }
 
+// Admin: Menu edit
 var selectedCategory = {};
 function newItemClick(event) {
   selectedCategory = {
@@ -62,6 +63,10 @@ function newItemClick(event) {
   hideEditMenuMain();
   showAddNewItem();
 };
+
+function showAddNewItem() {
+  $('.add-new-item').slideDown();
+}
 
 function submitNewItem(event) {
   var newItemTitle = $('input.item-title').val();
@@ -98,6 +103,10 @@ function newCategoryClick(event) {
   showAddNewCategory();
 };
 
+function showAddNewCategory() {
+  $('.add-new-category').slideDown();
+}
+
 function submitNewCategory(event) {
   var newCategoryTitle = $('input.item-category-title').val();
 
@@ -119,11 +128,6 @@ function submitNewCategory(event) {
   });
 }
 
-function newEmployeeClick(event) {};
-function editEmployeeClick(event) {};
-function newVipClick(event) {};
-function editVipClick(event) {};
-
 function showEditMenuMain() {
   $('.edit-menu-main').slideDown();
 }
@@ -132,14 +136,13 @@ function hideEditMenuMain() {
   $('.edit-menu-main').slideUp();
 }
 
-function showAddNewItem() {
-  $('.add-new-item').slideDown();
-}
+// Admin: Employees edit
+function newEmployeeClick(event) {};
+function editEmployeeClick(event) {};
+function newVipClick(event) {};
+function editVipClick(event) {};
 
-function showAddNewCategory() {
-  $('.add-new-category').slideDown();
-}
-
+// Admin: Utils for this section
 function closeEverything() {
   $('.add-new-item').slideUp();
   $('.add-new-category').slideUp();
