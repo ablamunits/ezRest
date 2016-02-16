@@ -148,5 +148,5 @@ function closeEverything() {
 }
 
 function displaySuccess(strongText, regularText) {
-  $('.alert.data-submit-ok').append('<strong>' + strongText + '</strong> ' + regularText).show();
+  $('.alert.data-submit-ok p').empty().append('<strong>' + strongText + '</strong> ' + regularText).show();
 }
