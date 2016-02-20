@@ -13,6 +13,12 @@ var EmployeeService = {
 				});
 		},
 
+		editEmployee: function (id ,editedEmployee, cb) {
+			doAjaxPost('employees/' + id, editedEmployee).done(function (response) {
+					cb(response);
+			});
+		},
+
     getActiveEmployees: function (cb) {
         doAjaxGet('employees/active').done(function (response) {
             cb(response);

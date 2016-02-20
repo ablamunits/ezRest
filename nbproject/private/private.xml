@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/shay/Documents/ezRest/web/src/styles/menu.css</file>
-            <file>file:/C:/Users/shay/Documents/ezRest/web/src/scripts/menu.js</file>
-            <file>file:/C:/Users/shay/Documents/ezRest/src/java/core/menu/categories/dao/SqlMenuCategoryDao.java</file>
-            <file>file:/C:/Users/shay/Documents/ezRest/src/java/core/menu/items/MenuItem.java</file>
-            <file>file:/C:/Users/shay/Documents/ezRest/web/src/pages/menu.html</file>
-            <file>file:/C:/Users/shay/Documents/ezRest/src/java/core/menu/categories/resources/MenuCategoriesResource.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/MenuCategory.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/employees/dao/SqlEmployeeDao.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/resources/MenuCategoriesResource.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/MenuEntry.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/categories/dao/SqlMenuCategoryDao.java</file>
+            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/employees/resources/EmployeeResource.java</file>
         </group>
     </open-files>
 </project-private>

@@ -159,7 +159,46 @@ function deleteEmployeeClick(event) {
 		});
 }
 
-function editEmployeeClick(event) {};
+function editEmployeeClick(event) {
+	var employeeId = $('.select-employee option:selected').attr('employee-id');
+	var $modal = $('.update-employee-modal');
+
+	EmployeeService.getEmployeeById(employeeId, (employee) => {
+		$modal.find('input.first-name').val(employee.firstName);
+		$modal.find('input.last-name').val(employee.lastName);
+		$modal.find('input.email').val(employee.email);
+		$modal.find('input.password').val(employee.password);
+		$modal.find('input.age').val(employee.age);
+		$modal.find('input.position').val(employee.position);
+		$modal.find('.new-employee-gender-select').val(employee.gender);
+
+		$modal.find('.edit-employee-name').text(employee.firstName + ' ' + employee.lastName);
+	});
+
+	$.each(allPermissions, function(idx, permission) {
+		var option = $('<option>').attr('value', idx).attr('permission-id', permission.permissionId).text(permission.title);
+		$modal.find('.new-employee-permission-select').empty().append(option);
+	});
+	$('select').selecter();
+
+	$modal.find('button.cancel').click(() => {
+		$modal.hide();
+	});
+
+	$modal.show();
+};
+
+function submitEditedEmployee() {
+	var $modal = $('.update-employee-modal');
+	var employeeId = $('.select-employee option:selected').attr('employee-id');
+
+	var editedEmployee = $.extend(employeeFromModal($modal), {id: employeeId}); // Quick fix, edit not working well on server it seems.
+
+	EmployeeService.editEmployee(employeeId, editedEmployee, (response) => {
+		$modal.hide();
+		displaySuccessAndRefresh('Great!', 'Employee ' + editedEmployee.firstName + ' ' + editedEmployee.lastName + ' has been updated!');
+	});
+};
 
 function newEmployeeClick(event) {
 	var $modal = $('.new-employee-modal');
@@ -173,9 +212,9 @@ function newEmployeeClick(event) {
 		$modal.hide();
 	});
 
-	$modal.find('button.submit').click(() => {
-		submitNewEmployee();
-	});
+	// $modal.find('button.submit').click(() => {
+	// 	submitNewEmployee();
+	// });
 
 	$modal.show();
 };
@@ -183,25 +222,7 @@ function newEmployeeClick(event) {
 function submitNewEmployee() {
 	var $modal = $('.new-employee-modal');
 
-	var firstName = $modal.find('input.first-name').val();
-	var lastName = $modal.find('input.last-name').val();
-	var email = $modal.find('input.email').val();
-	var password = $modal.find('input.password').val();
-	var age = $modal.find('input.age').val();
-	var position = $modal.find('input.position').val();
-	var gender = $modal.find('.new-employee-gender-select option:selected').attr('value');
-	var permissionId = $modal.find('.new-employee-permission-select option:selected').attr('permission-id');
-
-	var newEmployee = {
-		firstName: firstName,
-		lastName: lastName,
-		age: age,
-		email: email,
-		password: password,
-		gender: gender,
-		position: position,
-		permissionId: permissionId,
-	};
+	var newEmployee = employeeFromModal($modal);
 
 	EmployeeService.addNewEmployee(newEmployee, (response) => {
 		$modal.hide();
@@ -214,6 +235,30 @@ function newVipClick(event) {};
 function editVipClick(event) {};
 
 // Admin: Utils for this section
+function employeeFromModal ($modal) {
+	var firstName = $modal.find('input.first-name').val();
+	var lastName = $modal.find('input.last-name').val();
+	var email = $modal.find('input.email').val();
+	var password = $modal.find('input.password').val();
+	var age = parseInt($modal.find('input.age').val());
+	var position = $modal.find('input.position').val();
+	var gender = $modal.find('.new-employee-gender-select option:selected').attr('value');
+	var permissionId = parseInt($modal.find('.new-employee-permission-select option:selected').attr('permission-id'));
+
+	var newEmployee = {
+		firstName: firstName,
+		lastName: lastName,
+		age: age,
+		email: email,
+		password: password,
+		gender: gender,
+		position: position,
+		permissionId: permissionId,
+	};
+
+	return newEmployee;
+}
+
 function closeEverything() {
 	$('.modal').hide();
 
