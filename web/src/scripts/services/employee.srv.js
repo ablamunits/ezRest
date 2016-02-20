@@ -6,6 +6,13 @@ var EmployeeService = {
             cb(response);
         });
     },
+
+		addNewEmployee: function (newEmployee, cb) {
+				doAjaxPost('employees', newEmployee).done(function (response) {
+						cb(response);
+				});
+		},
+
     getActiveEmployees: function (cb) {
         doAjaxGet('employees/active').done(function (response) {
             cb(response);
@@ -22,5 +29,11 @@ var EmployeeService = {
         doAjaxGet('employees/active/' + employeeId).done(function (response) {
             cb(response);
         });
-    }
+    },
+
+		deleteEmployee: function (employeeId, cb) {
+			doAjaxPost('/employees/delete/' + employeeId).done(function (response) {
+				cb(response);
+			});
+		}
 };

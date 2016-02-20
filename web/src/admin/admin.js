@@ -5,11 +5,21 @@ var employeeObject;
 var authorizedActions;
 var permissionTitle;
 var allCategories = [];
+var allEmployees = [];
+var allPermissions = [];
 
 $(document).ready(function() {
   MenuService.getAllCategories(function(responseObject) {
     allCategories = responseObject;
   });
+
+	EmployeeService.getAllEmployees(function(responseObject) {
+		allEmployees = responseObject;
+	});
+
+	PermissionService.getAllPermissions(function(responseObject) {
+		allPermissions = responseObject;
+	});
 
   AuthService.authState(function(responseObject) {
     authObject = responseObject;
@@ -39,16 +49,20 @@ function displayInfo() {
   $.each(allCategories, function(idx, category) {
     var option = $('<option>').attr('value', idx).attr('category-id', category.categoryId).text(category.title === 'DUMMY_ROOT' ? 'Root Category' : category.title);
     $('.select-category').append(option);
-  })
+  });
+	$('.select-category').selecter();
 
-  $('select').selecter();
+	$.each(allEmployees, function(idx, employee) {
+		var option = $('<option>').attr('value', idx).attr('employee-id', employee.id).text(employee.firstName + ' ' + employee.lastName);
+		$('.select-employee').append(option);
+	});
+	$('.select-employee').selecter();
 
   $('.user-name').text(employeeObject.firstName + ' ' + employeeObject.lastName);
   $('.user-age').text(employeeObject.age);
   $('.user-email').text(employeeObject.email);
   $('.user-position').text(employeeObject.position);
   $('.user-permission-title').text(permissionTitle);
-  console.log(authorizedActions);
 }
 
 // Admin: Menu edit
@@ -88,7 +102,7 @@ function submitNewItem(event) {
 
   MenuService.addNewItem(newItem, function(response) {
     closeEverything();
-    displaySuccess('Sweet!', 'Item ' + newItem.title + ' added!');
+    displaySuccessAndRefresh('Sweet!', 'Item ' + newItem.title + ' added!');
   });
 }
 
@@ -124,7 +138,7 @@ function submitNewCategory(event) {
 
   MenuService.addNewCategory(newCategory, function(response) {
     closeEverything();
-    displaySuccess('Awesome!', 'Category ' + newCategory.title + ' added!');
+    displaySuccessAndRefresh('Awesome!', 'Category ' + newCategory.title + ' added!');
   });
 }
 
@@ -137,19 +151,84 @@ function hideEditMenuMain() {
 }
 
 // Admin: Employees edit
-function newEmployeeClick(event) {};
+function deleteEmployeeClick(event) {
+		var employeeId = $('.select-employee option:selected').attr('employee-id');
+		var employeeName = $('.select-employee option:selected').text();
+		EmployeeService.deleteEmployee(employeeId, (response) => {
+			displaySuccessAndRefresh('Alright!', 'We have deleted ' + employeeName + ' for you.');
+		});
+}
+
 function editEmployeeClick(event) {};
+
+function newEmployeeClick(event) {
+	var $modal = $('.new-employee-modal');
+	$.each(allPermissions, function(idx, permission) {
+		var option = $('<option>').attr('value', idx).attr('permission-id', permission.permissionId).text(permission.title);
+		$modal.find('.new-employee-permission-select').append(option);
+	});
+	$('select').selecter();
+
+	$modal.find('button.cancel').click(() => {
+		$modal.hide();
+	});
+
+	$modal.find('button.submit').click(() => {
+		submitNewEmployee();
+	});
+
+	$modal.show();
+};
+
+function submitNewEmployee() {
+	var $modal = $('.new-employee-modal');
+
+	var firstName = $modal.find('input.first-name').val();
+	var lastName = $modal.find('input.last-name').val();
+	var email = $modal.find('input.email').val();
+	var password = $modal.find('input.password').val();
+	var age = $modal.find('input.age').val();
+	var position = $modal.find('input.position').val();
+	var gender = $modal.find('.new-employee-gender-select option:selected').attr('value');
+	var permissionId = $modal.find('.new-employee-permission-select option:selected').attr('permission-id');
+
+	var newEmployee = {
+		firstName: firstName,
+		lastName: lastName,
+		age: age,
+		email: email,
+		password: password,
+		gender: gender,
+		position: position,
+		permissionId: permissionId,
+	};
+
+	EmployeeService.addNewEmployee(newEmployee, (response) => {
+		$modal.hide();
+		displaySuccessAndRefresh('Great!', 'Employee ' + newEmployee.firstName + ' ' + newEmployee.lastName + ' added!');
+	});
+}
+
 function newVipClick(event) {};
+
 function editVipClick(event) {};
 
 // Admin: Utils for this section
 function closeEverything() {
+	$('.modal').hide();
+
   $('.add-new-item').slideUp();
   $('.add-new-category').slideUp();
 
   showEditMenuMain();
 }
 
-function displaySuccess(strongText, regularText) {
-  $('.alert.data-submit-ok p').empty().append('<strong>' + strongText + '</strong> ' + regularText).show();
+function displaySuccessAndRefresh(strongText, regularText) {
+  $('.alert.data-submit-ok p').empty().append('<strong>' + strongText + '</strong> ' + regularText);
+	$('.alert.data-submit-ok').show();
+	$('body').scrollTo('.alert.data-submit-ok');
+
+	setTimeout(() => {
+		location.reload();
+	}, 2000)
 }

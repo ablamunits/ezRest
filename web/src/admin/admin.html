@@ -9,7 +9,9 @@
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
 
+				<!-- Bower components -->
         <script src="../../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../../bower_components/jquery.scrollTo/jquery.scrollTo.js"></script>
 
         <!-- Bootstrap -->
         <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -55,11 +57,11 @@
           </div>
         </div>
 
-        <div class="alert alert-success alert-dismissable data-submit-ok">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+        <div class="alert alert-success data-submit-ok">
           <p>
             <!-- Populated on db-update success! -->
           </p>
+					<span> Let us refresh the page for you in a moment ... </span>
         </div>
 
         <div class="row">
@@ -101,16 +103,85 @@
               </div>
             </div>
           </div>
+
           <div class="col-sm-6 col-md-4 edit-employees-wrapper">
             <div class="thumbnail">
               <img class="img-rounded" src="http://saadattarabar.com/reportSys/img/employee.png">
               <div class="caption text-center">
                 <h3>Employees</h3>
                 <p>Add a new employee or edit information of your currently employeed ones.</p>
-                <p class="employees-buttons"><a class="btn btn-warning" role="button" onclick="newEmployeeClick(event)">New Employee</a> <a class="btn btn-default" role="button" onclick="editEmployeeClick(event)">Edit existing</a></p>
+								<select class="select-employee">
+									<!-- Populated from via menu service -->
+								</select>
+                <p class="employees-buttons">
+									<a class="btn btn-warning" role="button" onclick="newEmployeeClick(event)">New Employee</a>
+									<a class="btn btn-default" role="button" onclick="editEmployeeClick(event)">Edit selected</a>
+									<a class="btn btn-danger" role="button" onclick="deleteEmployeeClick(event)">Delete selected</a>
+								</p>
+              </div>
+							<div class="modal new-employee-modal">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title">Add new employee</h4>
+                  </div>
+									<form onsubmit="submitNewEmployee()">
+                  <div class="modal-body">
+                    <p>Fill in the following information to add a new employee. Email and password will be used to access different sections of ezRest.</p>
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <label>First Name</label>
+                        <input type="text" class="form-control first-name" placeholder="John" required>
+                      </div>
+											<div class="col-xs-3">
+												<label>Last Name</label>
+												<input type="text" class="form-control last-name" placeholder="Doe" required>
+											</div>
+											<div class="col-xs-2">
+												<label>Age</label>
+												<input type="number" min="15" max="99" class="form-control age" required>
+											</div>
+											<div class="col-xs-4">
+												<label>Gender</label>
+												<select class="new-employee-gender-select" required>
+													<option value="MALE">Male</option>
+													<option value="FEMALE">Female</option>
+												</select>
+											</div>
+                      <div class="col-xs-6">
+                        <label>Email</label>
+                        <input type="email" class="form-control email" placeholder="Email" required>
+                      </div>
+											<div class="col-xs-6">
+												<label>Password</label>
+												<input type="password" class="form-control password" placeholder="Password" required>
+											</div>
+                    </div>
+                    <div class="row">
+											<div class="col-xs-6">
+												<label>Position</label>
+												<input type="text" class="form-control position" placeholder="Position" required>
+											</div>
+											<div class="col-xs-6">
+												<label>Permission Level</label>
+												<select class="new-employee-permission-select" requred>
+													<!-- Populated dynamically -->
+												</select>
+											</div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default cancel">Cancel</button>
+                    <input type="submit" class="btn btn-success submit" value="Create employee"></input>
+                  </div>
+								</form>
+                </div>
               </div>
             </div>
+            </div>
           </div>
+
           <div class="col-sm-6 col-md-4 edit-vip-wrapper">
             <div class="thumbnail">
               <img class="img-rounded" src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/gift-icon.png">

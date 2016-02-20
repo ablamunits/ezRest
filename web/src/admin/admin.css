@@ -27,3 +27,7 @@ input {
   color: red;
   display: none;
 }
+
+.modal {
+	background-color: rgba(2, 22, 13, 0.82)
+}
