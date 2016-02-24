@@ -40,30 +40,45 @@ and open the template in the editor.
 }
 
 /* Popover styles */
-.popover .close {
+.menu-popover .close {
     position: absolute;
     top: 8px;
     right: 10px;
 }
-.popover-title {
+.menu-popover-title {
     padding-right: 30px;
 }
 
-.popover  {
-    background: #6B9362!important;
+.menu-popover  {
+    background: white!important;
+    /*background: #6B9362!important;*/
     border-top: #87D37C!important;
     border-bottom: #87D37C!important;
     border-left: #87D37C!important;
     border-right: #87D37C!important;
 }
 
-.popover.bottom>.arrow:after {
+.menu-popover.bottom>.arrow:after {
     border-bottom: 2px;
+    box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
+
 }
 
 .popover.bottom>.arrow {
+    /*color: white !important;*/
+    border-bottom-color: white !important;
+    box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+}
+
+.popover.left>.arrow {
     color: white !important;
-    border-bottom-color: #6B9362 !important;
+    box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
+}
+
+.popover.left>.arrow:after {
+    color: white !important;
+    box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
 }
 
 .toRed{
@@ -71,6 +86,78 @@ and open the template in the editor.
 }
 
 .removeItem{
-    padding-top: 10px;
-    right: 6px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.alert{
+    display: block;
+}
+
+.closeTable{
+    display: none;
+}
+
+/* CUSTOM POPOVERS */
+.example-class1 {
+background-color: #2a4254;
+height: 77px;
+width: 77px;
+color: white;
+cursor: pointer;
+float: right;
+}
+.popover1 {
+position: fixed !important;
+top: 0;
+left: 0;
+z-index: 1060;
+display: none;
+width: 250px !important;
+padding: 1px;
+text-align: left;
+white-space: normal;
+background-color: #2a4254 !important;
+-webkit-background-clip: padding-box;
+background-clip: padding-box;
+border: 1px solid #ccc;
+border: 1px solid rgba(0, 0, 0, .2);
+border-radius: 0px !important;
+-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+color: white;
+}
+.popover1.left {
+margin-left: -10px;
+}
+.popover1 > .arrow,
+.popover1 > .arrow:after {
+position: absolute;
+display: block;
+width: 0;
+height: 0;
+border-color: transparent;
+border-style: solid;
+}
+.popover1 > .arrow {
+border-width: 11px;
+}
+.popover1 > .arrow:after {
+content: "";
+border-width: 10px;
+}
+.popover1.left > .arrow {
+top: 50%;
+right: -11px;
+margin-top: -11px;
+border-right-width: 0;
+border-left-color: #999;
+border-left-color: rgba(0, 0, 0, .25);
+}
+.popover1.left > .arrow:after {
+right: 1px;
+bottom: -10px;
+content: " ";
+border-right-width: 0;
+border-left-color: #2a4254;
 }

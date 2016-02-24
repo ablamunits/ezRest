@@ -37,8 +37,10 @@ public class OrdersResource {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewOrder(Order order) {
+    public int addNewOrder(Order order) {
         ordersDao.createOrder(order);
+        return ordersDao.getMaxId();
+//        return order.getOrderId(); //UPDATE 24/2
     }
     
     @POST

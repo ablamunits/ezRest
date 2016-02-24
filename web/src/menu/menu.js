@@ -3,21 +3,154 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/* global EmployeeService, MenuService, OrdersService, TablesService, alertMechanism */
+/* global EmployeeService, MenuService, OrdersService, TablesService, alertMechanism, PermissionService */
 var tableId;
 var sumBill;
 var itemsCount;
-var tableOrders = [];
+var employeeObject;
+var tableInfoEdit;
+var latestTableOrders = {
+    Array: [],
+    Remove: function ($tableLine, itemId) {
+        removeItem(latestTableOrders, $tableLine, itemId);
+    },
+    Add: function (itemId, quantity) {
+        var isDuplicate = false;
+
+        if (latestTableOrders.Array[0] !== undefined)
+        {
+            $.each(latestTableOrders.Array, function (index, order) {
+                if (itemId === order.itemId)
+                {
+                    order.quantity += quantity;
+
+                    $('.latestOrders').each(function () {
+
+                        var $lineObj = $(this);
+                        var summaryItemid = parseInt($lineObj.find('span').attr('item-id'));
+                        if (summaryItemid === itemId) {
+                            isDuplicate = true;
+                            var price = parseInt($lineObj.find("td[name^='price']").text());
+                            var $quantityObj = $lineObj.find("td[name^='quantity']");
+                            var $sumObj = $lineObj.find("td[name^='sum']");
+                            var title = $lineObj.find("td[name^='title']").text();
+
+                            $quantityObj.html(toStrong(order.quantity));
+                            var sum = price * order.quantity;
+                            $sumObj.html(toStrong(sum));
+                            sumBill += (quantity * price);
+                            $('#sumBillSummary').text("Total: " + sumBill);
+                            alertMechanism.Success(toStrong(quantity) + " " + toStrong(title) + " added to the Summary");
+                            return false;
+                        }
+                    });
+
+                }
+            });
+
+            if (!isDuplicate) {
+                //nothing the same
+                MenuService.getMenuItemById(itemId,
+                        function (menuItem) {
+                            latestTableOrders.Array.push({'itemId': menuItem.itemId, 'quantity': quantity});
+                            appendMenuItemToOrder(menuItem, quantity, "Not Submitted");
+                            alertMechanism.Success(toStrong(quantity) + " " + menuItem.title + " added to the Summary");
+                        });
+                return false;
+            }
+        } else {
+            //empty array
+            MenuService.getMenuItemById(itemId,
+                    function (menuItem) {
+                        latestTableOrders.Array.push({'itemId': menuItem.itemId, 'quantity': quantity});
+                        appendMenuItemToOrder(menuItem, quantity, "Not Submitted");
+                        alertMechanism.Success(toStrong(quantity) + " " + menuItem.title + " added to the Summary");
+                    });
+        }
+    }
+};
+var overAllTableOrders = {
+    Array: [],
+    Remove: function ($tableLine, itemId) {
+        removeItem(overAllTableOrders, $tableLine, itemId);
+    },
+    Add: function (itemId, quantity) {
+        if (overAllTableOrders.Array[0] !== undefined)
+        {
+            $.each(overAllTableOrders.Array, function (index, order) {
+                if (itemId === order.itemId)
+                {
+                    order.quantity += quantity;
+                    return false;
+                } else {
+                    overAllTableOrders.Array.push({'itemId': itemId, 'quantity': quantity});
+                    return false;
+                }
+            });
+        } else {
+            overAllTableOrders.Array.push({'itemId': itemId, 'quantity': quantity});
+            return false;
+        }
+    },
+    GetItems: function (orderId) {
+        var orderItems = [];
+        $.each(overAllTableOrders.Array, function (index, order) {
+            orderItems.push({'orderId': orderId, 'itemId': order.itemId, 'quantity': order.quantity});
+        });
+
+        return orderItems;
+    }
+};
+
+function removeItem(array, $tableLine, itemId) {
+    $.each(array.Array, function (index, order) {
+        if (itemId === order.itemId) {
+            var price = parseInt($tableLine.find("td[name^='price']").text());
+
+            if (order.quantity > 1)
+            {
+                order.quantity--;
+
+                var $quantityObj = $tableLine.find("td[name^='quantity']");
+                var $sumObj = $tableLine.find("td[name^='sum']");
+                if ($quantityObj.children("strong")[0] !== undefined) //Not Submitted yet
+                {
+                    $quantityObj.html(toStrong(order.quantity));
+                    $sumObj.html(toStrong(price * order.quantity));
+                } else {
+                    $quantityObj.html(order.quantity);
+                    $sumObj.html(price * order.quantity);
+                }
+            } else {
+                array.Array.splice(index, 1);
+                $tableLine.remove();
+            }
+            latestTableOrders.Add(itemId, -1);
+            sumBill -= price;
+            var title = $tableLine.find("td[name^='title']").text();
+            $('#sumBillSummary').text("Total: " + sumBill);
+            alertMechanism.Info("<strong>Removed</strong> 1 " + title + ", Press <strong>Submit</strong> to update server or <strong>Cancel</strong> for retrieving data");
+            readySubmit();
+            return false;
+        }
+    });
+}
+
+
 
 $(document).ready(function () {
+    $('[data-toggle="popover"]').popover();
+
+    tableInfoEdit = false;
     itemsCount = 0;
     sumBill = 0;
-    tableId = getUrlParameter('tableId');
+    tableId = parseInt(getUrlParameter('tableId'));
     $('#tableNumberPanel').html(tableId);
 
     var employeeId = getUrlParameter('employeeId');
     EmployeeService.getActiveEmployeeById(employeeId,
             function (employee) {
+                employeeObject = employee;
                 $("#employeeName").attr('title', employee.firstName);
                 $("#tableId").attr('title', tableId);
                 $('[data-toggle="tooltip"]').tooltip();
@@ -29,55 +162,27 @@ $(document).ready(function () {
     $aNode.click(menuCategoryClick);
     $("#breadCrumbCategroies").append($('<li/>').append($aNode));
 
+    $('#descriptionTextSummary').change(function () {
+        tableInfoEdit = true;
+        readySubmit();
+    });
+    $('#numOfGuestsSummary').change(function () {
+        tableInfoEdit = true;
+        readySubmit();
+    });
+    $('#serverIdSummary').change(function () {
+        tableInfoEdit = true;
+        readySubmit();
+    });
+
     refreshMainMenu();
     refreshSummaryPanel();
 
+
 });
 
-function initPopups() {
-    var $elements = $('.my-popover');
-    $elements.each(function () {
-        var $element = $(this);
-        $('#content').children('button:last-child').attr('item-id', $(this).attr('id'));
-
-        $element.popover({
-            html: true,
-            placement: 'bottom',
-            container: $('body'), // This is just so the btn-group doesn't get messed up... also makes sorting the z-index issue easier
-            content: $('#content').html()
-        });
-
-        $element.on('shown.bs.popover', function () {
-            var popover = $element.data('bs.popover');
-            if (typeof popover !== "undefined") {
-                var $tip = popover.tip();
-                zindex = $tip.css('z-index');
-
-                $tip.find('.close').bind('click', function () {
-                    popover.hide();
-                });
-
-                $tip.find('.add').bind('click', function (event) {
-                    onPopupAddClick(event);
-                });
-
-
-                $tip.mouseover(function () {
-                    $tip.css('z-index', function () {
-                        return zindex + 1;
-                    });
-                })
-                        .mouseout(function () {
-                            $tip.css('z-index', function () {
-                                return zindex;
-                            });
-                        });
-            }
-        });
-    });
-}
-
 function refreshSummaryPanel() {
+    overAllTableOrders.Array = [];
     OrdersService.getTableOrder(tableId,
             function (orderTableList) {
                 updatePanel(orderTableList);
@@ -96,6 +201,7 @@ function updatePanel(orderTableList) {
             function (index, order) {
                 MenuService.getMenuItemById(order.itemId,
                         function (menuItem) {
+                            overAllTableOrders.Add(parseInt(order.itemId), parseInt(order.quantity));
                             appendMenuItemToOrder(menuItem, order.quantity, "Submitted");
                         });
             });
@@ -107,6 +213,7 @@ function getMenuItemById(itemId) {
                 return menuItem;
             });
 }
+
 function appendMenuItemToOrder(menuItem, quantity, status) {
     var $tableCellIndex;
     var $tableCellItemName;
@@ -115,49 +222,138 @@ function appendMenuItemToOrder(menuItem, quantity, status) {
     var sumOfItemPrice;
     var $tableCellSum;
     var $tableCellRemove;
+    var $lineObj;
 
-    if (status === "Submitted") {
-//        $tableCellRemove = $('<span/>').addClass('glyphicon glyphicon-remove').click(onRemoveItemClick);
+    if (status === "Submitted")
+    {
+        $tableCellRemove = getCellRemove(menuItem.itemId, quantity, "Submitted");
         $tableCellIndex = $('<td/>').html(++itemsCount);
-        $tableCellItemName = $('<td/>').html(menuItem.title);
-        $tableCellQuantity = $('<td/>').html(quantity);
-        $tableCellPriceForOne = $('<td/>').html(menuItem.price);
+        $tableCellItemName = $('<td/>').html(menuItem.title).attr('name', 'title');
+        $tableCellQuantity = $('<td/>').html(quantity).attr('name', 'quantity');
+        $tableCellPriceForOne = $('<td/>').html(menuItem.price).attr('name', 'price');
         sumOfItemPrice = quantity * menuItem.price;
-        $tableCellSum = $('<td/>').html(sumOfItemPrice);
+        $tableCellSum = $('<td/>').html(sumOfItemPrice).attr('name', 'sum');
         sumBill += sumOfItemPrice;
-        $('#sumBillSummary').text("Sum: " + sumBill).removeClass('toRed');
+        $('#sumBillSummary').text("Total: " + sumBill).removeClass('toRed');
+
+        $lineObj = $('<tr>').append($tableCellRemove)
+                .append($tableCellIndex)
+                .append($tableCellItemName)
+                .append($tableCellQuantity)
+                .append($tableCellPriceForOne)
+                .append($tableCellSum);
 
     } else if (status === "Not Submitted") {
-//        $tableCellRemove = $('<span/>').addClass('glyphicon glyphicon-remove').click(onRemoveItemClick);
+        $tableCellRemove = getCellRemove(menuItem.itemId, quantity, "Not Submitted");
         $tableCellIndex = $('<td/>').html(toStrong(++itemsCount));
-        $tableCellItemName = $('<td/>').html(toStrong(menuItem.title));
-        $tableCellQuantity = $('<td/>').html(toStrong(quantity));
-        $tableCellPriceForOne = $('<td/>').html(toStrong(menuItem.price));
+        $tableCellItemName = $('<td/>').html(toStrong(menuItem.title)).attr('name', 'title');
+        $tableCellQuantity = $('<td/>').html(toStrong(quantity)).attr('name', 'quantity');
+        $tableCellPriceForOne = $('<td/>').html(toStrong(menuItem.price)).attr('name', 'price');
         sumOfItemPrice = quantity * menuItem.price;
-        $tableCellSum = $('<td/>').html(toStrong(sumOfItemPrice));
+        $tableCellSum = $('<td/>').html(toStrong(sumOfItemPrice)).attr('name', 'sum');
         sumBill += sumOfItemPrice;
-        $('#sumBillSummary').html("Sum: " + sumBill).addClass('toRed');
+        $('#sumBillSummary').html("Total: " + sumBill).addClass('toRed');
+
+        $lineObj = $('<tr>').append($tableCellRemove)
+                .append($tableCellIndex)
+                .append($tableCellItemName)
+                .append($tableCellQuantity)
+                .append($tableCellPriceForOne)
+                .append($tableCellSum);
+        $lineObj.addClass('latestOrders');
     }
 
-    $('.all-orders-table').append($('<tr>').append($tableCellRemove)
-            .append($tableCellIndex)
-            .append($tableCellItemName)
-            .append($tableCellQuantity)
-            .append($tableCellPriceForOne)
-            .append($tableCellSum));
+    $('.all-orders-table').append($lineObj);
+}
+
+function initMenuPopups() {
+    var $elements = $('.menu-item');
+    $elements.each(function () {
+        var $element = $(this);
+        $('#menuContent').children('button:last-child').attr('item-id', $(this).attr('id'));
+
+        $element.popover({
+            html: true,
+            placement: 'bottom',
+            container: $('body'), // This is just so the btn-group doesn't get messed up... also makes sorting the z-index issue easier
+            content: $('#menuContent').html()
+        });
+
+        $element.on('shown.bs.popover', function () {
+            var popover = $element.data('bs.popover');
+            if (typeof popover !== "undefined") {
+                var $tip = popover.tip();
+                zindex = $tip.css('z-index');
+
+                $tip.find('.close').bind('click', function () {
+                    popover.hide();
+                });
+
+                $tip.find('.add').bind('click', function (event) {
+                    onPopupAddClick(event);
+                    popover.hide();
+                });
+
+                $tip.mouseover(function () {
+                    $tip.css('z-index', function () {
+                        return zindex + 1;
+                    });
+                })
+                        .mouseout(function () {
+                            $tip.css('z-index', function () {
+                                return zindex;
+                            });
+                        });
+            }
+        });
+    });
+}
+
+function getCellRemove(itemId, quantity, isSubmitted) {
+    var onClick;
+    if (isSubmitted === "Submitted") {
+        onClick = onRemoveOverAllListClick;
+    } else {
+        onClick = onRemoveLatestClick;
+    }
+    return $('<span/>').addClass('glyphicon glyphicon-minus removeItem')
+            .click(onClick)
+            .attr('item-id', itemId);
+}
+
+function onRemoveOverAllListClick(event) {
+    var $target = $(event.target);
+    var $tableLine = $target.parent();
+    var itemId = parseInt($target.attr('item-id'));
+    var hasPermission = false;
+
+    PermissionService.getPermissionById(employeeObject.permissionId, function (permissionResponse) {
+
+        authorizedActions = PermissionService.authorizedActions;
+
+        $.each(permissionResponse.authorizedActions, function (index, action) {
+            if (action === "CANCEL_ORDER") {
+                hasPermission = true;
+                overAllTableOrders.Remove($tableLine, itemId);
+                return false;
+            }
+        });
+        if (!hasPermission) {
+            alertMechanism.Error("You don't have permission for this action");
+        }
+    });
+}
+
+function onRemoveLatestClick(event) {
+    var $target = $(event.target);
+    var $tableLine = $target.parent();
+    var itemId = parseInt($target.attr('item-id'));
+
+    latestTableOrders.Remove($tableLine, itemId);
 }
 
 function toStrong(html) {
     return "<strong>" + html + "</strong>";
-}
-
-function refreshMainMenu() {
-    $("#menuCategoryTitle").html("<strong>Category: </strong>Main Menu");
-    MenuService.getMenuCategoryById(1,
-            function (menuCategoryList) {
-                menuCategoryList.shift(); //Because of the DUMMY_ROOT
-                updateMenuLists(menuCategoryList);
-            });
 }
 
 function updateMenuLists(menuCategoryList) {
@@ -180,14 +376,23 @@ function updateMenuLists(menuCategoryList) {
                     var $node = $('<li/>').html(menuEntry.title)
                             .attr('data-title', 'Amount:')
                             .attr('id', menuEntry.itemId)
-                            //in initPopups() it will take the 'id' and put it in 'content' of the popover
-                            .addClass('my-popover')
+                            //in initMenuPopups() it will take the 'id' and put it in 'content' of the popover
+                            .addClass('menu-item')
                             .css("background-color", "#87D37C")  //WTF not working in css
                             .addClass('btn btn-item');
                     $('.menu-item-list').append($node);
                 }
             });
-    initPopups();
+    initMenuPopups();
+}
+
+function refreshMainMenu() {
+    $("#menuCategoryTitle").html("<strong>Category: </strong>Main Menu");
+    MenuService.getMenuCategoryById(1,
+            function (menuCategoryList) {
+                menuCategoryList.shift(); //Because of the DUMMY_ROOT
+                updateMenuLists(menuCategoryList);
+            });
 }
 
 function menuCategoryClick(event) {
@@ -232,33 +437,124 @@ function updateBreadCrumb(nextCategoryId, categoryTitle) {
 function onPopupAddClick(event) {
     event.preventDefault();
     var $target = $(event.target);
-    var itemId = $target.attr('item-id');
-    var quantity = $target.siblings("input").val();
-    tableOrders.push({'itemId': itemId, 'quantity': quantity});
-    $('#submitSummaryButton').removeClass('btn-warning').addClass('btn-danger');
-
-    MenuService.getMenuItemById(itemId,
-            function (menuItem) {
-                appendMenuItemToOrder(menuItem, quantity, "Not Submitted");
-                alertMechanism.Success(menuItem.title + " was added to the Summary");
-            });
+    var itemId = parseInt($target.attr('item-id'));
+    var quantity = parseInt($target.siblings("input").val());
+    latestTableOrders.Add(itemId, quantity);
+    readySubmit();
 }
 
 function onSummarySubmitButton(event) {
-    if (tableOrders.length > 0) {
-        OrdersService.makeOrder(tableId, tableOrders,
+    $('#modalTitle').text('Are you sure you want to Submit all the latest updates?');
+    $("#confirmModal").modal('show').one('click', '#yesConfirm', function (e) {
+        if (latestTableOrders.Array.length > 0 || tableInfoEdit) {
+
+            var description = $('#descriptionTextSummary').val();
+            var numOfGuests = $('#numOfGuestsSummary').val();
+            var serverId = $('#serverIdSummary').val();
+
+            var tableObj = {'id': tableId, 'serverId': serverId, 'numOfGuests': numOfGuests, 'description': description};
+
+            OrdersService.updateTable(tableId, tableObj,
+                    function (response) {
+                        if (response === undefined) {
+                            OrdersService.makeOrder(tableId, latestTableOrders.Array,
+                                    function (response) {
+                                        if (response === undefined)
+                                        {
+                                            refreshGlobal();
+                                            refreshSummaryPanel();
+                                            cancelSubmit();
+                                            alertMechanism.Success("Order has been submitted and placed");
+                                        } else {
+                                            alertMechanism.Error("An error was occured, please try again");
+                                        }
+                                    });
+                        }
+                    });
+        }
+    });
+}
+
+function refreshGlobal() {
+    tableInfoEdit = false;
+    $('.all-orders-table').empty();
+    itemsCount = 0;
+    sumBill = 0;
+    latestTableOrders.Array = [];
+}
+
+function onSummaryCancelButton() {
+    $('#modalTitle').text('Are you sure you want to Cancel all the latest updates?');
+    $("#confirmModal").modal('show').one('click', '#yesConfirm', function (e) {
+        refreshGlobal();
+        refreshSummaryPanel();
+        cancelSubmit();
+    });
+}
+
+function readySubmit() {
+    $('#submitSummaryButton').removeClass('btn-warning').addClass('btn-danger');
+}
+
+function cancelSubmit() {
+    $('#submitSummaryButton').removeClass('btn-danger').addClass('btn-warning');
+}
+
+function onSummaryCloseButton() {
+    $('#modalTitle').text('Are you sure you want to Close the table?');
+    $("#confirmModal").modal('show').one('click', '#yesConfirm', function (e) {
+        $('.login-pending').show();
+
+        var date = new Date();
+        var month = date.getUTCMonth();
+        month++;
+        var orderDate = date.getFullYear() + '-' + month + '-' + date.getUTCDate();
+        var orderInfo = {
+            'employeeId': employeeObject.id,
+            'tableNum': tableId,
+            'orderDate': orderDate,
+            'totalSum': sumBill
+        };
+
+        OrdersService.closeOrderInfo(orderInfo,
                 function (response) {
-                    if (response === undefined) {
-                        $('.all-orders-table').empty();
-                        itemsCount = 0;
-                        sumBill = 0;
-                        refreshSummaryPanel();
-                        tableOrders = [];
-                        $('#submitSummaryButton').removeClass('btn-danger').addClass('btn-warning');
-                        alertMechanism.Success("Order has been submitted and placed");
+                    if (response !== undefined) {
+                        var orderId = response;
+                        var ordersItemsList = overAllTableOrders.GetItems(orderId);
+                        OrdersService.closeOrderItems(ordersItemsList,
+                                function (response) {
+                                    if (response === undefined) {
+                                        TablesService.deleteTableById(tableId, function (response) {
+                                            if (response === undefined) {
+                                                
+                                                $('.alert.login').hide();
+                                                $('.alert.login-success').show()
+                                                setTimeout(closeTableAnimation, 1500);
+
+                                            } else {
+                                                $('.alert.login').hide();
+                                                $('.alert.login-failed').show();
+                                            }
+                                        });
+                                    } else {
+                                        $('.alert.login').hide();
+                                        $('.alert.login-failed').show();
+                                    }
+                                });
                     } else {
-                        alertMechanism.Error("An error was occured, please try again");
+                        $('.alert.login').hide();
+                        $('.alert.login-failed').show();
                     }
                 });
-    }
+    });
+}
+
+function closeTableAnimation() {
+    $('.content-wrapper').animate({
+        height: 'toggle',
+        width: 'toggle'
+    });
+    setTimeout(function () {
+        window.location.href = '../index.html';
+    }, 1000);
 }

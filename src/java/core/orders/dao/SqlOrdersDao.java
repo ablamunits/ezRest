@@ -75,6 +75,21 @@ public class SqlOrdersDao implements OrdersDao {
         MySqlUtils.updateQuery(qString.toString());
     }
 
+    @Override
+    public int getMaxId() {
+        ResultSet orderSet = MySqlUtils.getQuery("SELECT max(Order_id) FROM Orders");
+        int maxId;
+        try {
+            orderSet.first();
+            maxId = orderSet.getInt("max(Order_id)");
+            orderSet.close();
+            return maxId;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlOrdersDao.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
+
     private Order buildOrder(ResultSet orderSet) {
         try {
             int orderId = orderSet.getInt("Order_id");

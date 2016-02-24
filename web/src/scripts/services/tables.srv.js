@@ -21,5 +21,11 @@ var TablesService = {
         doAjaxGet('tables/' + tableId).done(function (response) {
             cb(response);
         });
+    },
+    
+    deleteTableById: function (tableId, cb){
+        doAjaxPost('tables/delete/' + tableId).done(function (response){
+           cb(response); 
+        });
     }
 };

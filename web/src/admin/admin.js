@@ -275,5 +275,5 @@ function displaySuccessAndRefresh(strongText, regularText) {
 
 	setTimeout(() => {
 		location.reload();
-	}, 2000)
+	}, 2000);
 }

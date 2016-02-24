@@ -17,5 +17,23 @@ var OrdersService = {
        doAjaxGet('tables/order/' + tableId).done(function (response){
            cb(response);
        });
+    },
+    
+    updateTable: function (tableId, tableObj, cb) {
+       doAjaxPost('tables/' + tableId, tableObj).done(function (response){
+          cb(response); 
+       });
+    },
+    
+    closeOrderInfo: function (orderInfo, cb){
+        doAjaxPost('orders/', orderInfo).done(function(response){
+            cb(response);
+        });
+    },
+    
+    closeOrderItems: function (orderItemsList, cb){
+        doAjaxPost('orderItems/', orderItemsList).done(function(response){
+           cb(response); 
+        });
     }
 };

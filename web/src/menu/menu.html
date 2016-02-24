@@ -8,6 +8,9 @@ and open the template in the editor.
     <head>
         <title>ezRest - Menu</title>
 
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
         <!-- Bootstrap & Bootflat styles -->
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
@@ -27,6 +30,7 @@ and open the template in the editor.
         <script src="../scripts/services/menu.srv.js"></script>
         <script src="../scripts/services/orders.srv.js"></script>
         <script src="../scripts/services/tables.srv.js"></script>
+        <script src="../scripts/services/permission.srv.js"></script>
 
         <!-- Page specific -->
         <script src="../scripts/common.js"></script>
@@ -45,6 +49,33 @@ and open the template in the editor.
                 <a class="btn btn-info " role="button" data-toggle="tooltip" title="" id="tableId"><i class="glyphicon glyphicon-cutlery"></i></a>
             </div><br><br>
 
+            <div id="confirmModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" id="modalTitle">Are you sure?</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-warning" id="yesConfirm">Yes</button>
+                            <button type="button" data-dismiss="modal" class="btn">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning login login-pending closeTable">
+                <i class="fa fa-spinner fa-spin"></i><strong> Sending data...</strong> Hold tight.
+            </div>
+            <div class="alert alert-danger login login-failed closeTable">
+                <i class="fa fa-frown-o"></i><strong> Error!</strong> Failed to send important data! Please try again or contact a manager.
+            </div>
+            <div class="alert alert-success login login-success closeTable">
+                <i class="fa fa-check"></i><strong> Great! </strong> Let's go back to main window
+            </div>
+            
             <div class="row">
                 <div class="col-xs-8">
 
@@ -68,9 +99,9 @@ and open the template in the editor.
 
                         </ul>
 
-                        <div id="content" class="hidden">
+                        <div id="menuContent" class="hidden">
                             <button type="button" class="close">&times;</button>
-                            <input type="number" id="amountPopup" class="form-control stepper-input" placeholder="Amount">
+                            <input type="number" min="1" id="amountPopup" class="form-control stepper-input" placeholder="Amount">
                             <button type="button" class="btn btn-success pull-right add">Add</button>
                         </div>
 
@@ -87,6 +118,7 @@ and open the template in the editor.
                             <table class="table">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>#</th>
                                         <th>Item</th>
                                         <th>Amount</th>
@@ -117,11 +149,13 @@ and open the template in the editor.
                                 </div>
                             </div><!--/form-group-->
                             <div class="form-group">
-                                <div class="col-xs-6">
+                                <div class="col-xs-4">
                                     <h4 id="sumBillSummary"></h4>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-xs-8">
+                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCloseButton()" id='closeSummaryButton'>Close</button>
                                     <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummarySubmitButton()" id='submitSummaryButton'>Submit</button>
+                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCancelButton()" id='cancelSummaryButton'>Cancel</button>
                                 </div>
                             </div>
                         </div>
