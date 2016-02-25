@@ -13,7 +13,8 @@ and open the template in the editor.
     height: 300px;
 }
 
-#tableNumber{
-    background-color: #767676;
-    color: white;
+.glyphicon-star-empty{
+    left: -33px;
+    top: -37px;
+    margin-left: -15px;
 }

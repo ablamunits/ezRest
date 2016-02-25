@@ -189,8 +189,8 @@ public class MySqlConfig {
 
             Class.forName(MySqlConfig.JDBC_DRIVER);
             
-            connection = DriverManager.getConnection(MySqlConfig.DB_URL, MySqlConfig.USERNAME, MySqlConfig.PASSWORD);
-//            connection = DriverManager.getConnection(MySqlConfig.DB_URL, "root", "");
+            connection = DriverManager.getConnection(MySqlConfig.DB_URL, MySqlConfig.USERNAME, MySqlConfig.PASSWORD); //network
+//            connection = DriverManager.getConnection(MySqlConfig.DB_URL, "root", ""); //local
 
             statement = connection.createStatement();
             statement.executeUpdate(qString);

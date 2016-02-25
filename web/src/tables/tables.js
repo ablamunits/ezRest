@@ -25,8 +25,14 @@ function refreshTables() {
                         .tooltip({'placement': 'top'})
                         .attr('server-id', table.serverId)
                         .attr('table-id', table.id)
-                        .addClass('btn btn-success');
+                        .addClass('btn btn-success').css('text-align', 'center');
                 $node.click(activeTableSelected);
+
+                var tempServerId = table.serverId;
+                if (tempServerId.toString() === employeeId) {
+                    var $star = $('<span/>').addClass('glyphicon glyphicon-star-empty');
+                    $node.append($star);
+                }
                 $('.available-tables-list').append($node);
 
             } else {
@@ -39,11 +45,14 @@ function refreshTables() {
         }
     });
 }
+
 $(document).ready(function () {
     employeeId = getUrlParameter("employeeId");
+
     EmployeeService.getActiveEmployeeById(employeeId,
-            function (response) {
-                $("#employeeName").attr('title', response.firstName);
+            function (employee) {
+                $("#employeeName").attr('title', employee.firstName);
+                $('h3').text('Hi ' + employee.firstName);
                 $('[data-toggle="tooltip"]').tooltip();
             });
     refreshTables();
@@ -175,4 +184,33 @@ function refreshPopup() {
     $('#serverIdInput').css("border-color", "");
 
     $('#descriptionText').val("");
+}
+
+function onClockOutClick() {
+    $('#modalTitle').text('Are you sure you want to Clock Out?');
+    $("#confirmModal").modal('show').one('click', '#yesConfirm', function (e) {
+        var tempEmployeeId = parseInt(employeeId);
+        EmployeeService.deleteActiveEmployee(tempEmployeeId, function (response) {
+            if (response === undefined) {
+                EmployeeService.clockOut(tempEmployeeId, function (response) {
+                    if (response !== -1) {
+                        EmployeeService.getEmployeeById(employeeId, function (employee) {
+                            alertMechanism.Success(employee.firstName + " " + employee.lastName + " Clocked Out, Bye Bye");
+                            setTimeout(window.location.href = '../index.html', 1500);
+                        });
+                    } else {
+                        //if didnt succedd restore employee to active
+                        alertMechanism.Error("Error! Didn't succedd to ClockOut, please try again");
+                        EmployeeService.getEmployeeById(employeeId, function (employee) {
+                            if (employee !== undefined) {
+                                EmployeeService.addActiveEmployee(employeeId, function (response) {
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+    });
 }

@@ -21,4 +21,5 @@ public interface WorkingHoursDao {
     void deleteWorkingHoursByRecordId(int recordId);
     int clockIn(int employeeId);
     void clockOut(int recordId, int employeeId);
+    int getLatestRecordId(int employeeId);
 }

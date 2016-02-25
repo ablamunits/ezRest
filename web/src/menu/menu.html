@@ -42,12 +42,12 @@ and open the template in the editor.
     <body>
         <div class="content-wrapper">
             <h1>Menu</h1>
+            <h3 style="margin-top: -9px; margin-left: 3px;"></h3>
 
             <div class="btn-group">
-                <a href="../index.html" class="btn btn-info" role="button" data-toggle="tooltip" title="Home"><i class="glyphicon glyphicon-home"></i></a>
-                <a class="btn btn-info " style="cursor: default" role="button" data-toggle="tooltip" title="" id="employeeName"><i class="glyphicon glyphicon-user"></i></a>
-                <a class="btn btn-info " role="button" data-toggle="tooltip" title="" id="tableId"><i class="glyphicon glyphicon-cutlery"></i></a>
-            </div><br><br>
+                <a href="../index.html" class="btn btn-info"><i class="glyphicon glyphicon-home"></i> <strong>Home</strong></a>
+                <a class="btn btn-info" onClick="onClockOutClick()"><i class="glyphicon glyphicon-user"></i> <strong>ClockOut</strong></a>
+            </div><br>
 
             <div id="confirmModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
@@ -66,16 +66,48 @@ and open the template in the editor.
                 </div>
             </div>
 
-            <div class="alert alert-warning login login-pending closeTable">
-                <i class="fa fa-spinner fa-spin"></i><strong> Sending data...</strong> Hold tight.
+            <div id="billModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" id="modalTitle">Printing Bill..</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div id='billModalText'>
+                                <h4 class='pull-left'></h4>
+                                <h6 class='pull-right'></h6>
+                            </div>
+                            <div id='billModalBody'>
+
+                            </div> 
+                        </div>
+
+                        <div id='billModalFooter' class="modal-footer">
+                            <button type="button" class="btn btn-warning" id='closeBill'>Close Table</button>
+                            <button type="button" data-dismiss="modal" class="btn">Return To Table</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="alert alert-danger login login-failed closeTable">
-                <i class="fa fa-frown-o"></i><strong> Error!</strong> Failed to send important data! Please try again or contact a manager.
+
+            <div id="sendingModal" class="modal fade" role="dialog">
+                <div class="modal-body">
+                    <div class="alert alert-warning login login-pending closeTable">
+                        <i class="fa fa-spinner fa-spin"></i><strong> Printing Bill...</strong> Hold tight.
+                    </div>
+                    <div class="alert alert-danger login login-failed closeTable">
+                        <i class="fa fa-frown-o"></i><strong> Error!</strong> Failed to send important data! Please try again or contact a manager.
+                    </div>
+                    <div class="alert alert-success login login-success closeTable">
+                        <i class="fa fa-check"></i><strong> Great! </strong> Let's go back to main window
+                    </div>
+                </div>
             </div>
-            <div class="alert alert-success login login-success closeTable">
-                <i class="fa fa-check"></i><strong> Great! </strong> Let's go back to main window
-            </div>
-            
+
             <div class="row">
                 <div class="col-xs-8">
 
@@ -109,13 +141,13 @@ and open the template in the editor.
                 </div>
                 <div class="col-xs-4">
 
-                    <div class="summary-wrapper panel panel-warning">
+                    <div class="summary-wrapper panel panel-warning" style="margin-top: -70px">
                         <div class="panel-heading">
                             <div class="badge pull-right" id="tableNumberPanel"></div>
                             <h3 class="panel-title"><Strong>Summary:</Strong></h3>
                         </div>
                         <div class="panel-body">
-                            <table class="table">
+                            <table id="allTable" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -139,7 +171,7 @@ and open the template in the editor.
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label for="serverId" >Server:</label>
-                                    <input id="serverIdSummary" class="form-control input-group-lg" type="number" name="Server Id"
+                                    <input id="serverIdSummary" class="form-control input-group-lg" type="text" name="Server Id"
                                            placeholder="Server">
                                 </div>
                                 <div class="col-xs-6">
@@ -152,8 +184,9 @@ and open the template in the editor.
                                 <div class="col-xs-4">
                                     <h4 id="sumBillSummary"></h4>
                                 </div>
-                                <div class="col-xs-8">
-                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCloseButton()" id='closeSummaryButton'>Close</button>
+                                <div class="col-xs-12" style="margin-top: -20px">
+                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryDiscountButton()" id='discountSummaryButton'>Discount</button>
+                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCloseButton()" id='closeSummaryButton'>Pay</button>
                                     <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummarySubmitButton()" id='submitSummaryButton'>Submit</button>
                                     <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCancelButton()" id='cancelSummaryButton'>Cancel</button>
                                 </div>

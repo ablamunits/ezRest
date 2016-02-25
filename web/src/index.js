@@ -4,81 +4,120 @@
 
 var allEmployees = [];
 var activeEmployeeList = [];
+var availableEmployees = [];
 
-$(document).ready(function() {
-  // Get employee data from service ...
-  EmployeeService.getAllEmployees(function(data) {
-    allEmployees = data;
-    $.each(allEmployees, function (index, employee) {
-      var $node = $('<li/>').html(employee.firstName).attr('employee-id', employee.id).addClass('btn');
-      $node.click(employeeFromListSelected);
-      $('.all-employees-list').append($node);
-    });
-  });
-
-  EmployeeService.getActiveEmployees(function(data) {
-    activeEmployeeList = data;
-    $.each(activeEmployeeList, function (index, employee) {
-      var $node = $('<li data-toggle="tooltip" />').html(employee.firstName)
-                            .attr('data-original-title', employee.position)
-                            .tooltip({'placement': 'top'})
-                            .attr('employee-id', employee.id)
-                            .addClass('btn btn-success');
-      $node.click(activeEmployeeSelected);
-      $('.available-employees-list').append($node);
-    });
-  });
+$(document).ready(function () {
+    resetEmployees();
 });
 
-function activeEmployeeSelected(event) {
-  var $target = $(event.target);
-  var employeeId = $target.attr('employee-id');
+function resetEmployees() {
+    $('.available-employees-list').empty();
+    $('.all-employees-list').empty();
+    allEmployees = [];
+    activeEmployeeList = [];
+    availableEmployees = [];
+    // Get employee data from service ...
+    EmployeeService.getAllEmployees(function (data) {
+        allEmployees = data;
+        EmployeeService.getActiveEmployees(function (data) {
+            activeEmployeeList = data;
 
-  console.log('Navigate to table for employee id ' + employeeId);
-  window.location.href = './tables/tables.html?employeeId=' + employeeId; //Maybe change here to first name
+            for (var i = 0; i < allEmployees.length; i++) {
+                if (!contains(allEmployees[i].id, activeEmployeeList)) {
+                    availableEmployees.push(allEmployees[i]);
+                }
+            }
+            
+            $.each(activeEmployeeList, function (index, employee) {
+                var $node = $('<li data-toggle="tooltip" />').html(employee.firstName)
+                        .attr('data-original-title', employee.position)
+                        .tooltip({'placement': 'top'})
+                        .attr('employee-id', employee.id)
+                        .addClass('btn btn-success');
+                $node.click(activeEmployeeSelected);
+                $('.available-employees-list').append($node);
+            });
+
+            $.each(availableEmployees, function (index, employee) {
+                var $node = $('<li/>').html(employee.firstName).attr('employee-id', employee.id).addClass('btn');
+                $node.click(employeeFromListSelected);
+                $('.all-employees-list').append($node);
+            });
+        });
+
+    });
+}
+
+function contains(id, activeEmployeeList) {
+    for (var i = 0; i < activeEmployeeList.length; i++) {
+        if (activeEmployeeList[i].id === id)
+            return true;
+    }
+    return false;
+}
+
+function activeEmployeeSelected(event) {
+    var $target = $(event.target);
+    var employeeId = $target.attr('employee-id');
+
+    console.log('Navigate to table for employee id ' + employeeId);
+    window.location.href = './tables/tables.html?employeeId=' + employeeId; //Maybe change here to first name
 }
 
 function employeeFromListSelected(event) {
-  var $target = $(event.target);
-  var employeeId = $target.attr('employee-id');
+    var $target = $(event.target);
+    var employeeId = parseInt($target.attr('employee-id'));
 
-  console.log(employeeId);
+    $.each(allEmployees, function (index, employee) {
+        if (employeeId === employee.id) {
+            EmployeeService.clockIn(employeeId, function () {
+                EmployeeService.addActiveEmployee(employee, function () {
+                    resetEmployees();
+                    return;
+                });
+            });
+
+        }
+    });
+    console.log(employeeId);
 }
 
 function managerAccessOpen(event) {
-  $('.login-container').fadeIn();
-};
+    $('.login-container').fadeIn();
+}
+;
 
 function authenticateUser() {
-  $('.alert.login').hide();
-  $('.login-pending').show();
+    $('.alert.login').hide();
+    $('.login-pending').show();
 
-  var loginEmail = $('.login.email').val();
-  var loginPassword = $('.login.password').val();
+    var loginEmail = $('.login.email').val();
+    var loginPassword = $('.login.password').val();
 
-  AuthService.login(loginEmail, loginPassword, function() {
-    AuthService.authState(function(authObject) {
-      if (authObject.loggedIn === false) {
-        handleFailedLogin();
-      } else {
-        handleSuccessLogin(authObject);
-      }
+    AuthService.login(loginEmail, loginPassword, function () {
+        AuthService.authState(function (authObject) {
+            if (authObject.loggedIn === false) {
+                handleFailedLogin();
+            } else {
+                handleSuccessLogin(authObject);
+            }
+        });
     });
-  });
 }
 
 function handleFailedLogin() {
-  $('.alert.login').hide();
-  $('.alert.login-failed').show();
-};
+    $('.alert.login').hide();
+    $('.alert.login-failed').show();
+}
+;
 
 function handleSuccessLogin(authObject) {
-  console.log('login ok!');
+    console.log('login ok!');
 
-  $('.alert.login').hide();
-  $('.alert.login-success').append('<span>Hey ' + authObject.firstName + '! We will redirect you to your admin section in a second!</span>').show();
+    $('.alert.login').hide();
+    $('.alert.login-success').append('<span>Hey ' + authObject.firstName + '! We will redirect you to your admin section in a second!</span>').show();
 
-  setTimeout(function() {
-    window.location.href = './admin/admin.html';
-  }, 3000);
+    setTimeout(function () {
+        window.location.href = './admin/admin.html';
+    }, 3000);
 }

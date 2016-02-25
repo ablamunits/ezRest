@@ -40,7 +40,9 @@ var latestTableOrders = {
                             $sumObj.html(toStrong(sum));
                             sumBill += (quantity * price);
                             $('#sumBillSummary').text("Total: " + sumBill);
-                            alertMechanism.Success(toStrong(quantity) + " " + toStrong(title) + " added to the Summary");
+                            if (quantity > 0) {
+                                alertMechanism.Success(toStrong(quantity) + " " + toStrong(title) + " added to the Summary");
+                            }
                             return false;
                         }
                     });
@@ -54,7 +56,9 @@ var latestTableOrders = {
                         function (menuItem) {
                             latestTableOrders.Array.push({'itemId': menuItem.itemId, 'quantity': quantity});
                             appendMenuItemToOrder(menuItem, quantity, "Not Submitted");
-                            alertMechanism.Success(toStrong(quantity) + " " + menuItem.title + " added to the Summary");
+                            if (quantity > 0) {
+                                alertMechanism.Success(toStrong(quantity) + " " + menuItem.title + " added to the Summary");
+                            }
                         });
                 return false;
             }
@@ -64,7 +68,9 @@ var latestTableOrders = {
                     function (menuItem) {
                         latestTableOrders.Array.push({'itemId': menuItem.itemId, 'quantity': quantity});
                         appendMenuItemToOrder(menuItem, quantity, "Not Submitted");
-                        alertMechanism.Success(toStrong(quantity) + " " + menuItem.title + " added to the Summary");
+                        if (quantity > 0) {
+                            alertMechanism.Success(toStrong(quantity) + " " + menuItem.title + " added to the Summary");
+                        }
                     });
         }
     }
@@ -111,16 +117,16 @@ function removeItem(array, $tableLine, itemId) {
             {
                 order.quantity--;
 
-                var $quantityObj = $tableLine.find("td[name^='quantity']");
-                var $sumObj = $tableLine.find("td[name^='sum']");
-                if ($quantityObj.children("strong")[0] !== undefined) //Not Submitted yet
-                {
-                    $quantityObj.html(toStrong(order.quantity));
-                    $sumObj.html(toStrong(price * order.quantity));
-                } else {
-                    $quantityObj.html(order.quantity);
-                    $sumObj.html(price * order.quantity);
-                }
+//                var $quantityObj = $tableLine.find("td[name^='quantity']");
+//                var $sumObj = $tableLine.find("td[name^='sum']");
+//                if ($quantityObj.children("strong")[0] !== undefined) //Not Submitted yet
+//                {
+//                    $quantityObj.html(toStrong(order.quantity));
+//                    $sumObj.html(toStrong(price * order.quantity));
+//                } else {
+//                    $quantityObj.html(order.quantity);
+//                    $sumObj.html(price * order.quantity);
+//                }
             } else {
                 array.Array.splice(index, 1);
                 $tableLine.remove();
@@ -146,6 +152,7 @@ $(document).ready(function () {
     sumBill = 0;
     tableId = parseInt(getUrlParameter('tableId'));
     $('#tableNumberPanel').html(tableId);
+    $('h3').text('Table ' + tableId);
 
     var employeeId = getUrlParameter('employeeId');
     EmployeeService.getActiveEmployeeById(employeeId,
@@ -177,8 +184,6 @@ $(document).ready(function () {
 
     refreshMainMenu();
     refreshSummaryPanel();
-
-
 });
 
 function refreshSummaryPanel() {
@@ -192,7 +197,10 @@ function refreshSummaryPanel() {
             function (table) {
                 $('#descriptionTextSummary').val(table.description);
                 $('#numOfGuestsSummary').val(table.numOfGuests);
-                $('#serverIdSummary').val(table.serverId);
+
+                EmployeeService.getEmployeeById(table.serverId, function (employee) {
+                    $('#serverIdSummary').val(employee.firstName + " " + employee.lastName);
+                });
             });
 }
 
@@ -367,7 +375,7 @@ function updateMenuLists(menuCategoryList) {
                     var $node = $('<li/>').html(menuEntry.title)
                             .attr('category-id', menuEntry.categoryId)
                             .attr('next-category-id', menuEntry.nextCategoryId)
-                            .css("background-color", "#006442")  //WTF not working in css
+                            .css("background-color", "#006442")
                             .addClass('btn btn-category');
                     $node.click(menuCategoryClick);
                     $('.menu-category-list').append($node);
@@ -378,7 +386,7 @@ function updateMenuLists(menuCategoryList) {
                             .attr('id', menuEntry.itemId)
                             //in initMenuPopups() it will take the 'id' and put it in 'content' of the popover
                             .addClass('menu-item')
-                            .css("background-color", "#87D37C")  //WTF not working in css
+                            .css("background-color", "#87D37C")
                             .addClass('btn btn-item');
                     $('.menu-item-list').append($node);
                 }
@@ -501,60 +509,99 @@ function cancelSubmit() {
 }
 
 function onSummaryCloseButton() {
-    $('#modalTitle').text('Are you sure you want to Close the table?');
+    $('#modalTitle').text('Print Bill?');
     $("#confirmModal").modal('show').one('click', '#yesConfirm', function (e) {
-        $('.login-pending').show();
 
-        var date = new Date();
-        var month = date.getUTCMonth();
-        month++;
-        var orderDate = date.getFullYear() + '-' + month + '-' + date.getUTCDate();
-        var orderInfo = {
-            'employeeId': employeeObject.id,
-            'tableNum': tableId,
-            'orderDate': orderDate,
-            'totalSum': sumBill
-        };
+        var d = new Date();
+        var date = d.toLocaleString();
+        $('#billModalText').find('h4').text('Total: ' + sumBill);
+        $('#billModalText').find('h6').text('Date: ' + date);
+        $("#allTable").clone().appendTo('#billModalBody');
+        $('#billModal').modal('show').one('click', '#closeBill', function (e) {
 
-        OrdersService.closeOrderInfo(orderInfo,
-                function (response) {
-                    if (response !== undefined) {
-                        var orderId = response;
-                        var ordersItemsList = overAllTableOrders.GetItems(orderId);
-                        OrdersService.closeOrderItems(ordersItemsList,
-                                function (response) {
-                                    if (response === undefined) {
-                                        TablesService.deleteTableById(tableId, function (response) {
-                                            if (response === undefined) {
-                                                
-                                                $('.alert.login').hide();
-                                                $('.alert.login-success').show()
-                                                setTimeout(closeTableAnimation, 1500);
+            $('.login-pending').show();
+            $('#sendingModal').modal('show');
+            var date = new Date();
+            var month = date.getUTCMonth();
+            month++;
+            var orderDate = date.getFullYear() + '-' + month + '-' + date.getUTCDate();
+            var orderInfo = {
+                'employeeId': employeeObject.id,
+                'tableNum': tableId,
+                'orderDate': orderDate,
+                'totalSum': sumBill
+            };
 
-                                            } else {
-                                                $('.alert.login').hide();
-                                                $('.alert.login-failed').show();
-                                            }
-                                        });
-                                    } else {
-                                        $('.alert.login').hide();
-                                        $('.alert.login-failed').show();
-                                    }
-                                });
-                    } else {
-                        $('.alert.login').hide();
-                        $('.alert.login-failed').show();
-                    }
-                });
+            OrdersService.closeOrderInfo(orderInfo,
+                    function (response) {
+                        if (response !== undefined) {
+                            var orderId = response;
+                            var ordersItemsList = overAllTableOrders.GetItems(orderId);
+                            OrdersService.closeOrderItems(ordersItemsList,
+                                    function (response) {
+                                        if (response === undefined) {
+                                            TablesService.deleteTableById(tableId, function (response) {
+                                                if (response === undefined) {
+
+                                                    $('.alert.login').hide();
+                                                    $('.alert.login-success').show()
+                                                    setTimeout(closeTableAnimation, 1500);
+
+                                                } else {
+                                                    $('.alert.login').hide();
+                                                    $('.alert.login-failed').show();
+                                                }
+                                            });
+                                        } else {
+                                            $('.alert.login').hide();
+                                            $('.alert.login-failed').show();
+                                        }
+                                    });
+                        } else {
+                            $('.alert.login').hide();
+                            $('.alert.login-failed').show();
+                        }
+                    });
+        });
+
+
     });
+    $('#billModalBody').empty();
+
 }
 
 function closeTableAnimation() {
-    $('.content-wrapper').animate({
-        height: 'toggle',
-        width: 'toggle'
-    });
     setTimeout(function () {
         window.location.href = '../index.html';
     }, 1000);
+}
+
+function onClockOutClick() {
+    $('#modalTitle').text('Are you sure you want to Clock Out?');
+    $("#confirmModal").modal('show').one('click', '#yesConfirm', function (e) {
+        var tempEmployeeId = parseInt(employeeId);
+        EmployeeService.deleteActiveEmployee(tempEmployeeId, function (response) {
+            if (response === undefined) {
+                EmployeeService.clockOut(tempEmployeeId, function (response) {
+                    if (response !== -1) {
+                        alertMechanism.Success(employeeObject.firstName + " " + employeeObject.lastName + " Clocked Out, Bye Bye");
+                        setTimeout(window.location.href = '../index.html', 1500);
+                    } else {
+                        //if didnt succedd restore employee to active
+                        alertMechanism.Error("Error! Didn't succedd to ClockOut, please try again");
+                        EmployeeService.getEmployeeById(employeeId, function (employee) {
+                            if (employee !== undefined) {
+                                EmployeeService.addActiveEmployee(employeeId, function (response) {
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+}
+
+function onSummaryDiscountButton() {
+
 }

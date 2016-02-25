@@ -86,14 +86,14 @@ public class WorkingHoursResource {
     @POST
     @Path("/clockIn/{employeeId}")
     public void clockIn(@PathParam("employeeId") int employeeId) {
-        System.out.println("Clock-in for session: " + request.getSession().getId());
-        HashMap<Integer, Integer> clockInEmployees;
+//        System.out.println("Clock-in for session: " + request.getSession().getId());
+//        HashMap<Integer, Integer> clockInEmployees;
         int recordId = workingHoursDao.clockIn(employeeId);
 
         if (recordId != -1) {
-            clockInEmployees = (HashMap<Integer, Integer>) request.getSession().getAttribute("clockInId");
-            clockInEmployees = updateMap(clockInEmployees, employeeId, recordId);
-            request.getSession().setAttribute("clockInId", clockInEmployees);
+//            clockInEmployees = (HashMap<Integer, Integer>) request.getSession().getAttribute("clockInId");
+//            clockInEmployees = updateMap(clockInEmployees, employeeId, recordId);
+//            request.getSession().setAttribute("clockInId", clockInEmployees);
         } else {
             ConnectionUtils.sendErrorResponse(response, "Clock in failed!");
         }
@@ -103,13 +103,14 @@ public class WorkingHoursResource {
     @POST
     @Path("/clockOut/{employeeId}")
     public void clockOut(@PathParam("employeeId") int employeeId) {
-        HashMap<Integer, Integer> clockInEmployees = (HashMap<Integer, Integer>) request.getSession().getAttribute("clockInId");
-        int recordId = clockInEmployees.get(employeeId);
+//        HashMap<Integer, Integer> clockInEmployees = (HashMap<Integer, Integer>) request.getSession().getAttribute("clockInId");
+//        int recordId = clockInEmployees.get(employeeId);
+        int recordId = workingHoursDao.getLatestRecordId(employeeId);
         
         if (recordId > 0) {
             workingHoursDao.clockOut(recordId, employeeId);
-            clockInEmployees.remove(employeeId);
-            request.getSession().setAttribute("clockInId", clockInEmployees);
+//            clockInEmployees.remove(employeeId);
+//            request.getSession().setAttribute("clockInId", clockInEmployees);
         } else {
             ConnectionUtils.sendErrorResponse(response, "Clock out failed!");
         }

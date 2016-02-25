@@ -1,5 +1,5 @@
 body {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .content-wrapper {
@@ -8,26 +8,26 @@ body {
 }
 
 .add-new-item {
-  display: none;
+    display: none;
 }
 
 .add-new-category {
-  display: none;
+    display: none;
 }
 
 .alert {
-  display: none;
+    display: none;
 }
 
 input {
-  margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 
 .input-error {
-  color: red;
-  display: none;
+    color: red;
+    display: none;
 }
 
 .modal {
-	background-color: rgba(2, 22, 13, 0.82)
+    background-color: rgba(2, 22, 13, 0.82)
 }

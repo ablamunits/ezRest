@@ -1,6 +1,7 @@
 body {
+  font-family: sans-serif;
   font-size: 14px;
-  background-color: #f4ecec;
+  background-color: #f4ecec !important;
 }
 
 .content-wrapper {

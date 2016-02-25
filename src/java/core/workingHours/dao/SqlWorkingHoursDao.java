@@ -140,6 +140,28 @@ public class SqlWorkingHoursDao implements WorkingHoursDao {
         MySqlUtils.updateQuery("UPDATE WorkingHours SET Clock_out = now() WHERE Record_id = " + recordId + " and Employee_id = " + employeeId);
     }
 
+    @Override
+    public int getLatestRecordId(int employeeId) {
+        ResultSet latestClockInSet = MySqlUtils.getQuery("SELECT Record_id "
+                + "FROM WorkingHours "
+                + "WHERE Clock_in = ( "
+                + "SELECT MAX(Clock_in) "
+                + "FROM WorkingHours "
+                + "WHERE Employee_id = " + employeeId + " "
+                + "GROUP BY Employee_id)");
+        
+        try {
+            latestClockInSet.first();
+            int recordId = latestClockInSet.getInt("Record_id");
+            latestClockInSet.close();
+            
+            return recordId;
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlWorkingHoursDao.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+    }
+    
     private WorkingHours buildWorkingHours(ResultSet workingHoursSet) {
         try {
             int recordId = workingHoursSet.getInt("Record_id");

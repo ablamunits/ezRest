@@ -35,5 +35,26 @@ var EmployeeService = {
         doAjaxPost('/employees/delete/' + employeeId).done(function (response) {
             cb(response);
         });
+    },
+    addActiveEmployee: function (newEmployee, cb) {
+        doAjaxPost('employees/active/', newEmployee).done(function (response){
+            cb(response);
+        });
+    },
+    deleteActiveEmployee: function (employeeId, cb) {
+        doAjaxPost('employees/active/delete/' + employeeId).done(function (response){
+            cb(response);
+        });
+    },
+    
+    clockIn: function (employeeId, cb) {
+        doAjaxPost('workingHours/clockIn/' + employeeId).done(function (response){
+           cb(response); 
+        });
+    },
+    clockOut: function (employeeId, cb) {
+        doAjaxPost('workingHours/clockOut/' + employeeId).done(function (response){
+           cb(response); 
+        });
     }
 };

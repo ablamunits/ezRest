@@ -36,49 +36,25 @@ and open the template in the editor.
 }
 
 .panel-footer{
-    height: 200px;
+    height: 230px;
 }
 
-/* Popover styles */
-.menu-popover .close {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-}
-.menu-popover-title {
-    padding-right: 30px;
-}
-
-.menu-popover  {
-    background: white!important;
-    /*background: #6B9362!important;*/
-    border-top: #87D37C!important;
-    border-bottom: #87D37C!important;
-    border-left: #87D37C!important;
-    border-right: #87D37C!important;
+.modal-footer{
+    padding: 14px 15px 15px;
+    margin-bottom: 0;
+    text-align: right;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+    -webkit-box-shadow: inset 0 1px 0 #ffffff;
+    -moz-box-shadow: inset 0 1px 0 #ffffff;
+    box-shadow: inset 0 1px 0 #ffffff;
 }
 
-.menu-popover.bottom>.arrow:after {
-    border-bottom: 2px;
-    box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
-
-}
-
-.popover.bottom>.arrow {
-    /*color: white !important;*/
-    border-bottom-color: white !important;
-    box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
-    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-}
-
-.popover.left>.arrow {
-    color: white !important;
-    box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
-}
-
-.popover.left>.arrow:after {
-    color: white !important;
-    box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
+.modal-header{
+    border-bottom: 1px solid #eee;
 }
 
 .toRed{
@@ -98,66 +74,60 @@ and open the template in the editor.
     display: none;
 }
 
-/* CUSTOM POPOVERS */
-.example-class1 {
-background-color: #2a4254;
-height: 77px;
-width: 77px;
-color: white;
-cursor: pointer;
-float: right;
+/* Popover styles */
+.popover .close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
 }
-.popover1 {
-position: fixed !important;
-top: 0;
-left: 0;
-z-index: 1060;
-display: none;
-width: 250px !important;
-padding: 1px;
-text-align: left;
-white-space: normal;
-background-color: #2a4254 !important;
--webkit-background-clip: padding-box;
-background-clip: padding-box;
-border: 1px solid #ccc;
-border: 1px solid rgba(0, 0, 0, .2);
-border-radius: 0px !important;
--webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-color: white;
+.popover-title {
+    padding-right: 30px;
 }
-.popover1.left {
-margin-left: -10px;
+
+.popover  {
+    background: white!important;
+    border-bottom-color: #669900 !important;
+    border-top-color: #669900 !important;
+    border-left-color: #669900 !important;
+    border-right-color: #669900 !important;
 }
-.popover1 > .arrow,
-.popover1 > .arrow:after {
-position: absolute;
-display: block;
-width: 0;
-height: 0;
-border-color: transparent;
-border-style: solid;
+
+.popover.bottom>.arrow {
+    border-bottom-color: #669900 !important;
 }
-.popover1 > .arrow {
-border-width: 11px;
+
+.popover.bottom > .arrow:after {
+    border-bottom-color: white; 
+    border-top-width: 0;
+    content: " ";
+    margin-left: -10px;
+    top: 1px;
 }
-.popover1 > .arrow:after {
-content: "";
-border-width: 10px;
+
+.breadcrumb-arrow li a {
+    position: relative;
+    color: white;
+    text-decoration: none;
+    background-color: #3bafda;
+    border: 1px solid #3bafda;
 }
-.popover1.left > .arrow {
-top: 50%;
-right: -11px;
-margin-top: -11px;
-border-right-width: 0;
-border-left-color: #999;
-border-left-color: rgba(0, 0, 0, .25);
+
+.breadcrumb-arrow li:last-child a {
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
-.popover1.left > .arrow:after {
-right: 1px;
-bottom: -10px;
-content: " ";
-border-right-width: 0;
-border-left-color: #2a4254;
+
+.breadcrumb-arrow li a:after {
+    right: -19px;
+    z-index: 1;
+    border-left: 23px solid #2494be;
+}
+
+.breadcrumb-arrow li a:before {
+    /* border: 2px solid black; */
+    right: -7px;
+    z-index: 2;
+    border-left-color: #3bafda;
+    border-left-style: solid;
+    border-left-width: 11px;
 }
