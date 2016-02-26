@@ -92,8 +92,8 @@ function addTablePopup(event) {
 
 function adjustPopup(event) {
     var width = $(window).width();
-    var addTablePopupSize = $('.modal-content').width();
-    var listItemTablesSize = $('ul li').width();
+    var addTablePopupSize = $('#addTablePopup').width();
+    var listItemTablesSize = $('.panel-body li').width();
 
     var $target = $(event.target);
     var left = $target.offset().left;
@@ -113,6 +113,7 @@ function adjustPopup(event) {
         'left': left,
         'right': right,
         'top': $target.offset().top + $target.height() + 7
+
 
     }).show("slow").delay(1000);
 }

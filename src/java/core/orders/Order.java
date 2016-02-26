@@ -18,10 +18,18 @@ public class Order {
     private int employeeId;
     private int tableNum;
     private Date orderDate;
+//    private int discount;
     private int totalSum;
     
     public Order() {}
-
+    
+//    public int getDiscount(){
+//        return discount;
+//    }
+//    public void setDiscount(){
+//        this.discount = discount;
+//    }
+    
     public int getOrderId() {
         return orderId;
     }

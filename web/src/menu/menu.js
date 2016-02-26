@@ -9,6 +9,7 @@ var sumBill;
 var itemsCount;
 var employeeObject;
 var tableInfoEdit;
+var totalDiscount;
 var latestTableOrders = {
     Array: [],
     Remove: function ($tableLine, itemId) {
@@ -39,7 +40,9 @@ var latestTableOrders = {
                             var sum = price * order.quantity;
                             $sumObj.html(toStrong(sum));
                             sumBill += (quantity * price);
-                            $('#sumBillSummary').text("Total: " + sumBill);
+                            updateSum();
+
+
                             if (quantity > 0) {
                                 alertMechanism.Success(toStrong(quantity) + " " + toStrong(title) + " added to the Summary");
                             }
@@ -132,9 +135,9 @@ function removeItem(array, $tableLine, itemId) {
                 $tableLine.remove();
             }
             latestTableOrders.Add(itemId, -1);
-            sumBill -= price;
+//            sumBill -= price;
             var title = $tableLine.find("td[name^='title']").text();
-            $('#sumBillSummary').text("Total: " + sumBill);
+            updateSum();
             alertMechanism.Info("<strong>Removed</strong> 1 " + title + ", Press <strong>Submit</strong> to update server or <strong>Cancel</strong> for retrieving data");
             readySubmit();
             return false;
@@ -147,12 +150,18 @@ function removeItem(array, $tableLine, itemId) {
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover();
 
+    totalDiscount = 0;
     tableInfoEdit = false;
     itemsCount = 0;
     sumBill = 0;
     tableId = parseInt(getUrlParameter('tableId'));
     $('#tableNumberPanel').html(tableId);
     $('h3').text('Table ' + tableId);
+
+    $("#discountWrapper").hide();
+    $("#discountSummaryButton").click(function () {
+        $("#discountWrapper").slideToggle("slow");
+    });
 
     var employeeId = getUrlParameter('employeeId');
     EmployeeService.getActiveEmployeeById(employeeId,
@@ -242,7 +251,7 @@ function appendMenuItemToOrder(menuItem, quantity, status) {
         sumOfItemPrice = quantity * menuItem.price;
         $tableCellSum = $('<td/>').html(sumOfItemPrice).attr('name', 'sum');
         sumBill += sumOfItemPrice;
-        $('#sumBillSummary').text("Total: " + sumBill).removeClass('toRed');
+        updateSum();
 
         $lineObj = $('<tr>').append($tableCellRemove)
                 .append($tableCellIndex)
@@ -260,8 +269,9 @@ function appendMenuItemToOrder(menuItem, quantity, status) {
         sumOfItemPrice = quantity * menuItem.price;
         $tableCellSum = $('<td/>').html(toStrong(sumOfItemPrice)).attr('name', 'sum');
         sumBill += sumOfItemPrice;
-        $('#sumBillSummary').html("Total: " + sumBill).addClass('toRed');
-
+        updateSum();
+        $('#sumBillSummary').addClass('toRed');
+        
         $lineObj = $('<tr>').append($tableCellRemove)
                 .append($tableCellIndex)
                 .append($tableCellItemName)
@@ -514,8 +524,9 @@ function onSummaryCloseButton() {
 
         var d = new Date();
         var date = d.toLocaleString();
-        $('#billModalText').find('h4').text('Total: ' + sumBill);
-        $('#billModalText').find('h6').text('Date: ' + date);
+        $('#tot').text(sumBill);
+        $('#dis').text(totalDiscount);
+        $('#dat').text(date);
         $("#allTable").clone().appendTo('#billModalBody');
         $('#billModal').modal('show').one('click', '#closeBill', function (e) {
 
@@ -563,11 +574,8 @@ function onSummaryCloseButton() {
                         }
                     });
         });
-
-
     });
     $('#billModalBody').empty();
-
 }
 
 function closeTableAnimation() {
@@ -602,6 +610,13 @@ function onClockOutClick() {
     });
 }
 
-function onSummaryDiscountButton() {
+function onDiscountAddButton() {
+    var discountAmount = parseInt($('#discountAddInput').val());
+    sumBill -= discountAmount;
+    totalDiscount += discountAmount;
+    updateSum();
+}
 
+function updateSum() {
+    $('#sumBillSummary').text("Total: " + sumBill);
 }
