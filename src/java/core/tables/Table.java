@@ -14,16 +14,16 @@ public class Table {
     int serverId;
     int numOfGuests;
     String description;
-//    int discount;
+    int discount;
     
     public Table() {};
 
-//    public int getDiscount() {
-//        return discount;
-//    }
-//    public void setDiscount(int discount) {
-//        this.discount = discount;
-//    }
+    public int getDiscount() {
+        return discount;
+    }
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
     
     public int getId() {
         return id;

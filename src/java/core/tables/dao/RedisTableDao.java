@@ -44,7 +44,7 @@ public class RedisTableDao implements TableDao {
     public Table getTableById(int id) {
         if (redisAccess.exists("tables:" + id)) {
             Table table = new Table();
-            List<String> tableInfo = redisAccess.hmget("tables:" + id, "numOfGuests", "description", "serverId"/*, "discount"*/);
+            List<String> tableInfo = redisAccess.hmget("tables:" + id, "numOfGuests", "description", "serverId", "discount");
             if (tableInfo.isEmpty())
                 return null;
 
@@ -52,7 +52,7 @@ public class RedisTableDao implements TableDao {
             table.setNumOfGuests(Integer.parseInt(tableInfo.get(RedisUtils.Tables.TABLE_NUM_OF_GUESTS)));
             table.setDescription(tableInfo.get(RedisUtils.Tables.TABLE_DESCRIPTION));
             table.setServerId(Integer.parseInt(tableInfo.get(RedisUtils.Tables.TABLE_SERVER_ID)));
-//            table.setDiscount(Integer.parseInt(tableInfo.get(RedisUtils.Tables.TABLE_DISCOUNT)));
+            table.setDiscount(Integer.parseInt(tableInfo.get(RedisUtils.Tables.TABLE_DISCOUNT)));
 
             return table;
         } else {
@@ -106,9 +106,9 @@ public class RedisTableDao implements TableDao {
             map.put("serverId", String.valueOf(table.getServerId()));
         }
         
-//        if (table.getDiscount() != 0) {
-//            map.put("discount", String.valueOf(table.getDiscount()));
-//        }
+        if (table.getDiscount() != 0) {
+            map.put("discount", String.valueOf(table.getDiscount()));
+        }
 
         if (redisAccess.exists("tables:" + id)) {
             redisAccess.hmset("tables:" + id, map);
@@ -149,7 +149,7 @@ public class RedisTableDao implements TableDao {
         map.put("description", table.getDescription());
         map.put("numOfGuests", String.valueOf(table.getNumOfGuests()));
         map.put("serverId", String.valueOf(table.getServerId()));
-//        map.put("discount", String.valueOf(table.getDiscount()));
+        map.put("discount", String.valueOf(table.getDiscount()));
 
         return map;
     }

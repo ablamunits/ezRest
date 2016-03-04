@@ -56,5 +56,16 @@ var EmployeeService = {
         doAjaxPost('workingHours/clockOut/' + employeeId).done(function (response){
            cb(response); 
         });
+    },
+    getEmployeeWorkingHoursDurationByMonth: function(employeeId, cb) {
+        doAjaxGet('workingHors/durationMonth/' + employeeId).done(function (response){
+           cb(response); 
+        });
+    },
+    getEmployeeAllWorkingHours: function(employeeId, cb){
+        doAjaxGet('workingHours/' + employeeId).done(function (response){
+           cb(response); 
+        });
     }
+
 };

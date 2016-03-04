@@ -26,7 +26,7 @@ public class SqlOrdersDao implements OrdersDao {
         "Employee_id",
         "Table_Num",
         "Order_Date",
-//        "Discount",
+        "Discount",
         "Total_sum"
     };
 
@@ -97,16 +97,16 @@ public class SqlOrdersDao implements OrdersDao {
             int employeeId = orderSet.getInt("Employee_id");
             int tableNum = orderSet.getInt("Table_Num");
             Date orderDate = orderSet.getDate("Order_date");
+            int discount = orderSet.getInt("Discount");
             int totalSum = orderSet.getInt("Total_sum");
-//            int discount = orderSet.getInt("Discount");
-            
+
             Order order = new Order();
             order.setOrderId(orderId);
             order.setEmployeeId(employeeId);
             order.setTableNum(tableNum);
             order.setOrderDate(orderDate);
+            order.setDiscount(discount);
             order.setTotalSum(totalSum);
-//            order.setDiscount(discount);
 
             return order;
         } catch (SQLException ex) {
@@ -121,6 +121,7 @@ public class SqlOrdersDao implements OrdersDao {
             order.getEmployeeId() == 0 ? null : order.getEmployeeId(),
             order.getTableNum() == 0 ? null : order.getTableNum(),
             order.getOrderDate(),
+            order.getDiscount(),
             order.getTotalSum()
         };
 

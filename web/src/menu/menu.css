@@ -124,10 +124,16 @@ and open the template in the editor.
 }
 
 .breadcrumb-arrow li a:before {
-    /* border: 2px solid black; */
     right: -7px;
     z-index: 2;
     border-left-color: #3bafda;
     border-left-style: solid;
     border-left-width: 11px;
+}
+
+#totalDiscountLabel{
+    right: -7px; 
+    width: 75px; 
+    border: 1px solid #cccccc; 
+    color: #cccccc;
 }

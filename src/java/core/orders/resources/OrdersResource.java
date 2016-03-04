@@ -40,7 +40,6 @@ public class OrdersResource {
     public int addNewOrder(Order order) {
         ordersDao.createOrder(order);
         return ordersDao.getMaxId();
-//        return order.getOrderId(); //UPDATE 24/2
     }
     
     @POST

@@ -42,7 +42,7 @@ and open the template in the editor.
     <body>
         <div class="content-wrapper">
             <h1>Menu</h1>
-            <h3 style="margin-top: -9px; margin-left: 3px;"></h3>
+            <h3 id='table-headline' style="margin-top: -9px; margin-left: 3px;"></h3>
 
             <div class="btn-group">
                 <a href="../index.html" class="btn btn-info"><i class="glyphicon glyphicon-home"></i> <strong>Home</strong></a>
@@ -82,16 +82,6 @@ and open the template in the editor.
                                 <div class="well well-sm"><strong>Total</strong><label id='tot' class="pull-right"></label></div>
                                 <div class="well well-sm"><strong>Discount</strong><label id='dis' class="pull-right"></label></div>
                                 <div class="well well-sm"><strong>Date</strong><label id='dat' class="pull-right"></label></div>
-<!--                                <ul class="list-group">
-                                    <li class="list-group-item list-group-item-success"></li>
-                                    <li class="list-group-item list-group-item-info"></li>
-                                    <li class="list-group-item list-group-item-warning"></li>
-                                    <li class="list-group-item list-group-item-danger"></li>
-                                </ul>-->
-
-<!--                                <h4 class='pull-left'></h4>
-                                <h5></h5>
-                                <h6 class='pull-right'></h6>-->
                             </div>
                             <div id='billModalBody'>
 
@@ -197,20 +187,21 @@ and open the template in the editor.
                                 <div class="col-xs-4">
                                     <h4 id="sumBillSummary"></h4>
                                 </div>
+
                                 <div class="col-xs-8">
                                     <div id="discountWrapper" class="" style='margin-top: 2px; margin-left: 5px'>
                                         <div class="input-group">
-                                            <input id='discountAddInput' class="form-control pull-right" value="0" type="number" style='width: 100px'>
+                                            <input id='discountAddInput' class="form-control pull-right" value="0" type="number" style='width: 75px'>
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-warning pull-right" style='top: -3px;' onclick="onDiscountAddButton()">Add</button>
                                             </span>
+                                            <input class="form-control" id="totalDiscountLabel" type="text" disabled>
                                         </div><!-- /input-group -->
                                     </div>
                                 </div>
+
                                 <div class="col-xs-12" style="margin-top: -20px">
-
-
-                                    <button type="button" onclick="onSummaryDiscountButton()" id='discountSummaryButton' style="margin-top: 10px" class="btn btn-warning pull-right">Discount</button>
+                                    <button type="button" id='discountSummaryButton' style="margin-top: 10px" class="btn btn-warning pull-right">Discount</button>
                                     <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCloseButton()" id='closeSummaryButton'>Pay</button>
                                     <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummarySubmitButton()" id='submitSummaryButton'>Submit</button>
                                     <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCancelButton()" id='cancelSummaryButton'>Cancel</button>

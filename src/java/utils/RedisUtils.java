@@ -14,7 +14,7 @@ public abstract class RedisUtils {
         public static final int TABLE_NUM_OF_GUESTS = 0;
         public static final int TABLE_DESCRIPTION =   1;
         public static final int TABLE_SERVER_ID =     2;
-//        public static final int TABLE_DISCOUNT = 3;
+        public static final int TABLE_DISCOUNT =      3;
     }
     
     public class Employee {

@@ -139,7 +139,8 @@ function onAddTableClick() {
             description: description,
             id: tableId,
             numOfGuests: numOfGuests,
-            serverId: serverId
+            serverId: serverId,
+            discount: 0
         },
                 function (response) {
                     if (response === undefined) {

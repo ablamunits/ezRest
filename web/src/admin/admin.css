@@ -1,5 +1,6 @@
 body {
     font-size: 14px;
+    background-color: #f4ecec !important;
 }
 
 .content-wrapper {
@@ -30,4 +31,8 @@ input {
 
 .modal {
     background-color: rgba(2, 22, 13, 0.82)
+}
+
+.handle-vip{
+    display: none;
 }

@@ -122,7 +122,7 @@ public class MySqlConfig {
             + "Employee_id int(11) NOT NULL, "
             + "Table_Num int(11) NOT NULL, "
             + "Order_Date date NOT NULL, "
-//            + "Discount int(11) NOT NULL"
+            + "Discount int(11) NOT NULL,"
             + "Total_sum int(11) NOT NULL, "
             + "FOREIGN KEY(Employee_id) REFERENCES employees(Employee_id), "
             + "PRIMARY KEY (Order_id))";

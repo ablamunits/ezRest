@@ -10,6 +10,7 @@ var itemsCount;
 var employeeObject;
 var tableInfoEdit;
 var totalDiscount;
+var employeePermissions;
 var latestTableOrders = {
     Array: [],
     Remove: function ($tableLine, itemId) {
@@ -119,17 +120,6 @@ function removeItem(array, $tableLine, itemId) {
             if (order.quantity > 1)
             {
                 order.quantity--;
-
-//                var $quantityObj = $tableLine.find("td[name^='quantity']");
-//                var $sumObj = $tableLine.find("td[name^='sum']");
-//                if ($quantityObj.children("strong")[0] !== undefined) //Not Submitted yet
-//                {
-//                    $quantityObj.html(toStrong(order.quantity));
-//                    $sumObj.html(toStrong(price * order.quantity));
-//                } else {
-//                    $quantityObj.html(order.quantity);
-//                    $sumObj.html(price * order.quantity);
-//                }
             } else {
                 array.Array.splice(index, 1);
                 $tableLine.remove();
@@ -145,8 +135,6 @@ function removeItem(array, $tableLine, itemId) {
     });
 }
 
-
-
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover();
 
@@ -156,12 +144,10 @@ $(document).ready(function () {
     sumBill = 0;
     tableId = parseInt(getUrlParameter('tableId'));
     $('#tableNumberPanel').html(tableId);
-    $('h3').text('Table ' + tableId);
+    $('#table-headline').text('Table ' + tableId);
 
     $("#discountWrapper").hide();
-    $("#discountSummaryButton").click(function () {
-        $("#discountWrapper").slideToggle("slow");
-    });
+
 
     var employeeId = getUrlParameter('employeeId');
     EmployeeService.getActiveEmployeeById(employeeId,
@@ -170,6 +156,15 @@ $(document).ready(function () {
                 $("#employeeName").attr('title', employee.firstName);
                 $("#tableId").attr('title', tableId);
                 $('[data-toggle="tooltip"]').tooltip();
+
+                PermissionService.getPermissionById(employeeObject.permissionId, function (permissionResponse) {
+                    employeePermissions = PermissionService.authorizedActions;
+                    $.each(permissionResponse.authorizedActions, function (index, action) {
+                        employeePermissions[action] = true;
+                    });
+                    
+                    initPermissionDiscount();
+                });
             });
 
     var $aNode = $('<a/>').html('Main Menu')
@@ -195,6 +190,19 @@ $(document).ready(function () {
     refreshSummaryPanel();
 });
 
+function initPermissionDiscount() {
+    $("#discountSummaryButton").click(function () {
+
+        if (employeePermissions['ADD_DISCOUNT'] === true){
+            $("#discountWrapper").slideToggle("slow");
+        }
+        else{
+            alertMechanism.Error("You don't have permission to add discount");
+        }
+    });
+}
+
+
 function refreshSummaryPanel() {
     overAllTableOrders.Array = [];
     OrdersService.getTableOrder(tableId,
@@ -206,7 +214,11 @@ function refreshSummaryPanel() {
             function (table) {
                 $('#descriptionTextSummary').val(table.description);
                 $('#numOfGuestsSummary').val(table.numOfGuests);
-
+                totalDiscount = table.discount;
+                $('#totalDiscountLabel').val(totalDiscount);
+                sumBill -= totalDiscount;
+                updateSum();
+                $('#discountAddInput').val('0');
                 EmployeeService.getEmployeeById(table.serverId, function (employee) {
                     $('#serverIdSummary').val(employee.firstName + " " + employee.lastName);
                 });
@@ -252,7 +264,8 @@ function appendMenuItemToOrder(menuItem, quantity, status) {
         $tableCellSum = $('<td/>').html(sumOfItemPrice).attr('name', 'sum');
         sumBill += sumOfItemPrice;
         updateSum();
-
+        
+        
         $lineObj = $('<tr>').append($tableCellRemove)
                 .append($tableCellIndex)
                 .append($tableCellItemName)
@@ -271,7 +284,7 @@ function appendMenuItemToOrder(menuItem, quantity, status) {
         sumBill += sumOfItemPrice;
         updateSum();
         $('#sumBillSummary').addClass('toRed');
-        
+
         $lineObj = $('<tr>').append($tableCellRemove)
                 .append($tableCellIndex)
                 .append($tableCellItemName)
@@ -344,22 +357,13 @@ function onRemoveOverAllListClick(event) {
     var $tableLine = $target.parent();
     var itemId = parseInt($target.attr('item-id'));
     var hasPermission = false;
-
-    PermissionService.getPermissionById(employeeObject.permissionId, function (permissionResponse) {
-
-        authorizedActions = PermissionService.authorizedActions;
-
-        $.each(permissionResponse.authorizedActions, function (index, action) {
-            if (action === "CANCEL_ORDER") {
-                hasPermission = true;
-                overAllTableOrders.Remove($tableLine, itemId);
-                return false;
-            }
-        });
-        if (!hasPermission) {
-            alertMechanism.Error("You don't have permission for this action");
-        }
-    });
+    
+    if (employeePermissions["CANCEL_ORDER"] === true){
+        overAllTableOrders.Remove($tableLine, itemId);
+    }
+    else{
+        alertMechanism.Error("You don't have permission for this action");
+    }
 }
 
 function onRemoveLatestClick(event) {
@@ -461,7 +465,7 @@ function onPopupAddClick(event) {
     readySubmit();
 }
 
-function onSummarySubmitButton(event) {
+function onSummarySubmitButton() {
     $('#modalTitle').text('Are you sure you want to Submit all the latest updates?');
     $("#confirmModal").modal('show').one('click', '#yesConfirm', function (e) {
         if (latestTableOrders.Array.length > 0 || tableInfoEdit) {
@@ -470,7 +474,7 @@ function onSummarySubmitButton(event) {
             var numOfGuests = $('#numOfGuestsSummary').val();
             var serverId = $('#serverIdSummary').val();
 
-            var tableObj = {'id': tableId, 'serverId': serverId, 'numOfGuests': numOfGuests, 'description': description};
+            var tableObj = {'id': tableId, 'serverId': serverId, 'numOfGuests': numOfGuests, 'description': description, 'discount': totalDiscount};
 
             OrdersService.updateTable(tableId, tableObj,
                     function (response) {
@@ -482,6 +486,7 @@ function onSummarySubmitButton(event) {
                                             refreshGlobal();
                                             refreshSummaryPanel();
                                             cancelSubmit();
+                                            $('#sumBillSummary').removeClass('toRed');
                                             alertMechanism.Success("Order has been submitted and placed");
                                         } else {
                                             alertMechanism.Error("An error was occured, please try again");
@@ -540,7 +545,8 @@ function onSummaryCloseButton() {
                 'employeeId': employeeObject.id,
                 'tableNum': tableId,
                 'orderDate': orderDate,
-                'totalSum': sumBill
+                'totalSum': sumBill,
+                'discount': totalDiscount
             };
 
             OrdersService.closeOrderInfo(orderInfo,
@@ -556,6 +562,7 @@ function onSummaryCloseButton() {
 
                                                     $('.alert.login').hide();
                                                     $('.alert.login-success').show()
+                                                    refreshGlobal();
                                                     setTimeout(closeTableAnimation, 1500);
 
                                                 } else {
@@ -611,10 +618,14 @@ function onClockOutClick() {
 }
 
 function onDiscountAddButton() {
+
     var discountAmount = parseInt($('#discountAddInput').val());
     sumBill -= discountAmount;
     totalDiscount += discountAmount;
     updateSum();
+    tableInfoEdit = true;
+    readySubmit();
+
 }
 
 function updateSum() {
