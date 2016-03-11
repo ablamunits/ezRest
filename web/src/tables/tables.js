@@ -52,7 +52,7 @@ $(document).ready(function () {
     EmployeeService.getActiveEmployeeById(employeeId,
             function (employee) {
                 $("#employeeName").attr('title', employee.firstName);
-                $('h3').text('Hi ' + employee.firstName);
+                $('.header-name-display').text(employee.firstName);
                 $('[data-toggle="tooltip"]').tooltip();
             });
     refreshTables();

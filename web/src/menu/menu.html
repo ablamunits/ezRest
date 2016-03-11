@@ -5,215 +5,214 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>ezRest - Menu</title>
+<head>
+	<title>EzRest | Menu</title>
 
-        <!-- FontAwesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-        <!-- Bootstrap & Bootflat styles -->
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
+	<!-- Bootstrap & Bootflat styles -->
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
 
-        <script src="../../bower_components/jquery/dist/jquery.js"></script>
+	<script src="../../bower_components/jquery/dist/jquery.js"></script>
 
-        <!-- Bootstrap -->
-        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
-        <!-- Bootflat's JS files.-->
-        <script src="https://bootflat.github.io/bootflat/js/icheck.min.js"></script>
-        <script src="https://bootflat.github.io/bootflat/js/jquery.fs.selecter.min.js"></script>
-        <script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
+	<!-- Bootflat's JS files.-->
+	<script src="https://bootflat.github.io/bootflat/js/icheck.min.js"></script>
+	<script src="https://bootflat.github.io/bootflat/js/jquery.fs.selecter.min.js"></script>
+	<script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
 
-        <!-- Services -->
-        <script src="../scripts/services/employee.srv.js"></script>
-        <script src="../scripts/services/menu.srv.js"></script>
-        <script src="../scripts/services/orders.srv.js"></script>
-        <script src="../scripts/services/tables.srv.js"></script>
-        <script src="../scripts/services/permission.srv.js"></script>
+	<!-- Services -->
+	<script src="../scripts/services/employee.srv.js"></script>
+	<script src="../scripts/services/menu.srv.js"></script>
+	<script src="../scripts/services/orders.srv.js"></script>
+	<script src="../scripts/services/tables.srv.js"></script>
+	<script src="../scripts/services/permission.srv.js"></script>
 
-        <!-- Page specific -->
-        <script src="../scripts/common.js"></script>
-        <script src="../index.js"></script>
-        <link href="../index.css" rel="stylesheet" type="text/css">
-        <link href="menu.css" rel="stylesheet" type="text/css">
-        <script src="menu.js"></script>
-    </head>
-    <body>
-        <div class="content-wrapper">
-            <h1>Menu</h1>
-            <h3 id='table-headline' style="margin-top: -9px; margin-left: 3px;"></h3>
+	<!-- Page specific -->
+	<script src="../scripts/common.js"></script>
+	<script src="../index.js"></script>
+	<link href="../index.css" rel="stylesheet" type="text/css">
+	<link href="menu.css" rel="stylesheet" type="text/css">
+	<script src="menu.js"></script>
+</head>
+<body>
+	<div class="header menu-header">
+		<p class="title">EzRest<span class="title-light"> | <span id="table-headline"></span><span></p>
+			<div class="btn-group header-button">
+				<a href="../index.html" class="btn btn-info"><i class="glyphicon glyphicon-home"></i> <strong>Home</strong></a>
+				<a class="btn btn-info" onClick="onClockOutClick()"><i class="glyphicon glyphicon-user"></i> <strong>ClockOut</strong></a>
+			</div>
+		</div>
+		<div class="content-wrapper">
+			<div id="confirmModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
 
-            <div class="btn-group">
-                <a href="../index.html" class="btn btn-info"><i class="glyphicon glyphicon-home"></i> <strong>Home</strong></a>
-                <a class="btn btn-info" onClick="onClockOutClick()"><i class="glyphicon glyphicon-user"></i> <strong>ClockOut</strong></a>
-            </div><br>
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="modalTitle">Are you sure?</h4>
+						</div>
+						<div class="modal-footer">
+							<button type="button" data-dismiss="modal" class="btn btn-warning" id="yesConfirm">Yes</button>
+							<button type="button" data-dismiss="modal" class="btn">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <div id="confirmModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+			<div id="billModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title" id="modalTitle">Are you sure?</h4>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-warning" id="yesConfirm">Yes</button>
-                            <button type="button" data-dismiss="modal" class="btn">No</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="modalTitle">Printing Bill..</h4>
+						</div>
 
-            <div id="billModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+						<div class="modal-body">
+							<div id='billModalText'>
+								<br>
+								<div class="well well-sm"><strong>Total</strong><label id='tot' class="pull-right"></label></div>
+								<div class="well well-sm"><strong>Discount</strong><label id='dis' class="pull-right"></label></div>
+								<div class="well well-sm"><strong>Date</strong><label id='dat' class="pull-right"></label></div>
+							</div>
+							<div id='billModalBody'>
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title" id="modalTitle">Printing Bill..</h4>
-                        </div>
+							</div>
+						</div>
 
-                        <div class="modal-body">
-                            <div id='billModalText'>
-                                <br>
-                                <div class="well well-sm"><strong>Total</strong><label id='tot' class="pull-right"></label></div>
-                                <div class="well well-sm"><strong>Discount</strong><label id='dis' class="pull-right"></label></div>
-                                <div class="well well-sm"><strong>Date</strong><label id='dat' class="pull-right"></label></div>
-                            </div>
-                            <div id='billModalBody'>
+						<div id='billModalFooter' class="modal-footer">
+							<button type="button" class="btn btn-warning" id='closeBill'>Close Table</button>
+							<button type="button" data-dismiss="modal" class="btn">Return To Table</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
-                            </div> 
-                        </div>
+			<div id="sendingModal" class="modal fade" role="dialog">
+				<div class="modal-body">
+					<div class="alert alert-warning login login-pending closeTable">
+						<i class="fa fa-spinner fa-spin"></i><strong> Printing Bill...</strong> Hold tight.
+					</div>
+					<div class="alert alert-danger login login-failed closeTable">
+						<i class="fa fa-frown-o"></i><strong> Error!</strong> Failed to send important data! Please try again or contact a manager.
+					</div>
+					<div class="alert alert-success login login-success closeTable">
+						<i class="fa fa-check"></i><strong> Great! </strong> Let's go back to main window
+					</div>
+				</div>
+			</div>
 
-                        <div id='billModalFooter' class="modal-footer">
-                            <button type="button" class="btn btn-warning" id='closeBill'>Close Table</button>
-                            <button type="button" data-dismiss="modal" class="btn">Return To Table</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+			<div class="row menu-controls-row">
+				<div class="col-xs-8">
 
-            <div id="sendingModal" class="modal fade" role="dialog">
-                <div class="modal-body">
-                    <div class="alert alert-warning login login-pending closeTable">
-                        <i class="fa fa-spinner fa-spin"></i><strong> Printing Bill...</strong> Hold tight.
-                    </div>
-                    <div class="alert alert-danger login login-failed closeTable">
-                        <i class="fa fa-frown-o"></i><strong> Error!</strong> Failed to send important data! Please try again or contact a manager.
-                    </div>
-                    <div class="alert alert-success login login-success closeTable">
-                        <i class="fa fa-check"></i><strong> Great! </strong> Let's go back to main window
-                    </div>
-                </div>
-            </div>
+					<ul class="alerts-list">
 
-            <div class="row">
-                <div class="col-xs-8">
+					</ul>
 
-                    <ul class="alerts-list">
+					<ol class="breadcrumb breadcrumb-arrow" id="breadCrumbCategroies">
 
-                    </ul>
+					</ol>
+					<div class="panel-heading" id="menuCategoryTitle"></div>
+					<div class="menu-category-list-wrapper panel" >
+						<ul class="menu-category-list panel-body">
 
-                    <ol class="breadcrumb breadcrumb-arrow" id="breadCrumbCategroies">
+						</ul>
+					</div>
 
-                    </ol>
-                    <div class="panel-heading" id="menuCategoryTitle"></div>
-                    <div class="menu-category-list-wrapper panel" >
-                        <ul class="menu-category-list panel-body">
+					<div class="menu-item-list-wrapper panel">
+						<div class="panel-heading" id="menuItemTitle"><strong>Items: </strong></div>
+						<ul class="menu-item-list panel-body">
 
-                        </ul>
-                    </div>
+						</ul>
 
-                    <div class="menu-item-list-wrapper panel">
-                        <div class="panel-heading" id="menuItemTitle"><strong>Items: </strong></div>
-                        <ul class="menu-item-list panel-body">
+						<div id="menuContent" class="hidden">
+							<button type="button" class="close">&times;</button>
+							<input type="number" min="1" id="amountPopup" class="form-control stepper-input" placeholder="Amount">
+							<button type="button" class="btn btn-success pull-right add">Add</button>
+						</div>
 
-                        </ul>
+					</div>
+				</div>
+				<div class="col-xs-4">
 
-                        <div id="menuContent" class="hidden">
-                            <button type="button" class="close">&times;</button>
-                            <input type="number" min="1" id="amountPopup" class="form-control stepper-input" placeholder="Amount">
-                            <button type="button" class="btn btn-success pull-right add">Add</button>
-                        </div>
+					<div class="summary-wrapper panel panel-warning">
+						<div class="panel-heading">
+							<div class="badge pull-right" id="tableNumberPanel"></div>
+							<h3 class="panel-title"><Strong>Summary:</Strong></h3>
+						</div>
+						<div class="panel-body">
+							<table id="allTable" class="table table-striped">
+								<thead>
+									<tr>
+										<th></th>
+										<th>#</th>
+										<th>Item</th>
+										<th>Amount</th>
+										<th>Price</th>
+										<th>Sum</th>
+									</tr>
+								</thead>
+								<tbody class="all-orders-table">
+								</tbody>
+							</table>
+						</div>
 
-                    </div>
-                </div>
-                <div class="col-xs-4">
+						<div class="panel-footer">
+							<div class="col-xs-12">
+								<label>Description</label>
+								<textarea class="form-control" rows="2" id="descriptionTextSummary"></textarea>
+							</div>
+							<div class="form-group">
+								<div class="col-xs-6">
+									<label for="serverId" >Server:</label>
+									<input id="serverIdSummary" class="form-control input-group-lg" type="text" name="Server Id"
+									placeholder="Server">
+								</div>
+								<div class="col-xs-6">
+									<label for="numOfGuests">Guests:</label>
+									<input id="numOfGuestsSummary" class="form-control input-group-lg" type="number" name="Number Of Guests"
+									placeholder="Guests">
+								</div>
 
-                    <div class="summary-wrapper panel panel-warning" style="margin-top: -70px">
-                        <div class="panel-heading">
-                            <div class="badge pull-right" id="tableNumberPanel"></div>
-                            <h3 class="panel-title"><Strong>Summary:</Strong></h3>
-                        </div>
-                        <div class="panel-body">
-                            <table id="allTable" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>#</th>
-                                        <th>Item</th>
-                                        <th>Amount</th>
-                                        <th>Price</th>
-                                        <th>Sum</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="all-orders-table">
-                                </tbody>
-                            </table>
-                        </div>
+							</div><!--/form-group-->
+							<div class="form-group">
+								<div class="col-xs-4">
+									<h4 id="sumBillSummary"></h4>
+								</div>
 
-                        <div class="panel-footer">
-                            <div class="col-xs-12">
-                                <label>Description</label>
-                                <textarea class="form-control" rows="2" id="descriptionTextSummary"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-xs-6">
-                                    <label for="serverId" >Server:</label>
-                                    <input id="serverIdSummary" class="form-control input-group-lg" type="text" name="Server Id"
-                                           placeholder="Server">
-                                </div>
-                                <div class="col-xs-6">
-                                    <label for="numOfGuests">Guests:</label>
-                                    <input id="numOfGuestsSummary" class="form-control input-group-lg" type="number" name="Number Of Guests"
-                                           placeholder="Guests">
-                                </div>
+								<div class="col-xs-8">
+									<div id="discountWrapper">
+										<div class="input-group">
+											<input id='discountAddInput' class="form-control pull-right" value="0" type="number" >
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-warning pull-right" style='top: -3px;' onclick="onDiscountAddButton()">Add</button>
+											</span>
+											<input class="form-control" id="totalDiscountLabel" type="text" disabled>
+										</div><!-- /input-group -->
+									</div>
+								</div>
 
-                            </div><!--/form-group-->
-                            <div class="form-group">
-                                <div class="col-xs-4">
-                                    <h4 id="sumBillSummary"></h4>
-                                </div>
+								<div class="col-xs-12 bill-controls">
+									<button type="button" id='discountSummaryButton' class="btn btn-warning pull-right">Discount</button>
+									<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCloseButton()" id='closeSummaryButton'>Pay</button>
+									<button type="button" class="btn btn-warning pull-right" onclick="onSummarySubmitButton()" id='submitSummaryButton'>Submit</button>
+									<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCancelButton()" id='cancelSummaryButton'>Cancel</button>
+								</div>
+							</div>
+						</div>
 
-                                <div class="col-xs-8">
-                                    <div id="discountWrapper" class="" style='margin-top: 2px; margin-left: 5px'>
-                                        <div class="input-group">
-                                            <input id='discountAddInput' class="form-control pull-right" value="0" type="number" style='width: 75px'>
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-warning pull-right" style='top: -3px;' onclick="onDiscountAddButton()">Add</button>
-                                            </span>
-                                            <input class="form-control" id="totalDiscountLabel" type="text" disabled>
-                                        </div><!-- /input-group -->
-                                    </div>
-                                </div>
+					</div>
 
-                                <div class="col-xs-12" style="margin-top: -20px">
-                                    <button type="button" id='discountSummaryButton' style="margin-top: 10px" class="btn btn-warning pull-right">Discount</button>
-                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCloseButton()" id='closeSummaryButton'>Pay</button>
-                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummarySubmitButton()" id='submitSummaryButton'>Submit</button>
-                                    <button type="button" class="btn btn-warning pull-right" style="margin-top: 10px" onclick="onSummaryCancelButton()" id='cancelSummaryButton'>Cancel</button>
-                                </div>
-                            </div>
-                        </div>
+				</div>
 
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </body>
-</html>
+			</div>
+		</div>
+	</body>
+	</html>

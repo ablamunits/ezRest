@@ -3,7 +3,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : Feb 11, 2016, 12:45:17 PM
     Author     : shay
 */
@@ -97,7 +97,7 @@ and open the template in the editor.
 }
 
 .popover.bottom > .arrow:after {
-    border-bottom-color: white; 
+    border-bottom-color: white;
     border-top-width: 0;
     content: " ";
     margin-left: -10px;
@@ -132,8 +132,25 @@ and open the template in the editor.
 }
 
 #totalDiscountLabel{
-    right: -7px; 
-    width: 75px; 
-    border: 1px solid #cccccc; 
+    right: -7px;
+    width: 75px;
+    border: 1px solid #cccccc;
     color: #cccccc;
+}
+
+#discountWrapper {
+	margin-top: 2px;
+	margin-left: 5px;
+}
+
+#discountAddInput {
+	width: 75px;
+}
+
+.bill-controls {
+	margin-top: -20px;
+}
+
+.bill-controls button {
+	margin-top: 10px;
 }

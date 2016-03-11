@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>ezRest - Admin page</title>
+	<title>EzRest | Manager Control</title>
 
 	<!-- FontAwesome -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -29,16 +29,17 @@
 	<script src="../scripts/common.js"></script>
 
 	<!-- Page specific -->
+	<link href="../index.css" rel="stylesheet" type="text/css">
 	<link href="admin.css" rel="stylesheet" type="text/css">
 	<script src="admin.js"></script>
 
 </head>
 <body>
+	<div class="header admin-header">
+		<p class="title">EzRest<span class="title-light"> | Manager Control<span></p>
+		<button class="btn btn-primary pull-right logout-btn" onclick="logoutUser()">Logout</button>
+	</div>
 	<div class="content-wrapper">
-		<h1>Admin / Manager section</h1>
-
-		<button class="btn btn-primary pull-right" onclick="logoutUser()">Logout</button>
-
 		<div class="personal-info-wrapper">
 			<div class="panel">
 				<ul class="nav nav-tabs nav-justified">
