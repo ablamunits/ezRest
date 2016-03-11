@@ -26,7 +26,7 @@ var VipService = {
       });
   },
   deleteVip: function (vipId, cb){
-      doAjaxPost('vip/delete' + vipId).done(function (response){
+      doAjaxPost('vip/delete/' + vipId).done(function (response){
          cb(response); 
       });
   }

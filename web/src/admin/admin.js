@@ -1,3 +1,5 @@
+/* global EmployeeService, MenuService */
+
 'use strict';
 
 var authObject;
@@ -12,11 +14,6 @@ var allVip = [];
 var monthArr = ['nothing', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 $(document).ready(function () {
-
-//    $('#vipClick').click(function(){
-//       newVipClick(); 
-//    });
-//    
     $('.all-hours-table').empty();
 
     initMonthSelecter();
@@ -24,7 +21,7 @@ $(document).ready(function () {
     MenuService.getAllCategories(function (responseObject) {
         allCategories = responseObject;
     });
-
+    
     EmployeeService.getAllEmployees(function (responseObject) {
         allEmployees = responseObject;
     });
@@ -36,10 +33,13 @@ $(document).ready(function () {
     VipService.getAllVip(function (responseObject) {
         allVip = responseObject;
     });
-
+    
+    initItemSelecter();
+    initMenuItemsOptions(1);
+    
     AuthService.authState(function (responseObject) {
         authObject = responseObject;
-
+    
 //     EmployeeService.getEmployeeById(authObject.employeeId, function(responseObject) {
         var tempId = 1;
         EmployeeService.getEmployeeById(tempId, function (responseObject) {
@@ -94,10 +94,29 @@ function displayInfo() {
     $('.select-vip').selecter();
 }
 
-function initMonthSelecter() {
-    $('.select-month').selecter({
-        label: "Choose Month"
+function initItemSelecter() {
+    $('.select-item').selecter();
+    $('.select-category').change(event, function () {
+        initMenuItemsOptions(parseInt(this.value)); //TODO
     });
+}
+
+function initMenuItemsOptions(categoryId) {
+    $('.select-item').empty();
+    MenuService.getMenuCategoryById(categoryId,
+            function (menuCategoryList) {
+                $.each(menuCategoryList, function (idx, menuItem) {
+                    if (!(menuItem.isCategory)) {
+                        var option = $('<option>').attr('value', idx).attr('item-id', menuItem.itemIid).text(menuItem.title);
+                        $('.select-item').append(option);
+                    }
+                });
+            });
+}
+
+function initMonthSelecter() {
+    $('.select-month').selecter();
+
     $('.select-month').on('change', function () {
         initWorkingHours(parseInt(this.value));
     });
@@ -200,7 +219,7 @@ function editVipClick() {
 //    }
 }
 
-function deleteVip() {
+function deleteVipClick() {
 
 //    if (authorizedActions['ADD_DISCOUNT'] === true) {
     var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
@@ -228,14 +247,14 @@ function submitVip() {
     if (handle === 'Edit Vip!')
     {
         var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
-        var vipObject = {id: vipId, firstName: firstName, lastName: lastName, email: email, birthday: birthday};
+        var vipObject = {id: vipId, firstName: firstName, lastName: lastName, birthday: birthday, email: email};
         VipService.updateVip(vipId, vipObject, function (response) {
             if (response === undefined) {
                 displaySuccessAndRefresh('Great!', 'Vip ' + vipObject.firstName + ' ' + vipObject.lastName + ' was updated!');
             }
         });
-    } else {
-        var vipObject = {firstName: firstName, lastName: lastName, email: email, birthday: birthday};
+    } else { //NEW VIP
+        var vipObject = {firstName: firstName, lastName: lastName, birthday: birthday, email: email};
         VipService.addNewVip(vipObject, function (response) {
             if (response === undefined) {
                 displaySuccessAndRefresh('Great!', 'New vip ' + firstName + ' ' + lastName + ' was added!');
@@ -290,7 +309,7 @@ function submitNewItem(event) {
         categoryId: selectedCategory.id,
         type: 'menuItem',
         isCategory: false,
-        nextCategoryId: 0,
+        nextCategoryId: 0
     }
 
     MenuService.addNewItem(newItem, function (response) {
@@ -346,15 +365,13 @@ function hideEditMenuMain() {
 
 // Admin: Employees edit
 function deleteEmployeeClick(event) {
-    var employeeId = $('.select-employee option:selected').attr('employee-id');
+    var employeeId = parseInt($('.select-employee option:selected').attr('employee-id'));
     var employeeName = $('.select-employee option:selected').text();
 
-//		EmployeeService.deleteEmployee(employeeId, (response) => {
-//			displaySuccessAndRefresh('Alright!', 'We have deleted ' + employeeName + ' for you.');
-//		});
-
     EmployeeService.deleteEmployee(employeeId, function (response) {
-        displaySuccessAndRefresh('Alright!', 'We have deleted ' + employeeName + ' for you.');
+        if (response === undefined) {
+            displaySuccessAndRefresh('Alright!', 'We have deleted ' + employeeName + ' for you.');
+        }
     });
 }
 
@@ -362,17 +379,10 @@ function editEmployeeClick(event) {
     var employeeId = $('.select-employee option:selected').attr('employee-id');
     var $modal = $('.update-employee-modal');
 
-//	EmployeeService.getEmployeeById(employeeId, (employee) => {
-//		$modal.find('input.first-name').val(employee.firstName);
-//		$modal.find('input.last-name').val(employee.lastName);
-//		$modal.find('input.email').val(employee.email);
-//		$modal.find('input.password').val(employee.password);
-//		$modal.find('input.age').val(employee.age);
-//		$modal.find('input.position').val(employee.position);
-//		$modal.find('.new-employee-gender-select').val(employee.gender);
-//
-//		$modal.find('.edit-employee-name').text(employee.firstName + ' ' + employee.lastName);
-//	});
+    $.each(allPermissions, function (idx, permission) {
+        var option = $('<option>').attr('value', permission.permissionId).attr('permission-id', permission.permissionId).text(permission.title);
+        $modal.find('.edit-employee-permission-select').append(option);
+    });
 
     EmployeeService.getEmployeeById(employeeId, function (employee) {
         $modal.find('input.first-name').val(employee.firstName);
@@ -381,20 +391,19 @@ function editEmployeeClick(event) {
         $modal.find('input.password').val(employee.password);
         $modal.find('input.age').val(employee.age);
         $modal.find('input.position').val(employee.position);
-        $modal.find('.new-employee-gender-select').val(employee.gender);
-
+        $modal.find('input.city').val(employee.city);
+        $modal.find('input.address').val(employee.address);
         $modal.find('.edit-employee-name').text(employee.firstName + ' ' + employee.lastName);
-    });
 
-    $.each(allPermissions, function (idx, permission) {
-        var option = $('<option>').attr('value', idx).attr('permission-id', permission.permissionId).text(permission.title);
-        $modal.find('.new-employee-permission-select').empty().append(option);
+        if (employee.gender === 'MALE') {
+            $modal.find('.edit-employee-gender-select option:first-child').attr('selected', 'selected');
+        } else {
+            $modal.find('.edit-employee-gender-select option:last-child').attr('selected', 'selected');
+        }
+
+        $modal.find('.edit-employee-permission-select').val(employee.permissionId); //TODO
     });
     $('select').selecter();
-
-//	$modal.find('button.cancel').click(() => {
-//		$modal.hide();
-//	});
 
     $modal.find('button.cancel').click(function () {
         $modal.hide();
@@ -409,11 +418,6 @@ function submitEditedEmployee() {
     var employeeId = $('.select-employee option:selected').attr('employee-id');
 
     var editedEmployee = $.extend(employeeFromModal($modal), {id: employeeId}); // Quick fix, edit not working well on server it seems.
-
-//	EmployeeService.editEmployee(employeeId, editedEmployee, (response) => {
-//		$modal.hide();
-//		displaySuccessAndRefresh('Great!', 'Employee ' + editedEmployee.firstName + ' ' + editedEmployee.lastName + ' has been updated!');
-//	});
 
     EmployeeService.editEmployee(employeeId, editedEmployee, function (response) {
         $modal.hide();
@@ -430,17 +434,9 @@ function newEmployeeClick(event) {
     });
     $('select').selecter();
 
-//	$modal.find('button.cancel').click(() => {
-//		$modal.hide();
-//	});
-
     $modal.find('button.cancel').click(function () {
         $modal.hide();
     });
-
-    // $modal.find('button.submit').click(() => {
-    // 	submitNewEmployee();
-    // });
 
     $modal.show();
 }
@@ -449,12 +445,29 @@ function newEmployeeClick(event) {
 function submitNewEmployee() {
     var $modal = $('.new-employee-modal');
 
-    var newEmployee = employeeFromModal($modal);
+    var firstName = $modal.find('input.first-name').val();
+    var lastName = $modal.find('input.last-name').val();
+    var email = $modal.find('input.email').val();
+    var password = $modal.find('input.password').val();
+    var age = parseInt($modal.find('input.age').val());
+    var position = $modal.find('input.position').val();
+    var gender = $modal.find('.new-employee-gender-select option:selected').attr('value');
+    var permissionId = parseInt($modal.find('.new-employee-permission-select option:selected').attr('permission-id'));
+    var city = $modal.find('input.city').val();
+    var address = $modal.find('input.address').val();
 
-//	EmployeeService.addNewEmployee(newEmployee, (response) => {
-//		$modal.hide();
-//		displaySuccessAndRefresh('Great!', 'Employee ' + newEmployee.firstName + ' ' + newEmployee.lastName + ' added!');
-//	});
+    var newEmployee = {
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+        email: email,
+        password: password,
+        gender: gender,
+        position: position,
+        permissionId: permissionId,
+        city: city,
+        address: address
+    };
 
     EmployeeService.addNewEmployee(newEmployee, function (response) {
         $modal.hide();
@@ -472,6 +485,8 @@ function employeeFromModal($modal) {
     var position = $modal.find('input.position').val();
     var gender = $modal.find('.new-employee-gender-select option:selected').attr('value');
     var permissionId = parseInt($modal.find('.new-employee-permission-select option:selected').attr('permission-id'));
+    var city = $modal.find('input.city').val();
+    var address = $modal.find('input.address').val();
 
     var newEmployee = {
         firstName: firstName,
@@ -482,6 +497,8 @@ function employeeFromModal($modal) {
         gender: gender,
         position: position,
         permissionId: permissionId,
+        city: city,
+        address: address
     };
 
     return newEmployee;
@@ -501,9 +518,6 @@ function displaySuccessAndRefresh(strongText, regularText) {
     $('.alert.data-submit-ok').show();
     $('body').scrollTo('.alert.data-submit-ok');
 
-//	setTimeout(() => {
-//		location.reload();
-//	}, 2000);
     setTimeout(function () {
         location.reload();
     }, 2000);

@@ -32,7 +32,7 @@ var EmployeeService = {
         });
     },
     deleteEmployee: function (employeeId, cb) {
-        doAjaxPost('/employees/delete/' + employeeId).done(function (response) {
+        doAjaxPost('employees/delete/' + employeeId).done(function (response) {
             cb(response);
         });
     },

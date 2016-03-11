@@ -102,17 +102,17 @@ public class SqlEmployeeDao implements EmployeeDao {
     private Object[] getObjectValues(Employee employee) {
         Object[] values = {
             employee.getId() == 0 ? null : employee.getId(),
-            employee.getPermissionId() == 0 ? null : employee.getPermissionId(),
-            employee.getFirstName(),
-            employee.getLastName(),
-            employee.getPosition(),
-            employee.getAge() == 0 ? null : employee.getAge(),
-            employee.getGender(),
+            employee.getPermissionId() == 0 ? null : employee.getPermissionId(), //
+            employee.getFirstName(), ///
+            employee.getLastName(), //
+            employee.getPosition(),  //
+            employee.getAge() == 0 ? null : employee.getAge(), //
+            employee.getGender(), //
             employee.getCity(),
             employee.getAddress(),
-            employee.getEmail(),
+            employee.getEmail(),  // 
             employee.getPhoneNumber(),
-            employee.getPassword()
+            employee.getPassword()   //
         };    
         
         return values;
