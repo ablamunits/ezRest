@@ -27,19 +27,19 @@ function resetEmployees() {
                     availableEmployees.push(allEmployees[i]);
                 }
             }
-            
+
             $.each(activeEmployeeList, function (index, employee) {
                 var $node = $('<li data-toggle="tooltip" />').html(employee.firstName)
                         .attr('data-original-title', employee.position)
                         .tooltip({'placement': 'top'})
                         .attr('employee-id', employee.id)
-                        .addClass('btn btn-success');
+                        .addClass('btn btn-square');
                 $node.click(activeEmployeeSelected);
                 $('.available-employees-list').append($node);
             });
 
             $.each(availableEmployees, function (index, employee) {
-                var $node = $('<li/>').html(employee.firstName).attr('employee-id', employee.id).addClass('btn');
+                var $node = $('<li/>').html(employee.firstName).attr('employee-id', employee.id).addClass('btn btn-square');
                 $node.click(employeeFromListSelected);
                 $('.all-employees-list').append($node);
             });

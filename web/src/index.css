@@ -71,3 +71,29 @@ ul.all-employees-list li {
 .alert {
 	display: none;
 }
+
+.btn.btn-square {
+	color: #00496a;
+	background-color: #ffffff;
+	border: 1px solid #eaeaea;
+}
+
+.btn.btn-square:hover {
+	color: #00496a;
+	background-color: #e9f5ff;
+	border: 1px solid #00496a;
+}
+
+.panel.panel-names-active .panel-heading {
+	color: #ffffff;
+	background-color: #41586b;
+}
+
+.panel.panel-names-inactive .panel-heading {
+	color: #ffffff;
+	background-color: #6c8090;
+}
+
+.panel.panel-names-inactive .btn {
+	opacity: .3;
+}
