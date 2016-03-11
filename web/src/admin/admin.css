@@ -3,6 +3,10 @@ body {
     background-color: #f4ecec !important;
 }
 
+a {
+	cursor: pointer;
+}
+
 .content-wrapper {
     margin: 10px;
     padding: 5px;

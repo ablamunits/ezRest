@@ -359,10 +359,11 @@ function initMenuItemsOptions(categoryId) {
 	function editEmployeeClick(event) {
 		var employeeId = $('.select-employee option:selected').attr('employee-id');
 		var $modal = $('.update-employee-modal');
+		var $permissionSelect = $modal.find('.edit-employee-permission-select').empty();
 
 		$.each(allPermissions, function (idx, permission) {
 			var option = $('<option>').attr('value', permission.permissionId).attr('permission-id', permission.permissionId).text(permission.title);
-			$modal.find('.edit-employee-permission-select').append(option);
+			$permissionSelect.append(option);
 		});
 
 		EmployeeService.getEmployeeById(employeeId, function (employee) {
@@ -376,21 +377,24 @@ function initMenuItemsOptions(categoryId) {
 			$modal.find('input.address').val(employee.address);
 			$modal.find('.edit-employee-name').text(employee.firstName + ' ' + employee.lastName);
 
+			var $genderSelect = $modal.find('.edit-employee-gender-select');
 			if (employee.gender === 'MALE') {
-				$modal.find('.edit-employee-gender-select option:first-child').attr('selected', 'selected');
+				$genderSelect.find('option:first-child').attr('selected', 'selected');
 			} else {
-				$modal.find('.edit-employee-gender-select option:last-child').attr('selected', 'selected');
+				$genderSelect.find('option:last-child').attr('selected', 'selected');
 			}
+			$genderSelect.selecter();
 
-			$modal.find('.edit-employee-permission-select').val(employee.permissionId); //TODO
+			$modal.find('.edit-employee-permission-select').val(employee.permissionId);
+			$permissionSelect.selecter();
 		});
-		$('select').selecter();
 
 		$modal.find('button.cancel').click(function () {
+			$modal.find('select').selecter('destroy');
 			$modal.hide();
 		});
 
-		$modal.show();
+		$modal.fadeIn('fast');
 	};
 
 	function submitEditedEmployee() {
