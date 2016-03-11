@@ -40,3 +40,22 @@ input {
 .handle-vip{
     display: none;
 }
+
+.unauthorized {
+	pointer-events: none;
+	/*opacity: .2;*/
+	-webkit-filter: grayscale(100%);
+	opacity: .4;
+}
+
+.unauthorized::before {
+	color: black;
+	font-size: 21px;
+	margin-top: 5px;
+	content: 'No Permission';
+	position: absolute;
+	display: block;
+	width: 100%;
+	text-align: center;
+	height: 50px;
+}

@@ -175,251 +175,191 @@
 							<a class="btn btn-danger" role="button" onclick="deleteEmployeeClick(event)">Delete selected</a>
 						</p>
 					</div>
-					<!--                        <div class="modal new-employee-modal">
-					<div class="modal-dialog">
-					<div class="modal-content">
-					<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+				</div>
+			</div>
+
+			<div class="col-sm-6 col-md-4 edit-vip-wrapper">
+				<div class="thumbnail">
+					<img class="img-rounded" src="../images/gift-icon.png">
+					<div class="caption text-center content-vip">
+						<h3>VIPs</h3>
+						<p>Add a new VIP customer or edit information of your existing customers.</p>
+
+						<p class="select-vip-wrapper">
+							<select class="select-vip">
+								<!-- Populated from via menu service -->
+							</select>
+						</p>
+						<!--<p class="select-vip-wrapper">-->
+						<p class="vip-buttons">
+							<a role="button" class="btn btn-warning" onclick='newVipClick()'>New VIP</a>
+							<a class="btn btn-default" role="button" onClick="editVipClick()">Edit selected</a>
+							<a class="btn btn-danger" role="button" onClick="deleteVipClick()">Delete VIP</a>
+						</p>
+					</div>
+					<div class="caption text-center handle-vip">
+						<h3 class="vip-title"></h3>
+						<div class="form-group">
+							<input type="text" class="form-control first-name" placeholder="First Name">
+							<input type="text" class="form-control last-name" placeholder="Last Name">
+							<input type="text" class="form-control email" placeholder="Email">
+							<input type="text" class="form-control birthday" placeholder="BirthDay | Ex: 1989-04-25">
+						</div>
+						<button id='vip-save-button' type="button" class="btn btn-success btn-block">Save</button>
+						<p class="input-error">We had a problem with the info you provided.</p>
+						<a onclick="closeVip()">Close</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modals -->
+	<!-- New employee modal -->
+	<div class="modal new-employee-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
 					<h4 class="modal-title">Add new employee</h4>
 				</div>
 				<form onsubmit="submitNewEmployee()">
-				<div class="modal-body">
-				<p>Fill in the following information to add a new employee. Email and password will be used to access different sections of ezRest.</p>
-				<div class="row">
-				<div class="col-xs-3">
-				<label>First Name</label>
-				<input type="text" class="form-control first-name" placeholder="John" required>
-			</div>
-			<div class="col-xs-3">
-			<label>Last Name</label>
-			<input type="text" class="form-control last-name" placeholder="Doe" required>
-		</div>
-		<div class="col-xs-2">
-		<label>Age</label>
-		<input type="number" min="15" max="99" class="form-control age" required>
-	</div>
-	<div class="col-xs-4">
-	<label>Gender</label>
-	<select class="new-employee-gender-select" required>
-	<option value="MALE">Male</option>
-	<option value="FEMALE">Female</option>
-</select>
-</div>
-<div class="col-xs-6">
-<label>Email</label>
-<input type="email" class="form-control email" placeholder="Email" required>
-</div>
-<div class="col-xs-6">
-<label>Password</label>
-<input type="password" class="form-control password" placeholder="Password" required>
-</div>
-</div>
-<div class="row">
-<div class="col-xs-6">
-<label>Position</label>
-<input type="text" class="form-control position" placeholder="Position" required>
-</div>
-<div class="col-xs-6">
-<label>Permission Level</label>
-<select class="new-employee-permission-select" required>
-Populated dynamically
-</select>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-default cancel">Cancel</button>
-<input type="submit" class="btn btn-success submit" value="Create employee"/>
-</div>
-</form>
-</div>
-</div>
-</div>-->
-</div>
-</div>
+					<div class="modal-body">
+						<p>Fill in the following information to add a new employee. Email and password will be used to access different sections of ezRest.</p>
+						<div class="row">
+							<div class="col-xs-3">
+								<label>First Name</label>
+								<input type="text" class="form-control first-name" placeholder="John" required>
+							</div>
+							<div class="col-xs-3">
+								<label>Last Name</label>
+								<input type="text" class="form-control last-name" placeholder="Doe" required>
+							</div>
+							<div class="col-xs-2">
+								<label>Age</label>
+								<input type="number" min="15" max="99" class="form-control age" required>
+							</div>
+							<div class="col-xs-4">
+								<label>Gender</label>
+								<select class="new-employee-gender-select" required>
+									<option value="MALE">Male</option>
+									<option value="FEMALE">Female</option>
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<label>Email</label>
+								<input type="email" class="form-control email" placeholder="Email" required>
+							</div>
+							<div class="col-xs-6">
+								<label>Password</label>
+								<input type="password" class="form-control password" placeholder="Password" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+								<label>Position</label>
+								<input type="text" class="form-control position" placeholder="Position" required>
+							</div>
+							<div class="col-xs-6">
+								<label>Permission Level</label>
+								<select class="new-employee-permission-select" required>
+									<!-- Populated dynamically -->
+								</select>
+							</div>
+						</div>
 
-<div class="col-sm-6 col-md-4 edit-vip-wrapper">
-	<div class="thumbnail">
-		<img class="img-rounded" src="../images/gift-icon.png">
-		<div class="caption text-center content-vip">
-			<h3>VIPs</h3>
-			<p>Add a new VIP customer or edit information of your existing customers.</p>
+						<div class="row">
+							<div class="col-xs-6">
+								<label>City</label>
+								<input type="text" class="form-control city" placeholder="City" required>
+							</div>
+							<div class="col-xs-6">
+								<label>Address</label>
+								<input type="text" class="form-control address" placeholder="Address" required>
+							</div>
+						</div>
 
-			<p class="select-vip-wrapper">
-				<select class="select-vip">
-					<!-- Populated from via menu service -->
-				</select>
-			</p>
-			<!--<p class="select-vip-wrapper">-->
-			<p class="vip-buttons">
-				<a role="button" class="btn btn-warning" onclick='newVipClick()'>New VIP</a>
-				<a class="btn btn-default" role="button" onClick="editVipClick()">Edit selected</a>
-				<a class="btn btn-danger" role="button" onClick="deleteVipClick()">Delete VIP</a>
-			</p>
-		</div>
-		<div class="caption text-center handle-vip">
-			<h3 class="vip-title"></h3>
-			<div class="form-group">
-				<input type="text" class="form-control first-name" placeholder="First Name">
-				<input type="text" class="form-control last-name" placeholder="Last Name">
-				<input type="text" class="form-control email" placeholder="Email">
-				<input type="text" class="form-control birthday" placeholder="BirthDay | Ex: 1989-04-25">
-			</div>
-			<button id='vip-save-button' type="button" class="btn btn-success btn-block">Save</button>
-			<p class="input-error">We had a problem with the info you provided.</p>
-			<a onclick="closeVip()">Close</a>
-		</div>
-
-	</div>
-</div>
-</div>
-</div>
-
-<!-- Modals -->
-<!-- New employee modal -->
-<div class="modal new-employee-modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
-				<h4 class="modal-title">Add new employee</h4>
-			</div>
-			<form onsubmit="submitNewEmployee()">
-				<div class="modal-body">
-					<p>Fill in the following information to add a new employee. Email and password will be used to access different sections of ezRest.</p>
-					<div class="row">
-						<div class="col-xs-3">
-							<label>First Name</label>
-							<input type="text" class="form-control first-name" placeholder="John" required>
-						</div>
-						<div class="col-xs-3">
-							<label>Last Name</label>
-							<input type="text" class="form-control last-name" placeholder="Doe" required>
-						</div>
-						<div class="col-xs-2">
-							<label>Age</label>
-							<input type="number" min="15" max="99" class="form-control age" required>
-						</div>
-						<div class="col-xs-4">
-							<label>Gender</label>
-							<select class="new-employee-gender-select" required>
-								<option value="MALE">Male</option>
-								<option value="FEMALE">Female</option>
-							</select>
-						</div>
-						<div class="col-xs-6">
-							<label>Email</label>
-							<input type="email" class="form-control email" placeholder="Email" required>
-						</div>
-						<div class="col-xs-6">
-							<label>Password</label>
-							<input type="password" class="form-control password" placeholder="Password" required>
-						</div>
 					</div>
-					<div class="row">
-						<div class="col-xs-6">
-							<label>Position</label>
-							<input type="text" class="form-control position" placeholder="Position" required>
-						</div>
-						<div class="col-xs-6">
-							<label>Permission Level</label>
-							<select class="new-employee-permission-select" required>
-								<!-- Populated dynamically -->
-							</select>
-						</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default cancel">Cancel</button>
+						<input type="submit" class="btn btn-success submit" value="Create employee"/>
 					</div>
-
-					<div class="row">
-						<div class="col-xs-6">
-							<label>City</label>
-							<input type="text" class="form-control city" placeholder="City" required>
-						</div>
-						<div class="col-xs-6">
-							<label>Address</label>
-							<input type="text" class="form-control address" placeholder="Address" required>
-						</div>
-					</div>
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default cancel">Cancel</button>
-					<input type="submit" class="btn btn-success submit" value="Create employee"/>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 
-<!-- Edit employee modal -->
-<div class="modal update-employee-modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
-				<h4 class="modal-title">Edit <span class="edit-employee-name"></span></h4>
+	<!-- Edit employee modal -->
+	<div class="modal update-employee-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
+					<h4 class="modal-title">Edit <span class="edit-employee-name"></span></h4>
+				</div>
+				<form onsubmit="submitEditedEmployee()">
+					<div class="modal-body">
+						<p>Edit employee information below</p>
+						<div class="row">
+							<div class="col-xs-3">
+								<label>First Name</label>
+								<input type="text" class="form-control first-name" placeholder="John" required>
+							</div>
+							<div class="col-xs-3">
+								<label>Last Name</label>
+								<input type="text" class="form-control last-name" placeholder="Doe" required>
+							</div>
+							<div class="col-xs-2">
+								<label>Age</label>
+								<input type="number" min="15" max="99" class="form-control age" required>
+							</div>
+							<div class="col-xs-4">
+								<label>Gender</label>
+								<select class="edit-employee-gender-select">
+									<option value="MALE">Male</option>
+									<option value="FEMALE">Female</option>
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<label>Email</label>
+								<input type="email" class="form-control email" placeholder="Email" required>
+							</div>
+							<div class="col-xs-6">
+								<label>Password</label>
+								<input type="password" class="form-control password" placeholder="Password" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+								<label>Position</label>
+								<input type="text" class="form-control position" placeholder="Position" required>
+							</div>
+							<div class="col-xs-6">
+								<label>Permission Level</label>
+								<select class="edit-employee-permission-select" required>
+									<!-- Populated dynamically -->
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+								<label>City</label>
+								<input type="text" class="form-control city" placeholder="City" required>
+							</div>
+							<div class="col-xs-6">
+								<label>Address</label>
+								<input type="text" class="form-control address" placeholder="Address" required>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default cancel">Cancel</button>
+						<input type="submit" class="btn btn-success submit" value="Update employee"/>
+					</div>
+				</form>
 			</div>
-			<form onsubmit="submitEditedEmployee()">
-				<div class="modal-body">
-					<p>Edit employee information below</p>
-					<div class="row">
-						<div class="col-xs-3">
-							<label>First Name</label>
-							<input type="text" class="form-control first-name" placeholder="John" required>
-						</div>
-						<div class="col-xs-3">
-							<label>Last Name</label>
-							<input type="text" class="form-control last-name" placeholder="Doe" required>
-						</div>
-						<div class="col-xs-2">
-							<label>Age</label>
-							<input type="number" min="15" max="99" class="form-control age" required>
-						</div>
-						<div class="col-xs-4">
-							<label>Gender</label>
-							<select class="edit-employee-gender-select">
-								<option value="MALE">Male</option>
-								<option value="FEMALE">Female</option>
-							</select>
-						</div>
-						<div class="col-xs-6">
-							<label>Email</label>
-							<input type="email" class="form-control email" placeholder="Email" required>
-						</div>
-						<div class="col-xs-6">
-							<label>Password</label>
-							<input type="password" class="form-control password" placeholder="Password" required>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-6">
-							<label>Position</label>
-							<input type="text" class="form-control position" placeholder="Position" required>
-						</div>
-						<div class="col-xs-6">
-							<label>Permission Level</label>
-							<select class="edit-employee-permission-select" required>
-								<!-- Populated dynamically -->
-							</select>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-6">
-							<label>City</label>
-							<input type="text" class="form-control city" placeholder="City" required>
-						</div>
-						<div class="col-xs-6">
-							<label>Address</label>
-							<input type="text" class="form-control address" placeholder="Address" required>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default cancel">Cancel</button>
-					<input type="submit" class="btn btn-success submit" value="Update employee"/>
-				</div>
-			</form>
 		</div>
 	</div>
-</div>
 </body>
 </html>

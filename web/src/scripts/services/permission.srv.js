@@ -1,4 +1,6 @@
 var PermissionService = {
+		MANAGER_PERMISSION_ID: 1,
+		
     getPermissionById: function (permissionId, cb) {
         doAjaxGet('permissions/' + permissionId).done(function (response) {
             cb(response);
@@ -10,7 +12,7 @@ var PermissionService = {
             cb(response);
         });
     },
-		
+
     authorizedActions: {
       ADD_PRODUCT: false,
       ADD_EMPLOYEE: false,
