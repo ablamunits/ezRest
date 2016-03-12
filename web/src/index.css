@@ -31,6 +31,14 @@ body {
 	top: 14px;
 	right: 11px;
 	position: absolute;
+	background-color: #5cb4ff;
+	border-color: #5cb4ff;
+	border-radius: 4px;
+}
+
+.header-button:hover {
+	background-color: #52a2e7;
+	border-color: #52a2e7;
 }
 
 .content-wrapper {
@@ -54,7 +62,7 @@ ul li {
 	padding: 0 !important;
 	display: inline-block;
 	width: 100px;
-	height: 100px;
+	/*height: 100px;*/
 	margin: 5px;
 	text-align: center;
 	vertical-align: middle;
@@ -84,16 +92,25 @@ ul.all-employees-list li {
 	border: 1px solid #00496a;
 }
 
-.panel.panel-names-active .panel-heading {
+.panel.panel-names-active .panel-heading,
+.panel.panel-tables-active .panel-heading,
+.panel.panel-menu-categories .panel-heading
+
+{
 	color: #ffffff;
 	background-color: #41586b;
 }
 
-.panel.panel-names-inactive .panel-heading {
+.panel.panel-names-inactive .panel-heading,
+.panel.panel-tables-inactive .panel-heading,
+.panel.panel-menu-items .panel-heading
+{
 	color: #ffffff;
 	background-color: #6c8090;
+	font-weight: 300;
 }
 
-.panel.panel-names-inactive .btn {
+.panel.panel-names-inactive .btn,
+.panel.panel-tables-inactive .btn {
 	opacity: .3;
 }

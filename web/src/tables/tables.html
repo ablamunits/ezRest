@@ -34,8 +34,8 @@ and open the template in the editor.-->
 			<div class="header tables-header">
 				<p class="title">EzRest<span class="title-light"> | Tables | <span class="header-name-display"></span>, your tables are marked with a star.</p>
 				<div class="btn-group header-button">
-						<a href="../index.html" class="btn btn-info"><i class="glyphicon glyphicon-home"></i> <strong>Home</strong></a>
-						<a class="btn btn-info" onClick="onClockOutClick()"><i class="glyphicon glyphicon-user"></i> <strong>ClockOut</strong></a>
+						<a href="../index.html" class="btn"><i class="fa fa-home"></i> <strong>Home</strong></a>
+						<a onClick="onClockOutClick()" class="btn" ><i class="fa fa-clock-o"></i> <strong>ClockOut</strong></a>
 				</div>
 			</div>
         <div class="content-wrapper">
@@ -65,15 +65,15 @@ and open the template in the editor.-->
 
             </ul>
 
-            <div class="available-tables-wrapper panel panel-success">
-                <div class="panel-heading"><b>Occupied</b> Tables:</div>
+            <div class="available-tables-wrapper panel panel-tables-active">
+                <div class="panel-heading"><i class="fa fa-cutlery"></i> Active</div>
                 <ul class="available-tables-list panel-body">
 
                 </ul>
             </div>
 
-            <div class="all-tables-wrapper panel panel-default">
-                <div class="panel-heading"><b>Unoccupied</b> tables, choose to add to occupied tables.</div>
+            <div class="all-tables-wrapper panel panel-tables-inactive">
+                <div class="panel-heading"><i class="fa fa-flag"></i> Available - Choose a free table from here</div>
                 <ul class="all-tables-list panel-body">
 
                 </ul>

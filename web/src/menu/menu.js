@@ -162,7 +162,7 @@ $(document).ready(function () {
                     $.each(permissionResponse.authorizedActions, function (index, action) {
                         employeePermissions[action] = true;
                     });
-                    
+
                     initPermissionDiscount();
                 });
             });
@@ -264,8 +264,8 @@ function appendMenuItemToOrder(menuItem, quantity, status) {
         $tableCellSum = $('<td/>').html(sumOfItemPrice).attr('name', 'sum');
         sumBill += sumOfItemPrice;
         updateSum();
-        
-        
+
+
         $lineObj = $('<tr>').append($tableCellRemove)
                 .append($tableCellIndex)
                 .append($tableCellItemName)
@@ -347,7 +347,7 @@ function getCellRemove(itemId, quantity, isSubmitted) {
     } else {
         onClick = onRemoveLatestClick;
     }
-    return $('<span/>').addClass('glyphicon glyphicon-minus removeItem')
+    return $('<td><span/>').addClass('fa fa-remove removeItem')
             .click(onClick)
             .attr('item-id', itemId);
 }
@@ -357,7 +357,7 @@ function onRemoveOverAllListClick(event) {
     var $tableLine = $target.parent();
     var itemId = parseInt($target.attr('item-id'));
     var hasPermission = false;
-    
+
     if (employeePermissions["CANCEL_ORDER"] === true){
         overAllTableOrders.Remove($tableLine, itemId);
     }
@@ -389,7 +389,6 @@ function updateMenuLists(menuCategoryList) {
                     var $node = $('<li/>').html(menuEntry.title)
                             .attr('category-id', menuEntry.categoryId)
                             .attr('next-category-id', menuEntry.nextCategoryId)
-                            .css("background-color", "#006442")
                             .addClass('btn btn-category');
                     $node.click(menuCategoryClick);
                     $('.menu-category-list').append($node);
@@ -400,7 +399,6 @@ function updateMenuLists(menuCategoryList) {
                             .attr('id', menuEntry.itemId)
                             //in initMenuPopups() it will take the 'id' and put it in 'content' of the popover
                             .addClass('menu-item')
-                            .css("background-color", "#87D37C")
                             .addClass('btn btn-item');
                     $('.menu-item-list').append($node);
                 }
@@ -409,7 +407,7 @@ function updateMenuLists(menuCategoryList) {
 }
 
 function refreshMainMenu() {
-    $("#menuCategoryTitle").html("<strong>Category: </strong>Main Menu");
+    // $("#menuCategoryTitle").html("<strong>Category: </strong>Main Menu");
     MenuService.getMenuCategoryById(1,
             function (menuCategoryList) {
                 menuCategoryList.shift(); //Because of the DUMMY_ROOT
@@ -421,7 +419,7 @@ function menuCategoryClick(event) {
     var $target = $(event.target);
     var categoryTitle = $target.html();
     var nextCategoryId = $target.attr('next-category-id');
-    $("#menuCategoryTitle").html("<strong>Category: </strong>" + categoryTitle);
+    // $("#menuCategoryTitle").html("<strong>Category: </strong>" + categoryTitle);
 
     updateBreadCrumb(nextCategoryId, categoryTitle);
 

@@ -43,8 +43,8 @@ and open the template in the editor.
 	<div class="header menu-header">
 		<p class="title">EzRest<span class="title-light"> | <span id="table-headline"></span><span></p>
 			<div class="btn-group header-button">
-				<a href="../index.html" class="btn btn-info"><i class="glyphicon glyphicon-home"></i> <strong>Home</strong></a>
-				<a class="btn btn-info" onClick="onClockOutClick()"><i class="glyphicon glyphicon-user"></i> <strong>ClockOut</strong></a>
+				<a href="../index.html" class="btn btn-info"><i class="fa fa-home"></i> <strong>Home</strong></a>
+				<a class="btn btn-info" onClick="onClockOutClick()"><i class="fa fa-clock-o"></i> <strong>ClockOut</strong></a>
 			</div>
 		</div>
 		<div class="content-wrapper">
@@ -119,15 +119,17 @@ and open the template in the editor.
 					<ol class="breadcrumb breadcrumb-arrow" id="breadCrumbCategroies">
 
 					</ol>
-					<div class="panel-heading" id="menuCategoryTitle"></div>
-					<div class="menu-category-list-wrapper panel" >
+
+					<div class="menu-category-list-wrapper panel panel-menu-categories" >
+						<div class="panel-heading" id="menuCategoryTitle"><i class="fa fa-tags"></i> Categories</div>
+
 						<ul class="menu-category-list panel-body">
 
 						</ul>
 					</div>
 
-					<div class="menu-item-list-wrapper panel">
-						<div class="panel-heading" id="menuItemTitle"><strong>Items: </strong></div>
+					<div class="menu-item-list-wrapper panel panel-menu-items">
+						<div class="panel-heading" id="menuItemTitle"><i class="fa fa-glass"></i> Items</div>
 						<ul class="menu-item-list panel-body">
 
 						</ul>
@@ -142,10 +144,10 @@ and open the template in the editor.
 				</div>
 				<div class="col-xs-4">
 
-					<div class="summary-wrapper panel panel-warning">
+					<div class="summary-wrapper panel panel-summary">
 						<div class="panel-heading">
 							<div class="badge pull-right" id="tableNumberPanel"></div>
-							<h3 class="panel-title"><Strong>Summary:</Strong></h3>
+							<h3 class="panel-title"><i class="fa fa-shopping-basket"></i> Summary</h3>
 						</div>
 						<div class="panel-body">
 							<table id="allTable" class="table table-striped">
@@ -200,10 +202,10 @@ and open the template in the editor.
 								</div>
 
 								<div class="col-xs-12 bill-controls">
-									<button type="button" id='discountSummaryButton' class="btn btn-warning pull-right">Discount</button>
-									<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCloseButton()" id='closeSummaryButton'>Pay</button>
-									<button type="button" class="btn btn-warning pull-right" onclick="onSummarySubmitButton()" id='submitSummaryButton'>Submit</button>
-									<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCancelButton()" id='cancelSummaryButton'>Cancel</button>
+									<button type="button" id='discountSummaryButton' class="btn btn-warning pull-right"><i class="fa fa-gift"></i> Discount</button>
+									<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCloseButton()" id='closeSummaryButton'><i class="fa fa-money"></i> Pay</button>
+									<button type="button" class="btn btn-warning pull-right" onclick="onSummarySubmitButton()" id='submitSummaryButton'><i class="fa fa-paper-plane-o"></i> Submit</button>
+									<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCancelButton()" id='cancelSummaryButton'><i class="fa fa-trash-o"></i> Cancel</button>
 								</div>
 							</div>
 						</div>

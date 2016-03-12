@@ -25,7 +25,7 @@ function refreshTables() {
                         .tooltip({'placement': 'top'})
                         .attr('server-id', table.serverId)
                         .attr('table-id', table.id)
-                        .addClass('btn btn-success').css('text-align', 'center');
+                        .addClass('btn btn-square').css('text-align', 'center');
                 $node.click(activeTableSelected);
 
                 var tempServerId = table.serverId;
@@ -38,7 +38,7 @@ function refreshTables() {
             } else {
                 var $node = $('<li />').html(tableNum)
                         .attr('table-id', tableNum)
-                        .addClass('btn');
+                        .addClass('btn btn-square');
                 $node.click(addTablePopup);
                 $('.all-tables-list').append($node);
             }
@@ -86,7 +86,7 @@ function addTablePopup(event) {
     var $target = $(event.target);
     var tableId = $target.attr('table-id');
     $('#tableNumber').html(tableId);
-    $target.css("background-color", "#767676");
+    $target.addClass('popup-open');
     $('#serverIdInput').val(getUrlParameter("employeeId"));
 }
 
@@ -124,7 +124,7 @@ function onClosePopup() {
 }
 
 function refreshTableColors() {
-    $('.all-tables-list').children('li').css("background-color", "#aab2bd");
+    $('.all-tables-list').children('li').removeClass('popup-open');
 }
 
 function onAddTableClick() {
