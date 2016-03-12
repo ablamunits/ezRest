@@ -188,7 +188,6 @@ and open the template in the editor.
 								<div class="col-xs-4">
 									<h4 id="sumBillSummary"></h4>
 								</div>
-
 								<div class="col-xs-8">
 									<div id="discountWrapper">
 										<div class="input-group">
@@ -200,13 +199,16 @@ and open the template in the editor.
 										</div><!-- /input-group -->
 									</div>
 								</div>
-
-								<div class="col-xs-12 bill-controls">
-									<button type="button" id='discountSummaryButton' class="btn btn-warning pull-right"><i class="fa fa-gift"></i> Discount</button>
-									<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCloseButton()" id='closeSummaryButton'><i class="fa fa-money"></i> Pay</button>
-									<button type="button" class="btn btn-warning pull-right" onclick="onSummarySubmitButton()" id='submitSummaryButton'><i class="fa fa-paper-plane-o"></i> Submit</button>
-									<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCancelButton()" id='cancelSummaryButton'><i class="fa fa-trash-o"></i> Cancel</button>
-								</div>
+							</div>
+							<div class="col-xs-2 bill-controls">
+								<!-- <div class="col-xs-4"> -->
+								<button type="button" class="btn btn-warning pull-right" onclick="onSummarySubmitButton()" id='submitSummaryButton'><i class="fa fa-paper-plane-o"></i> Submit</button>
+								<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCancelButton()" id='cancelSummaryButton'><i class="fa fa-trash-o"></i> Cancel</button>
+								<!-- </div> -->
+								<!-- <div class="row"> -->
+								<button type="button" id='discountSummaryButton' class="btn btn-warning pull-right"><i class="fa fa-gift"></i> Discount</button>
+								<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCloseButton()" id='closeSummaryButton'><i class="fa fa-money"></i> Pay</button>
+								<!-- </div> -->
 							</div>
 						</div>
 

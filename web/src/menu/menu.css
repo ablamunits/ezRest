@@ -52,7 +52,8 @@ and open the template in the editor.
 
 .panel-footer{
 	padding: 5px 0 0 0 !important;
-    height: 230px;
+  min-height: 230px;
+	position: relative;
 }
 
 .panel.panel-summary .panel-heading {
@@ -183,10 +184,17 @@ and open the template in the editor.
 .bill-controls {
 	margin-top: -20px;
 	display: flex;
+	position: absolute;
+	bottom: 3px;
+	width: 100%;
 }
 
 .bill-controls button {
-	margin-top: 10px;
+	font-size: 12px;
+	flex-grow: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-wrap: break-word;
 	background-color: #5CB4FF;
 	border-color: #5CB4FF;
 }
