@@ -44,7 +44,6 @@ $(document).ready(function () {
 
     AuthService.authState(function (responseObject) {
         authObject = responseObject;
-
         //     EmployeeService.getEmployeeById(authObject.employeeId, function(responseObject) {
         var tempId = 1;
         EmployeeService.getEmployeeById(tempId, function (responseObject) {
@@ -93,10 +92,6 @@ function handleAuthorizedActions(actions) {
         $editEmployeePanel.addClass('unauthorized');
     }
 
-    if (actions.ADD_PRODUCT) {
-        // TODO
-    }
-
     if (!actions.EDIT_MENU) {
         var $editMenuPanel = $('.edit-menu-wrapper');
         $editMenuPanel.addClass('unauthorized');
@@ -124,6 +119,12 @@ function displayInfo() {
         $('.select-vip').append(option);
     });
     $('.select-vip').selecter();
+
+		$.each(allPermissions, function (idx, permission) {
+				var option = $('<option>').attr('value', idx).attr('permission-id', permission.permissionId).text(permission.title);
+				$('.select-permission').append(option);
+		});
+		$('.select-permission').selecter();
 
     $('.user-name').text(employeeObject.firstName + ' ' + employeeObject.lastName);
     $('.user-age').text(employeeObject.age);
@@ -248,6 +249,20 @@ function newVipClick() {
     showVipHandle();
 }
 
+function newPermissionClick() {
+    $('.permission-input .permission-title').text('Add a new permission');
+    $('#permission-save-button').unbind().click(submitNewPermission);
+
+		// TODO: Checkboxes get
+
+    hideContentPermissions();
+    showPermissionInputs();
+}
+
+function submitNewPermission() {
+	// TODO;
+}
+
 function isValidBirthDay(birthday) {
     return moment(birthday, 'YYYY-MM-DD', true).isValid();
 }
@@ -288,6 +303,24 @@ function editVipClick() {
     showVipHandle();
 }
 
+function editPermissionClick() {
+    $('.permission-input .permission-title').text('Edit Permission');
+    $('#permission-save-button').unbind().click(submitEditedPermission);
+    var permissionId = parseInt($('.select-permission option:selected').attr('permission-id'));
+
+		PermissionService.getPermissionById(permissionId, function (permissionObject) {
+			var $permissionCheckboxes = $('.permission-input input[type="checkbox"]').prop('checked', false);
+			$.each(permissionObject.authorizedActions, function (idx, action) {
+					$permissionCheckboxes.filter(function(idx, check) {
+						return $(check).attr('value') === action;
+					}).prop('checked', true);
+	    });
+		});
+
+    hideContentPermissions();
+    showPermissionInputs();
+}
+
 function submitEditedVip() {
     var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
     var vipObject = $.extend(vipFromForm(), {id: vipId});
@@ -303,8 +336,11 @@ function submitEditedVip() {
             displaySuccessAndRefresh('Great!', 'Vip ' + vipObject.firstName + ' ' + vipObject.lastName + ' was updated!');
         }
     });
-}
-;
+};
+
+function submitEditedPermission() {
+
+};
 
 function deleteVipClick() {
     var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
@@ -322,9 +358,23 @@ function closeVip() {
     $('.content-vip').slideDown();
 }
 
+function closePermission() {
+    $('.permission-input').slideUp();
+    $('.permission-content').slideDown();
+}
+
 function hideContentVip() {
     $('.content-vip').slideUp();
 }
+
+function hideContentPermissions() {
+    $('.permission-content').slideUp();
+}
+
+function showPermissionInputs() {
+	$('.permission-input').slideDown();
+}
+
 
 function showVipHandle() {
     $('.handle-vip').slideDown();
@@ -563,7 +613,7 @@ function closeEverything() {
     $('.edit-item').slideUp();
     $('.edit-category').slideUp();
     $('.overview-wrapper').slideUp();
-    
+
     showEditMenuMain();
 }
 
