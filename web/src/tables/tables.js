@@ -87,7 +87,6 @@ function addTablePopup(event) {
     var tableId = $target.attr('table-id');
     $('#tableNumber').html(tableId);
     $target.addClass('popup-open');
-    $('#serverIdInput').val(getUrlParameter("employeeId"));
 }
 
 function adjustPopup(event) {
@@ -130,16 +129,15 @@ function refreshTableColors() {
 function onAddTableClick() {
     var numOfGuests = $('#numOfGuestsInput').val();
     var description = $('#descriptionText').val() || "";
-    var serverId = $('#serverIdInput').val();
     var tableId = $('#tableNumber').text();
-    var validFields = validateFields(numOfGuests, serverId);
+    var validFields = validateFields(numOfGuests);
 
     if (validFields === true) {
         TablesService.addNewTable({
             description: description,
             id: tableId,
             numOfGuests: numOfGuests,
-            serverId: serverId,
+            serverId: employeeId,
             discount: 0
         },
                 function (response) {
@@ -159,17 +157,12 @@ function onAddTableClick() {
     }
 }
 
-function validateFields(numOfGuests, serverId) {
+function validateFields(numOfGuests) {
     var validFields = true;
 
     if (numOfGuests === "") {
         $('#numOfGuestsInput').css("border-color", "red");
         $('#numOfGuestsInput').attr("placeholder", "Mandatory Field");
-        validFields = false;
-    }
-    if (serverId === "") {
-        $('#serverIdInput').css("border-color", "red");
-        $('#serverIdInput').attr("placeholder", "Mandatory Field");
         validFields = false;
     }
 
@@ -180,10 +173,6 @@ function refreshPopup() {
     $('#numOfGuestsInput').val("");
     $('#numOfGuestsInput').attr("placeholder", "Number of Guests");
     $('#numOfGuestsInput').css("border-color", "");
-
-    $('#serverIdInput').val("");
-    $('#serverIdInput').attr("placeholder", employeeId);
-    $('#serverIdInput').css("border-color", "");
 
     $('#descriptionText').val("");
 }

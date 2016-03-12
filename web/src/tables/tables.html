@@ -81,33 +81,33 @@ and open the template in the editor.-->
 
             <div class="modal-content addTable" id="addTablePopup" aria-hidden="true">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Table
+                    <h4 class="modal-title">New Table
                         <span class="label label-default pull-right" id="tableNumber"></span>
                     </h4>
 
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-xs-6">
+                        <!-- <div class="col-xs-6">
                             <label>Server Id</label>
-                            <input min='1' type="number" class="form-control" placeholder="Server Id" id="serverIdInput">
-                        </div>
+                            <input min="1" type="number" class="form-control" placeholder="Server Id" id="serverIdInput">
+                        </div> -->
                         <div class="col-xs-6">
                             <label>Number Of Guests</label>
-                            <input min='1' type="number" class="form-control" placeholder="Number of Guests" id="numOfGuestsInput">
+                            <input min="1" value="1" type="number" class="form-control" placeholder="Number of Guests" id="numOfGuestsInput">
                         </div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-xs-12">
                             <label>Description</label>
-                            <textarea class="form-control" rows="3" id="descriptionText"></textarea>
+                            <textarea placeholder="Enter a few words to describe your guests" class="form-control" rows="3" id="descriptionText"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal-content" onclick="onClosePopup()">Close</button>
-                    <button type="button" class="btn btn-success" onclick="onAddTableClick()">Add</button>
+                    <a data-dismiss="modal-content" onclick="onClosePopup()" class="small">Close</a>
+                    <button type="button" class="btn btn-primary" onclick="onAddTableClick()">Add</button>
                 </div>
             </div>
         </div>

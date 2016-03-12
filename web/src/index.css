@@ -17,6 +17,15 @@ a {
 	font-weight: 300;
 }
 
+textarea.form-control ,input.form-control {
+	border-radius: 0;
+	border: 1px solid #e2e2e2;
+}
+
+textarea {
+	resize: none;
+}
+
 .header {
 	width: 100%;
 	padding: 20px;
