@@ -83,11 +83,18 @@ function employeeFromListSelected(event) {
 }
 
 function managerAccessOpen(event) {
-    $('.login-container').fadeIn();
+	var $loginModal =  $('.login-container');
+	$loginModal.find('button.cancel').click(function () {
+		$loginModal.hide();
+	});
+
+	$loginModal.fadeIn();
 }
 ;
 
 function authenticateUser() {
+		$('.login-form').hide();
+
     $('.alert.login').hide();
     $('.login-pending').show();
 

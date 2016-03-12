@@ -27,6 +27,15 @@ body {
 	display: inline;
 }
 
+.modal {
+	color: #00496a;
+  background-color: rgba(2, 22, 13, 0.82)
+}
+
+.modal button {
+	margin-bottom: 5px;
+}
+
 .header-button {
 	top: 14px;
 	right: 11px;
@@ -74,6 +83,13 @@ ul.all-employees-list li {
 
 .login-container {
 	display: none;
+}
+
+.login-container i.fa {
+	width: 100%;
+	text-align: center;
+	margin-bottom: 5px;
+	text-shadow: rgba(59, 175, 218, 0.48) 2px 1px 1px
 }
 
 .alert {

@@ -29,6 +29,7 @@
     <body>
 			<div class="header main-header">
 				<p class="title">EzRest<span class="title-light"> | Homepage<span></p>
+					<button class="btn btn-primary manager-btn header-button" onclick="managerAccessOpen(event)">Manager Access</button>
 			</div>
       <div class="content-wrapper">
         <div>
@@ -48,13 +49,42 @@
           </ul>
         </div>
 
-        <div class="col-md-2">
-          <button class="btn btn-primary" onclick="managerAccessOpen(event)">Manager Access</button>
-        </div>
+        <!-- <div class="col-md-2">
+        </div> -->
 
-        <div class="login-container">
-          <div class="row">
-            <!-- <div class="login-container"> -->
+        <div class="modal login-container">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<p class="title">Manager Login<span class="title-light"> | Access your personal information and settings</span></p>
+							</div>
+							<div class="modal-body">
+								<div class="login-form">
+									<input type="text" class="form-control login email" placeholder="Employee email"/>
+									<br>
+									<input type="password" class="form-control login password" placeholder="Employee password"/>
+									<br>
+									<button class="btn btn-primary login login-button" onclick="authenticateUser()">Login</button>
+									<button type="button" class="btn btn-default cancel">Cancel</button>
+								</div>
+
+								<div class="alert login login-pending">
+									<i class="fa fa-spinner fa-spin fa-4x fa-align-center"></i>
+									<p><strong> Verifying info...</strong> Hold tight.</p>
+								</div>
+								<div class="alert login login-failed">
+									<i class="fa fa-frown-o fa-4x fa-align-center"></i>
+									<p><strong> Oops!</strong> Failed to log in with the supplied info. Please <a click="loginAgain()">try again</a> or contact a manager.</p>
+								</div>
+								<div class="alert login login-success">
+									<i class="fa fa-check fa-4x fa-align-center"></i>
+									<strong> Great! </strong>
+								</div>
+							</div>
+						</div>
+					</div>
+
+          <!-- <div class="row">
               <div class="col-md-3">
                 <input type="text" class="form-control login email" placeholder="Employee email"/>
               </div>
@@ -64,7 +94,6 @@
               <div class="col-md-3">
                 <button class="btn btn-success login login-button" onclick="authenticateUser()">Login</button>
               </div>
-            <!-- </div> -->
           </div>
           <br>
           <div class="alert alert-warning login login-pending">
@@ -75,7 +104,7 @@
           </div>
           <div class="alert alert-success login login-success">
             <i class="fa fa-check"></i><strong> Great! </strong>
-          </div>
+          </div> -->
         </div>
       </div>
     </body>
