@@ -556,17 +556,10 @@ function onSummaryCloseButton() {
                                             TablesService.deleteTableById(tableId, function (response) {
                                                 if (response === undefined)
                                                 {
-//                                                    var orderItemsToUpdate = getOrderItems();
-//                                                    OrdersService.makeOrder(tableId, orderItemsToUpdate,
-//                                                            function (response) {
-//                                                                if (response === undefined)
-//                                                                {
-                                                                    $('.alert.login').hide();
-                                                                    $('.alert.login-success').show();
-                                                                    refreshGlobal();
-                                                                    setTimeout(closeTableAnimation, 1500);
-//                                                                }
-//                                                            });
+                                                    $('.alert.login').hide();
+                                                    $('.alert.login-success').show();
+                                                    refreshGlobal();
+                                                    setTimeout(closeTableAnimation, 1500);
                                                 } else {
                                                     $('.alert.login').hide();
                                                     $('.alert.login-failed').show();
@@ -585,16 +578,6 @@ function onSummaryCloseButton() {
         });
     });
     $('#billModalBody').empty();
-}
-
-function getOrderItems(){
-    var ordersItemsList = [];
-    
-    $.each(overAllTableOrders.Array, function(idx, order){
-       ordersItemsList.push({'itemId': order.itemId, 'quantity': order.quantity*-1});
-    });
-    
-    return ordersItemsList;
 }
 
 function closeTableAnimation() {
