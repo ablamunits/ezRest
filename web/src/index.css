@@ -5,6 +5,10 @@ body {
 	color: #00496a;
 }
 
+a {
+	cursor: pointer;
+}
+
 .title {
 	font-weight: 700;
 }
@@ -34,6 +38,11 @@ body {
 
 .modal button {
 	margin-bottom: 5px;
+}
+
+.modal .link-center {
+	width: 100%;
+	text-align: center;
 }
 
 .header-button {

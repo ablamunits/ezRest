@@ -60,21 +60,24 @@
 							</div>
 							<div class="modal-body">
 								<div class="login-form">
+									Employee Email:
 									<input type="text" class="form-control login email" placeholder="Employee email"/>
 									<br>
+									Employee Password:
 									<input type="password" class="form-control login password" placeholder="Employee password"/>
 									<br>
 									<button class="btn btn-primary login login-button" onclick="authenticateUser()">Login</button>
-									<button type="button" class="btn btn-default cancel">Cancel</button>
+									<a class="cancel small">Cancel</a>
 								</div>
 
 								<div class="alert login login-pending">
-									<i class="fa fa-spinner fa-spin fa-4x fa-align-center"></i>
+									<i class="fa fa-spinner fa-spin fa-4x"></i>
 									<p><strong> Verifying info...</strong> Hold tight.</p>
 								</div>
 								<div class="alert login login-failed">
-									<i class="fa fa-frown-o fa-4x fa-align-center"></i>
-									<p><strong> Oops!</strong> Failed to log in with the supplied info. Please <a click="loginAgain()">try again</a> or contact a manager.</p>
+									<i class="fa fa-frown-o fa-4x"></i>
+									<p><strong> Oops!</strong> Failed to log in with the supplied info. Please <a onclick="loginAgain()">try again</a> or contact a manager.</p>
+									<p class="link-center"><a class="cancel small">Close me.</a></p>
 								</div>
 								<div class="alert login login-success">
 									<i class="fa fa-check fa-4x fa-align-center"></i>
