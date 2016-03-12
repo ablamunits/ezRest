@@ -62,10 +62,7 @@ public class SqlMenuCategoryDao implements MenuCategoryDao {
 
     @Override
     public void deleteMenuCategoryById(int catId) {
-        //TODO:
-        //Manager wants to delete Menu Category - assuming every menu category has children
-        //of another categories or menu items, we will need to delete them also.
-        //*assuming we will need to loop by all the children and delete.
+        MySqlUtils.updateQuery("DELETE FROM MenuCategories WHERE Cat_id = " + catId);
     }
 
     @Override

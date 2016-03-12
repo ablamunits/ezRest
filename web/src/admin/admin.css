@@ -89,3 +89,28 @@ input {
 	text-align: center;
 	height: 50px;
 }
+
+.edit-item {
+    display: none;
+}
+
+.edit-category {
+    display: none;
+}
+
+.overview-wrapper{
+    display: none;
+}
+
+.total-income{
+        text-align: end;
+}
+
+.overview-text-line1{
+        text-align: start;
+}
+
+.overview-text-line2{
+        text-align: start;
+        margin-top: -10px;
+}

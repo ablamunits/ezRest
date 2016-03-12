@@ -514,11 +514,11 @@ function onSummaryCancelButton() {
 }
 
 function readySubmit() {
-    $('#submitSummaryButton').removeClass('btn-warning').addClass('btn-danger');
+    $('#submitSummaryButton').addClass('unsaved-changes');
 }
 
 function cancelSubmit() {
-    $('#submitSummaryButton').removeClass('btn-danger').addClass('btn-warning');
+    $('#submitSummaryButton').removeClass('unsaved-changes');
 }
 
 function onSummaryCloseButton() {

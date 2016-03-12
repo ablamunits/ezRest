@@ -11,507 +11,727 @@ var allEmployees = [];
 var allPermissions = [];
 var workingHours = [];
 var allVip = [];
+var menuList = [];
+var menuItemsOverview = [];
+var moment;
 var monthArr = ['nothing', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 $(document).ready(function () {
-	$('.all-hours-table').empty();
+    moment().format();
+    $('.all-hours-table').empty();
 
-	initMonthSelecter();
+    initMonthSelecter();
 
-	MenuService.getAllCategories(function (responseObject) {
-		allCategories = responseObject;
-	});
+    MenuService.getMenuItemsOverview(function (overviewObject) {
+        menuItemsOverview = overviewObject;
+    });
 
-	EmployeeService.getAllEmployees(function (responseObject) {
-		allEmployees = responseObject;
-	});
+    MenuService.getAllCategories(function (responseObject) {
+        allCategories = responseObject;
+    });
 
-	PermissionService.getAllPermissions(function (responseObject) {
-		allPermissions = responseObject;
-	});
+    EmployeeService.getAllEmployees(function (responseObject) {
+        allEmployees = responseObject;
+    });
 
-	VipService.getAllVip(function (responseObject) {
-		allVip = responseObject;
-	});
+    PermissionService.getAllPermissions(function (responseObject) {
+        allPermissions = responseObject;
+    });
 
-	initItemSelecter();
-	initMenuItemsOptions(1);
+    VipService.getAllVip(function (responseObject) {
+        allVip = responseObject;
+    });
 
-	AuthService.authState(function (responseObject) {
-		authObject = responseObject;
+    AuthService.authState(function (responseObject) {
+        authObject = responseObject;
 
-		//     EmployeeService.getEmployeeById(authObject.employeeId, function(responseObject) {
-		var tempId = 1;
-		EmployeeService.getEmployeeById(tempId, function (responseObject) {
-			employeeObject = responseObject;
-			PermissionService.getPermissionById(employeeObject.permissionId, function (permissionResponse) {
-				authorizedActions = PermissionService.authorizedActions;
+        //     EmployeeService.getEmployeeById(authObject.employeeId, function(responseObject) {
+        var tempId = 1;
+        EmployeeService.getEmployeeById(tempId, function (responseObject) {
+            employeeObject = responseObject;
+            PermissionService.getPermissionById(employeeObject.permissionId, function (permissionResponse) {
+                authorizedActions = PermissionService.authorizedActions;
 
-				permissionTitle = permissionResponse.title;
-				$.each(permissionResponse.authorizedActions, function (index, action) {
-					authorizedActions[action] = true;
-				});
+                permissionTitle = permissionResponse.title;
+                $.each(permissionResponse.authorizedActions, function (index, action) {
+                    authorizedActions[action] = true;
+                });
 
-				handleAuthorizedActions(authorizedActions);
+                handleAuthorizedActions(authorizedActions);
 
-				EmployeeService.getEmployeeAllWorkingHours(tempId, function (hoursObject) {
-					workingHours = hoursObject;
-				});
-			});
-		});
-	});
+                EmployeeService.getEmployeeAllWorkingHours(tempId, function (hoursObject) {
+                    workingHours = hoursObject;
+                });
+            });
+        });
+    });
 
-	// Only display info after all ajax requests ended.
-	$(this).ajaxStop(function () {
-		displayInfo();
-	});
+    $('.select-category').on('change', function () {
+        initMenuItemsOptions(parseInt($('.select-category option:selected').attr('category-id')));
+    });
+
+    $('.select-item-wrapper').on('change', function () {
+        if (parseInt($('.select-category option:selected').attr('value')) !== 0) {
+            $('#edit-item-button').removeAttr('disabled');
+            $('#delete-item-button').removeAttr('disabled');
+            $('#item-report-button').removeAttr('disabled');
+        }
+    });
+
+    initMenuItemsOptions(1);
+
+    // Only display info after all ajax requests ended.
+    $(this).ajaxStop(function () {
+        displayInfo();
+    });
 });
 
 function handleAuthorizedActions(actions) {
-	// The function recieves an object with actions, and disables functionality of the page based on value.
-	if (!actions.ADD_EMPLOYEE) {
-		var $editEmployeePanel = $('.edit-employees-wrapper');
-		$editEmployeePanel.addClass('unauthorized');
-	}
+    // The function recieves an object with actions, and disables functionality of the page based on value.
+    if (!actions.ADD_EMPLOYEE) {
+        var $editEmployeePanel = $('.edit-employees-wrapper');
+        $editEmployeePanel.addClass('unauthorized');
+    }
 
-	if (actions.ADD_PRODUCT) {
-		// TODO
-	}
+    if (actions.ADD_PRODUCT) {
+        // TODO
+    }
 
-	if (!actions.EDIT_MENU) {
-		var $editMenuPanel = $('.edit-menu-wrapper');
-		$editMenuPanel.addClass('unauthorized');
-	}
+    if (!actions.EDIT_MENU) {
+        var $editMenuPanel = $('.edit-menu-wrapper');
+        $editMenuPanel.addClass('unauthorized');
+    }
 }
 
 function displayInfo() {
-	$.each(allCategories, function (idx, category) {
-		var option = $('<option>').attr('value', idx).attr('category-id', category.categoryId).text(category.title === 'DUMMY_ROOT' ? 'Root Category' : category.title);
-		$('.select-category').append(option);
-	});
-	$('.select-category').selecter();
+    $.each(allCategories, function (idx, category) {
+        var option = $('<option>').attr('value', idx)
+                .attr('category-id', category.categoryId)
+                .attr('parent-id', category.parentId)
+                .text(category.title === 'DUMMY_ROOT' ? 'Root Category' : category.title);
+        $('.select-category').append(option);
+    });
+    $('.select-category').selecter();
 
-	$.each(allEmployees, function (idx, employee) {
-		var option = $('<option>').attr('value', idx).attr('employee-id', employee.id).text(employee.firstName + ' ' + employee.lastName);
-		$('.select-employee').append(option);
-	});
-	$('.select-employee').selecter();
+    $.each(allEmployees, function (idx, employee) {
+        var option = $('<option>').attr('value', idx).attr('employee-id', employee.id).text(employee.firstName + ' ' + employee.lastName);
+        $('.select-employee').append(option);
+    });
+    $('.select-employee').selecter();
 
-	$.each(allVip, function (idx, vip) {
-		var option = $('<option>').attr('value', idx).attr('vip-id', vip.id).text(vip.firstName + ' ' + vip.lastName);
-		$('.select-vip').append(option);
-	});
-	$('.select-vip').selecter();
+    $.each(allVip, function (idx, vip) {
+        var option = $('<option>').attr('value', idx).attr('vip-id', vip.id).text(vip.firstName + ' ' + vip.lastName);
+        $('.select-vip').append(option);
+    });
+    $('.select-vip').selecter();
 
-	$('.user-name').text(employeeObject.firstName + ' ' + employeeObject.lastName);
-	$('.user-age').text(employeeObject.age);
-	$('.user-email').text(employeeObject.email);
-	$('.user-position').text(employeeObject.position);
-	$('.user-permission-title').text(permissionTitle);
+    $('.user-name').text(employeeObject.firstName + ' ' + employeeObject.lastName);
+    $('.user-age').text(employeeObject.age);
+    $('.user-email').text(employeeObject.email);
+    $('.user-position').text(employeeObject.position);
+    $('.user-permission-title').text(permissionTitle);
 
-	initWorkingHours(getCurrentMonth());
+    initWorkingHours(getCurrentMonth());
+
+    if (menuList.length === 0) {
+        initMenuItemSelect();
+        $('#edit-item-button').attr('disabled', 'disabled');
+        $('#delete-item-button').attr('disabled', 'disabled');
+        $('#item-report-button').attr('disabled', 'disabled');
+        $('.select-item').attr('disabled', 'disabled');
+    } else {
+        initMenuItemSelect();
+        $.each(menuList, function (idx, menuItem) {
+            if (!(menuItem.isCategory)) {
+                var option = $('<option>').attr('value', idx)
+                        .attr('item-id', menuItem.itemId)
+                        .attr('item-price', menuItem.price)
+                        .text(menuItem.title);
+                $('.select-item').append(option);
+            }
+        });
+    }
+    $('.select-item').selecter();
 }
 
-function initItemSelecter() {
-	$('.select-item').selecter();
-	$('.select-category').change(event, function () {
-		initMenuItemsOptions(parseInt(this.value)); //TODO
-	});
+function initMenuItemSelect() {
+    $('.select-item-wrapper').find('select').remove();
+    $('.select-item-wrapper').find('div').remove();
+    $('.select-item-wrapper').find('span').remove();
+    $('.select-item-wrapper').append($('<select>').addClass('select-item'));
+    $('.select-item').append($('<option>').attr('value', '0').text('Choose Item'));
 }
 
 function initMenuItemsOptions(categoryId) {
-	$('.select-item').empty();
-	MenuService.getMenuCategoryById(categoryId,
-		function (menuCategoryList) {
-			$.each(menuCategoryList, function (idx, menuItem) {
-				if (!(menuItem.isCategory)) {
-					var option = $('<option>').attr('value', idx).attr('item-id', menuItem.itemIid).text(menuItem.title);
-					$('.select-item').append(option);
-				}
-			});
-		});
+    menuList = [];
+    MenuService.getMenuCategoryById(categoryId,
+            function (menuCategoryList) {
+                $.each(menuCategoryList, function (idx, menuObject) {
+                    if (!(menuObject.isCategory)) {
+                        MenuService.getMenuItemById(menuObject.itemId, function (menuItem) {
+                            menuList.push({title: menuItem.title, price: menuItem.price, itemId: menuItem.itemId});
+                        });
+                    }
+                    ;
+                });
+            });
 }
 
 function initMonthSelecter() {
-	$('.select-month').selecter();
+    $('.select-month').selecter();
 
-	$('.select-month').on('change', function () {
-		initWorkingHours(parseInt(this.value));
-	});
+    $('.select-month').on('change', function () {
+        initWorkingHours(parseInt(this.value));
+    });
 }
 
 function initWorkingHours(chosenMonth) {
-	var monthPara = chosenMonth === getCurrentMonth() ? "Your work this month:" : "Your work in month " + monthArr[chosenMonth] + ":";
-	$('#month-para').text(monthPara);
-	$('.all-hours-table').empty();
-	$.each(workingHours, function (index, shift) {
+    var monthPara = chosenMonth === getCurrentMonth() ? "Your work this month:" : "Your work in month " + monthArr[chosenMonth] + ":";
+    $('#month-para').text(monthPara);
+    $('.all-hours-table').empty();
+    $.each(workingHours, function (index, shift) {
 
-		if (shift.clockInTimestamp !== undefined && shift.clockOutTimestamp !== undefined && chosenMonth === getMonthFromClockIn(shift.clockInTimestamp)) {
+        if (shift.clockInTimestamp !== undefined && shift.clockOutTimestamp !== undefined && chosenMonth === getMonthFromClockIn(shift.clockInTimestamp)) {
 
-			var $tableClockIn = $('<td>').text(shift.clockInTimestamp);
-			var $tableClockOut = $('<td>').text(shift.clockOutTimestamp);
-			var $tableDuration = $('<td>').text(getDifferenceDate(shift));
-			var $tableLine = $('<tr/>').append($tableClockIn).append($tableClockOut).append($tableDuration);
+            var $tableClockIn = $('<td>').text(shift.clockInTimestamp);
+            var $tableClockOut = $('<td>').text(shift.clockOutTimestamp);
+            var $tableDuration = $('<td>').text(getDifferenceDate(shift));
+            var $tableLine = $('<tr/>').append($tableClockIn).append($tableClockOut).append($tableDuration);
 
-			$('.all-hours-table').append($tableLine);
+            $('.all-hours-table').append($tableLine);
 
-		}
-	});
+        }
+    });
 }
 
 function getDifferenceDate(shift) {
-	var startDate = new Date(shift.clockInTimestamp);
-	var endDate = new Date(shift.clockOutTimestamp);
-	var diff = endDate - startDate;
+    var startDate = new Date(shift.clockInTimestamp);
+    var endDate = new Date(shift.clockOutTimestamp);
+    var diff = endDate - startDate;
 
-	return msToTime(diff);
+    return msToTime(diff);
 }
 
 function msToTime(duration) {
-	var milliseconds = parseInt((duration % 1000) / 100)
-	, seconds = parseInt((duration / 1000) % 60)
-	, minutes = parseInt((duration / (1000 * 60)) % 60)
-	, hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+    var milliseconds = parseInt((duration % 1000) / 100)
+            , seconds = parseInt((duration / 1000) % 60)
+            , minutes = parseInt((duration / (1000 * 60)) % 60)
+            , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
 
-	hours = (hours < 10) ? "0" + hours : hours;
-	minutes = (minutes < 10) ? "0" + minutes : minutes;
-	seconds = (seconds < 10) ? "0" + seconds : seconds;
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-	return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+    return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
 
 function getCurrentMonth() {
-	var month = new Date().getMonth();
-	return ++month;
+    var month = new Date().getMonth();
+    return ++month;
 }
 
 function getMonthFromClockIn(clockIn) {
-	var month = new Date(clockIn).getMonth();
-	return ++month;
+    var month = new Date(clockIn).getMonth();
+    return ++month;
 }
 
 function newVipClick() {
-	$('.edit-vip-wrapper .vip-title').text('Add a new VIP');
-	$('#vip-save-button').unbind().click(submitNewVip);
+    $('.edit-vip-wrapper .vip-title').text('Add a new VIP');
+    $('#vip-save-button').unbind().click(submitNewVip);
 
-	$('.handle-vip').find('input.first-name').val('');
-	$('.handle-vip').find('input.last-name').val('');
-	$('.handle-vip').find('input.email').val('');
-	$('.handle-vip').find('input.birthday').val('');
+    $('.handle-vip').find('input.first-name').val('');
+    $('.handle-vip').find('input.last-name').val('');
+    $('.handle-vip').find('input.email').val('');
+    $('.handle-vip').find('input.birthday').val('');
 
-	hideContentVip();
-	showVipHandle();
+    hideContentVip();
+    showVipHandle();
+}
+
+function isValidBirthDay(birthday) {
+    return moment(birthday, 'YYYY-MM-DD', true).isValid();
+}
+
+function isValidEmail(email) {
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return filter.test(email);
 }
 
 function submitNewVip() {
-	var vipObject = vipFromForm();
+    var vipObject = vipFromForm();
 
-	VipService.addNewVip(vipObject, function (response) {
-		displaySuccessAndRefresh('Great!', 'New vip ' + vipObject.firstName + ' ' + vipObject.lastName + ' was added!');
-	});
-};
+    if (!isValidString(vipObject.firstName) || !isValidString(vipObject.lastName) ||
+            !isValidBirthDay(vipObject.birthday) || !isValidEmail(vipObject.email)) {
+        $('.handle-vip .input-error').fadeIn();
+        return;
+    }
+
+    VipService.addNewVip(vipObject, function (response) {
+        displaySuccessAndRefresh('Great!', 'New vip ' + vipObject.firstName + ' ' + vipObject.lastName + ' was added!');
+    });
+}
+;
 
 function editVipClick() {
-	$('.edit-vip-wrapper .vip-title').text('Edit VIP');
-	$('#vip-save-button').unbind().click(submitEditedVip);
-	var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
+    $('.edit-vip-wrapper .vip-title').text('Edit VIP');
+    $('#vip-save-button').unbind().click(submitEditedVip);
+    var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
 
-	VipService.getVipById(vipId, function (vipObject) {
-		$('.handle-vip').find('input.first-name').val(vipObject.firstName);
-		$('.handle-vip').find('input.last-name').val(vipObject.lastName);
-		$('.handle-vip').find('input.email').val(vipObject.email);
-		$('.handle-vip').find('input.birthday').val(vipObject.birthday);
-	});
+    VipService.getVipById(vipId, function (vipObject) {
+        $('.handle-vip').find('input.first-name').val(vipObject.firstName);
+        $('.handle-vip').find('input.last-name').val(vipObject.lastName);
+        $('.handle-vip').find('input.email').val(vipObject.email);
+        $('.handle-vip').find('input.birthday').val(vipObject.birthday);
+    });
 
-	hideContentVip();
-	showVipHandle();
+    hideContentVip();
+    showVipHandle();
 }
 
 function submitEditedVip() {
-	var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
-	var vipObject = $.extend(vipFromForm(), {id: vipId});
+    var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
+    var vipObject = $.extend(vipFromForm(), {id: vipId});
 
-	VipService.updateVip(vipId, vipObject, function (response) {
-		if (response === undefined) {
-			displaySuccessAndRefresh('Great!', 'Vip ' + vipObject.firstName + ' ' + vipObject.lastName + ' was updated!');
-		}
-	});
-};
+    if (!isValidString(vipObject.firstName) || !isValidString(vipObject.lastName) ||
+            !isValidBirthDay(vipObject.birthday) || !isValidEmail(vipObject.email)) {
+        $('.handle-vip .input-error').fadeIn();
+        return;
+    }
+
+    VipService.updateVip(vipId, vipObject, function (response) {
+        if (response === undefined) {
+            displaySuccessAndRefresh('Great!', 'Vip ' + vipObject.firstName + ' ' + vipObject.lastName + ' was updated!');
+        }
+    });
+}
+;
 
 function deleteVipClick() {
-	var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
-	var vipName = $('.select-vip option:selected').text();
+    var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
+    var vipName = $('.select-vip option:selected').text();
 
-	VipService.deleteVip(vipId, function (response) {
-		if (response === undefined) {
-			displaySuccessAndRefresh('Alright!', 'We have deleted ' + vipName + ' for you.');
-		}
-	});
+    VipService.deleteVip(vipId, function (response) {
+        if (response === undefined) {
+            displaySuccessAndRefresh('Alright!', 'We have deleted ' + vipName + ' for you.');
+        }
+    });
 }
 
 function closeVip() {
-	$('.handle-vip').slideUp();
-	$('.content-vip').slideDown();
+    $('.handle-vip').slideUp();
+    $('.content-vip').slideDown();
 }
 
 function hideContentVip() {
-	$('.content-vip').slideUp();
+    $('.content-vip').slideUp();
 }
 
 function showVipHandle() {
-	$('.handle-vip').slideDown();
+    $('.handle-vip').slideDown();
 }
 
 // Admin: Menu edit
 var selectedCategory = {};
 function newItemClick(event) {
-	selectedCategory = {
-		id: $('.select-category option:selected').attr('category-id'),
-		title: $('.select-category option:selected').text()
-	};
+    selectedCategory = {
+        id: $('.select-category option:selected').attr('category-id'),
+        title: $('.select-category option:selected').text()
+    };
 
-	$('.selected-category').text(selectedCategory.title);
-	hideEditMenuMain();
-	showAddNewItem();
-};
+    $('.selected-category').text(selectedCategory.title);
+    hideEditMenuMain();
+    showAddNewItem();
+}
+;
 
 function showAddNewItem() {
-	$('.add-new-item').slideDown();
+    $('.add-new-item').slideDown();
 }
 
 function submitNewItem(event) {
-	var newItemTitle = $('input.item-title').val();
-	var newItemPrice = $('input.item-price').val();
+    var newItemTitle = $('input.item-title').val();
+    var newItemPrice = $('input.item-price').val();
 
-	if (!isValidString(newItemTitle) || !Number.isInteger(parseInt(newItemPrice))) {
-		$('.add-new-item .input-error').fadeIn();
-		return;
-	}
+    if (!isValidString(newItemTitle) || !Number.isInteger(parseInt(newItemPrice))) {
+        $('.add-new-item .input-error').fadeIn();
+        return;
+    }
 
-	var newItem = {
-		title: newItemTitle,
-		price: parseInt(newItemPrice),
-		categoryId: selectedCategory.id,
-		type: 'menuItem',
-		isCategory: false,
-		nextCategoryId: 0
-	}
+    var newItem = {
+        title: newItemTitle,
+        price: parseInt(newItemPrice),
+        categoryId: selectedCategory.id,
+        type: 'menuItem',
+        isCategory: false,
+        nextCategoryId: 0
+    }
 
-	MenuService.addNewItem(newItem, function (response) {
-		closeEverything();
-		displaySuccessAndRefresh('Sweet!', 'Item ' + newItem.title + ' added!');
-	});
+    MenuService.addNewItem(newItem, function (response) {
+        closeEverything();
+        displaySuccessAndRefresh('Sweet!', 'Item ' + newItem.title + ' added!');
+    });
 }
 
 function newCategoryClick(event) {
-	selectedCategory = {
-		id: $('.select-category option:selected').attr('category-id'),
-		title: $('.select-category option:selected').text()
-	};
+    selectedCategory = {
+        id: $('.select-category option:selected').attr('category-id'),
+        title: $('.select-category option:selected').text()
+    };
 
-	$('.selected-category').text(selectedCategory.title);
-	hideEditMenuMain();
-	showAddNewCategory();
-};
+    $('.selected-category').text(selectedCategory.title);
+    hideEditMenuMain();
+    showAddNewCategory();
+}
+;
 
 function showAddNewCategory() {
-	$('.add-new-category').slideDown();
+    $('.add-new-category').slideDown();
 }
 
 function submitNewCategory(event) {
-	var newCategoryTitle = $('input.item-category-title').val();
+    var newCategoryTitle = $('input.item-category-title').val();
 
-	if (!isValidString(newCategoryTitle)) {
-		$('.add-new-category .input-error').fadeIn();
-		return;
-	}
+    if (!isValidString(newCategoryTitle)) {
+        $('.add-new-category .input-error').fadeIn();
+        return;
+    }
 
-	var newCategory = {
-		title: newCategoryTitle,
-		parentId: selectedCategory.id,
-		type: 'menuCategory',
-		isCategory: true,
-	}
+    var newCategory = {
+        title: newCategoryTitle,
+        parentId: selectedCategory.id,
+        type: 'menuCategory',
+        isCategory: true,
+    }
 
-	MenuService.addNewCategory(newCategory, function (response) {
-		closeEverything();
-		displaySuccessAndRefresh('Awesome!', 'Category ' + newCategory.title + ' added!');
-	});
+    MenuService.addNewCategory(newCategory, function (response) {
+        closeEverything();
+        displaySuccessAndRefresh('Awesome!', 'Category ' + newCategory.title + ' added!');
+    });
 }
 
 function showEditMenuMain() {
-	$('.edit-menu-main').slideDown();
+    $('.edit-menu-main').slideDown();
 }
 
 function hideEditMenuMain() {
-	$('.edit-menu-main').slideUp();
+    $('.edit-menu-main').slideUp();
 }
 
 // Admin: Employees edit
 function deleteEmployeeClick(event) {
-	var employeeId = parseInt($('.select-employee option:selected').attr('employee-id'));
-	var employeeName = $('.select-employee option:selected').text();
+    var employeeId = parseInt($('.select-employee option:selected').attr('employee-id'));
+    var employeeName = $('.select-employee option:selected').text();
 
-	EmployeeService.deleteEmployee(employeeId, function (response) {
-		if (response === undefined) {
-			displaySuccessAndRefresh('Alright!', 'We have deleted ' + employeeName + ' for you.');
-		}
-	});
+    EmployeeService.deleteEmployee(employeeId, function (response) {
+        if (response === undefined) {
+            displaySuccessAndRefresh('Alright!', 'We have deleted ' + employeeName + ' for you.');
+        }
+    });
 }
 
 function editEmployeeClick(event) {
-	var employeeId = $('.select-employee option:selected').attr('employee-id');
-	var $modal = $('.update-employee-modal');
-	var $permissionSelect = $modal.find('.edit-employee-permission-select').empty();
+    var employeeId = $('.select-employee option:selected').attr('employee-id');
+    var $modal = $('.update-employee-modal');
+    var $permissionSelect = $modal.find('.edit-employee-permission-select').empty();
 
-	$.each(allPermissions, function (idx, permission) {
-		var option = $('<option>').attr('value', permission.permissionId).attr('permission-id', permission.permissionId).text(permission.title);
-		$permissionSelect.append(option);
-	});
+    $.each(allPermissions, function (idx, permission) {
+        var option = $('<option>').attr('value', permission.permissionId).attr('permission-id', permission.permissionId).text(permission.title);
+        $permissionSelect.append(option);
+    });
 
-	EmployeeService.getEmployeeById(employeeId, function (employee) {
-		$modal.find('input.first-name').val(employee.firstName);
-		$modal.find('input.last-name').val(employee.lastName);
-		$modal.find('input.email').val(employee.email);
-		$modal.find('input.password').val(employee.password);
-		$modal.find('input.age').val(employee.age);
-		$modal.find('input.position').val(employee.position);
-		$modal.find('input.city').val(employee.city);
-		$modal.find('input.address').val(employee.address);
-		$modal.find('.edit-employee-name').text(employee.firstName + ' ' + employee.lastName);
+    EmployeeService.getEmployeeById(employeeId, function (employee) {
+        $modal.find('input.first-name').val(employee.firstName);
+        $modal.find('input.last-name').val(employee.lastName);
+        $modal.find('input.email').val(employee.email);
+        $modal.find('input.password').val(employee.password);
+        $modal.find('input.age').val(employee.age);
+        $modal.find('input.position').val(employee.position);
+        $modal.find('input.city').val(employee.city);
+        $modal.find('input.address').val(employee.address);
+        $modal.find('.edit-employee-name').text(employee.firstName + ' ' + employee.lastName);
 
-		var $genderSelect = $modal.find('.edit-employee-gender-select');
-		if (employee.gender === 'MALE') {
-			$genderSelect.find('option:first-child').attr('selected', 'selected');
-		} else {
-			$genderSelect.find('option:last-child').attr('selected', 'selected');
-		}
-		$genderSelect.selecter();
+        var $genderSelect = $modal.find('.edit-employee-gender-select');
+        if (employee.gender === 'MALE') {
+            $genderSelect.find('option:first-child').attr('selected', 'selected');
+        } else {
+            $genderSelect.find('option:last-child').attr('selected', 'selected');
+        }
+        $genderSelect.selecter();
 
-		$modal.find('.edit-employee-permission-select').val(employee.permissionId);
-		$permissionSelect.selecter();
-	});
+        $modal.find('.edit-employee-permission-select').val(employee.permissionId);
+        $permissionSelect.selecter();
+    });
 
-	$modal.find('button.cancel').click(function () {
-		$modal.find('select').selecter('destroy');
-		$modal.hide();
-	});
+    $modal.find('button.cancel').click(function () {
+        $modal.find('select').selecter('destroy');
+        $modal.hide();
+    });
 
-	$modal.fadeIn('fast');
-};
+    $modal.fadeIn('fast');
+}
+;
 
 function submitEditedEmployee() {
-	var $modal = $('.update-employee-modal');
-	var employeeId = $('.select-employee option:selected').attr('employee-id');
+    var $modal = $('.update-employee-modal');
+    var employeeId = $('.select-employee option:selected').attr('employee-id');
 
-	var editedEmployee = $.extend(employeeFromModal($modal), {id: employeeId}); // Quick fix, edit not working well on server it seems.
+    var editedEmployee = $.extend(employeeFromModal($modal), {id: employeeId}); // Quick fix, edit not working well on server it seems.
 
-	EmployeeService.editEmployee(employeeId, editedEmployee, function (response) {
-		$modal.hide();
-		displaySuccessAndRefresh('Great!', 'Employee ' + editedEmployee.firstName + ' ' + editedEmployee.lastName + ' has been updated!');
-	});
-};
+    EmployeeService.editEmployee(employeeId, editedEmployee, function (response) {
+        $modal.hide();
+        displaySuccessAndRefresh('Great!', 'Employee ' + editedEmployee.firstName + ' ' + editedEmployee.lastName + ' has been updated!');
+    });
+}
+;
 
 function newEmployeeClick(event) {
-	var $modal = $('.new-employee-modal');
-	$.each(allPermissions, function (idx, permission) {
-		var option = $('<option>').attr('value', idx).attr('permission-id', permission.permissionId).text(permission.title);
-		$modal.find('.new-employee-permission-select').append(option);
-	});
-	$('select').selecter();
+    var $modal = $('.new-employee-modal');
+    $.each(allPermissions, function (idx, permission) {
+        var option = $('<option>').attr('value', idx).attr('permission-id', permission.permissionId).text(permission.title);
+        $modal.find('.new-employee-permission-select').append(option);
+    });
+    $('select').selecter();
 
-	$modal.find('button.cancel').click(function () {
-		$modal.hide();
-	});
+    $modal.find('button.cancel').click(function () {
+        $modal.hide();
+    });
 
-	$modal.show();
-};
+    $modal.show();
+}
+;
 
 function submitNewEmployee() {
-	var $modal = $('.new-employee-modal');
-	var newEmployee = employeeFromModal($modal);
+    var $modal = $('.new-employee-modal');
+    var newEmployee = employeeFromModal($modal);
 
-	EmployeeService.addNewEmployee(newEmployee, function (response) {
-		$modal.hide();
-		displaySuccessAndRefresh('Great!', 'Employee ' + newEmployee.firstName + ' ' + newEmployee.lastName + ' added!');
-	});
+    EmployeeService.addNewEmployee(newEmployee, function (response) {
+        $modal.hide();
+        displaySuccessAndRefresh('Great!', 'Employee ' + newEmployee.firstName + ' ' + newEmployee.lastName + ' added!');
+    });
 }
 
 // Admin: Utils for this section
 function vipFromForm() {
-	var firstName = $('.handle-vip').find('input.first-name').val();
-	var lastName = $('.handle-vip').find('input.last-name').val();
-	var email = $('.handle-vip').find('input.email').val();
-	var birthday = $('.handle-vip').find('input.birthday').val();
+    var firstName = $('.handle-vip').find('input.first-name').val();
+    var lastName = $('.handle-vip').find('input.last-name').val();
+    var email = $('.handle-vip').find('input.email').val();
+    var birthday = $('.handle-vip').find('input.birthday').val();
 
-	return {
-		firstName: firstName,
-		lastName: lastName,
-		birthday: birthday,
-		email: email
-	};
-};
+    return {
+        firstName: firstName,
+        lastName: lastName,
+        birthday: birthday,
+        email: email
+    };
+}
+;
 
 function employeeFromModal($modal) {
-	var firstName = $modal.find('input.first-name').val();
-	var lastName = $modal.find('input.last-name').val();
-	var email = $modal.find('input.email').val();
-	var password = $modal.find('input.password').val();
-	var age = parseInt($modal.find('input.age').val());
-	var position = $modal.find('input.position').val();
-	var gender = $modal.find('.new-employee-gender-select option:selected').attr('value');
-	var permissionId = parseInt($modal.find('.new-employee-permission-select option:selected').attr('permission-id'));
-	var city = $modal.find('input.city').val();
-	var address = $modal.find('input.address').val();
+    var firstName = $modal.find('input.first-name').val();
+    var lastName = $modal.find('input.last-name').val();
+    var email = $modal.find('input.email').val();
+    var password = $modal.find('input.password').val();
+    var age = parseInt($modal.find('input.age').val());
+    var position = $modal.find('input.position').val();
+    var gender = $modal.find('.new-employee-gender-select option:selected').attr('value');
+    var permissionId = parseInt($modal.find('.new-employee-permission-select option:selected').attr('permission-id'));
+    var city = $modal.find('input.city').val();
+    var address = $modal.find('input.address').val();
 
-	var newEmployee = {
-		firstName: firstName,
-		lastName: lastName,
-		age: age,
-		email: email,
-		password: password,
-		gender: gender,
-		position: position,
-		permissionId: permissionId,
-		city: city,
-		address: address
-	};
+    var newEmployee = {
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+        email: email,
+        password: password,
+        gender: gender,
+        position: position,
+        permissionId: permissionId,
+        city: city,
+        address: address
+    };
 
-	return newEmployee;
+    return newEmployee;
 }
 
 function closeEverything() {
-	$('.modal').hide();
+    $('.modal').hide();
 
-	$('.add-new-item').slideUp();
-	$('.add-new-category').slideUp();
+    $('.add-new-item').slideUp();
+    $('.add-new-category').slideUp();
 
-	showEditMenuMain();
+    $('.edit-item').slideUp();
+    $('.edit-category').slideUp();
+    $('.overview-wrapper').slideUp();
+    
+    showEditMenuMain();
 }
 
 function displaySuccessAndRefresh(strongText, regularText) {
-	$('.alert.data-submit-ok p').empty().append('<strong>' + strongText + '</strong> ' + regularText);
-	$('.alert.data-submit-ok').show();
-	$('body').scrollTo('.alert.data-submit-ok');
+    $('.alert.data-submit-ok p').empty().append('<strong>' + strongText + '</strong> ' + regularText);
+    $('.alert.data-submit-ok').show();
+    $('body').scrollTo('.alert.data-submit-ok');
 
-	setTimeout(function () {
-		location.reload();
-	}, 2000);
+    setTimeout(function () {
+        location.reload();
+    }, 2000);
 }
 
 function logoutUser() {
-	AuthService.logout(function (response) {
-		if (response === undefined) {
-			employeeObject = null;
-			authorizedActions = null;
-			authObject = null;
-			permissionTitle = null;
-			allCategories = [];
-			allEmployees = [];
-			allPermissions = [];
-			workingHours = [];
+    AuthService.logout(function (response) {
+        if (response === undefined) {
+            employeeObject = null;
+            authorizedActions = null;
+            authObject = null;
+            permissionTitle = null;
+            allCategories = [];
+            allEmployees = [];
+            allPermissions = [];
+            workingHours = [];
 
-			window.location.href = '../index.html';
-		}
-	});
+            window.location.href = '../index.html';
+        }
+    });
+}
+
+function editItemClick(event) {
+    selectedCategory = {
+        id: parseInt($('.select-category option:selected').attr('category-id'))
+    };
+
+    var selectedItem = {
+        price: $('.select-item option:selected').attr('item-price'),
+        title: $('.select-item option:selected').text()
+    };
+
+    $('.edit-selected-item').text(selectedItem.title);
+    $('.edit-item-title').val(selectedItem.title);
+    $('.edit-item-price').val(selectedItem.price);
+    hideEditMenuMain();
+    showEditItem();
+}
+
+function editCategoryClick(event) {
+    selectedCategory = {
+        id: $('.select-category option:selected').attr('category-id'),
+        parentId: $('.select-category option:selected').attr('parent-id'),
+        title: $('.select-category option:selected').text()
+    };
+
+    $('.edit-selected-category').text(selectedCategory.title);
+    $('.edit-category-title').val(selectedCategory.title);
+    hideEditMenuMain();
+    showEditCategory();
+}
+
+function showEditCategory() {
+    $('.edit-category').slideDown();
+}
+
+function showEditItem() {
+    $('.edit-item').slideDown();
+}
+
+function submitEditCategory(event) {
+    var editCategoryTitle = $('input.edit-category-title').val();
+
+    if (!isValidString(editCategoryTitle)) {
+        $('.edit-category .input-error').fadeIn();
+        return;
+    }
+
+    var editedCategory = {
+        title: editCategoryTitle,
+        parentId: parseInt(selectedCategory.parentId),
+        categoryId: parseInt(selectedCategory.id),
+        type: 'menuCategory',
+        isCategory: true
+    };
+
+    MenuService.updateCategory(editedCategory.categoryId, editedCategory, function (response) {
+        closeEverything();
+        displaySuccessAndRefresh('Awesome!', 'Category ' + editedCategory.title + ' Updated!');
+    });
+}
+
+function submitEditItem(event) {
+    var editItemTitle = $('input.edit-item-title').val();
+    var editItemPrice = $('input.edit-item-price').val();
+    var editItemId = parseInt($('.select-item option:selected').attr('item-id'));
+
+    if (!isValidString(editItemTitle) || !Number.isInteger(parseInt(editItemPrice))) {
+        $('.edit-item .input-error').fadeIn();
+        return;
+    }
+
+    var editedItem = {
+        title: editItemTitle,
+        price: parseInt(editItemPrice),
+        categoryId: selectedCategory.id,
+        type: 'menuItem',
+        isCategory: false,
+        nextCategoryId: 0,
+        itemId: editItemId
+    };
+
+    MenuService.updateItem(editItemId, editedItem, function (response) {
+        closeEverything();
+        displaySuccessAndRefresh('Sweet!', 'Item ' + editedItem.title + ' Updated!');
+    });
+}
+
+function deleteItemClick(event) {
+    var itemId = parseInt($('.select-item option:selected').attr('item-id'));
+    var itemName = $('.select-item option:selected').text();
+
+    MenuService.deleteMenuItem(itemId, function (response) {
+        if (response === undefined) {
+            displaySuccessAndRefresh('Alright!', 'We have deleted ' + itemName + ' for you.');
+        }
+    });
+}
+
+function deleteCategoryClick(event) {
+    var categoryId = parseInt($('.select-category option:selected').attr('category-id'));
+    var categoryName = $('.select-category option:selected').text();
+
+    MenuService.getMenuCategoryById(categoryId, function (menuCategoryList) {
+        if (menuCategoryList.length === 0) {
+            MenuService.deleteCategoryById(categoryId, function (response) {
+                if (response === undefined) {
+                    displaySuccessAndRefresh('Alright!', 'We have deleted ' + categoryName + ' for you.');
+                }
+            });
+        } else {
+            $('.edit-menu-wrapper .delete-category-error').fadeIn();
+            setTimeout(function () {
+                $('.edit-menu-wrapper .delete-category-error').fadeOut();
+            }, 3000);
+        }
+    });
+}
+
+function overviewClick(event) {
+    var selectedItem = {
+        price: $('.select-item option:selected').attr('item-price'),
+        title: $('.select-item option:selected').text(),
+        id: parseInt($('.select-item option:selected').attr('item-id'))
+    };
+
+    $.each(menuItemsOverview, function (idx, overview) {
+        if (overview.itemId === selectedItem.id) {
+            $('.overview-title').text(selectedItem.title);
+            $('.tables-amount-overview').text(overview.numOfTables);
+            $('.quantity-overview').text(overview.quantity);
+            $('.price-overview').text(selectedItem.price  + '$');
+            $('.overall-price-overview').text(selectedItem.price * overview.quantity + '$');
+        }
+    });
+
+    hideEditMenuMain();
+    showItemReport();
+}
+
+function showItemReport(){
+    $('.overview-wrapper').slideDown();
 }
