@@ -73,7 +73,6 @@ input {
 
 .unauthorized {
 	pointer-events: none;
-	/*opacity: .2;*/
 	-webkit-filter: grayscale(100%);
 	opacity: .4;
 }

@@ -74,6 +74,23 @@ textarea {
 	/*top: 30px;*/
 }
 
+.panel.unauthorized {
+	pointer-events: none;
+	opacity: .2;
+}
+
+.panel.unauthorized::before{
+	color: black;
+	font-size: 21px;
+	margin-top: 5px;
+	content: 'No Permission';
+	position: absolute;
+	display: block;
+	width: 100%;
+	text-align: center;
+	height: 50px;
+}
+
 button {
 	padding: 5px;
 	margin: 3px;

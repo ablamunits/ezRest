@@ -157,13 +157,23 @@ $(document).ready(function () {
                 $("#tableId").attr('title', tableId);
                 $('[data-toggle="tooltip"]').tooltip();
 
+								console.log(employeeObject);
+
                 PermissionService.getPermissionById(employeeObject.permissionId, function (permissionResponse) {
                     employeePermissions = PermissionService.authorizedActions;
                     $.each(permissionResponse.authorizedActions, function (index, action) {
                         employeePermissions[action] = true;
                     });
 
-                    initPermissionDiscount();
+										if (employeePermissions['ADD_DISCOUNT'] === false) {
+											$('#discountSummaryButton').addClass('disabled');
+										};
+
+										if (employeePermissions['ADD_PRODUCT'] === false) {
+											$('.summary-wrapper .panel-footer').addClass('unauthorized');
+											$('.menu-category-list-wrapper').addClass('unauthorized');
+											$('.menu-item-list-wrapper').addClass('unauthorized');
+										}
                 });
             });
 
@@ -189,19 +199,6 @@ $(document).ready(function () {
     refreshMainMenu();
     refreshSummaryPanel();
 });
-
-function initPermissionDiscount() {
-    $("#discountSummaryButton").click(function () {
-
-        if (employeePermissions['ADD_DISCOUNT'] === true){
-            $("#discountWrapper").slideToggle("slow");
-        }
-        else{
-            alertMechanism.Error("You don't have permission to add discount");
-        }
-    });
-}
-
 
 function refreshSummaryPanel() {
     overAllTableOrders.Array = [];
@@ -592,7 +589,7 @@ function closeTableAnimation() {
 function onClockOutClick() {
     $('#modalTitle').text('Are you sure you want to Clock Out?');
     $("#confirmModal").modal('show').one('click', '#yesConfirm', function (e) {
-        var tempEmployeeId = parseInt(employeeId);
+        var tempEmployeeId = parseInt(employeeObject.id);
         EmployeeService.deleteActiveEmployee(tempEmployeeId, function (response) {
             if (response === undefined) {
                 EmployeeService.clockOut(tempEmployeeId, function (response) {
@@ -615,15 +612,17 @@ function onClockOutClick() {
     });
 }
 
-function onDiscountAddButton() {
+function onDiscountOpen() {
+		$('#discountWrapper').slideToggle('slow');
+}
 
+function onDiscountAddButton() {
     var discountAmount = parseInt($('#discountAddInput').val());
     sumBill -= discountAmount;
     totalDiscount += discountAmount;
     updateSum();
     tableInfoEdit = true;
     readySubmit();
-
 }
 
 function updateSum() {

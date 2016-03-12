@@ -58,8 +58,8 @@ and open the template in the editor.
 							<h4 class="modal-title" id="modalTitle">Are you sure?</h4>
 						</div>
 						<div class="modal-footer">
-							<button type="button" data-dismiss="modal" class="btn btn-warning" id="yesConfirm">Yes</button>
-							<button type="button" data-dismiss="modal" class="btn">No</button>
+							<button type="button" data-dismiss="modal" class="btn btn-primary" id="yesConfirm">Yes</button>
+							<button type="button" data-dismiss="modal" class="btn btn-default">No</button>
 						</div>
 					</div>
 				</div>
@@ -191,7 +191,7 @@ and open the template in the editor.
 										<div class="input-group">
 											<input id='discountAddInput' class="form-control pull-right" value="0" type="number" >
 											<span class="input-group-btn">
-												<button type="button" class="btn btn-warning pull-right" style='top: -3px;' onclick="onDiscountAddButton()">Add</button>
+												<button type="button" class="btn btn-primary pull-right" style='top: -3px;' onclick="onDiscountAddButton()">Add</button>
 											</span>
 											<input class="form-control" id="totalDiscountLabel" type="text" disabled>
 										</div><!-- /input-group -->
@@ -200,12 +200,12 @@ and open the template in the editor.
 							</div>
 							<div class="col-xs-2 bill-controls">
 								<!-- <div class="col-xs-4"> -->
-								<button type="button" class="btn btn-warning pull-right" onclick="onSummarySubmitButton()" id='submitSummaryButton'><i class="fa fa-paper-plane-o"></i> Submit</button>
-								<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCancelButton()" id='cancelSummaryButton'><i class="fa fa-trash-o"></i> Cancel</button>
+								<button type="button" class="btn btn-primary pull-right" onclick="onSummarySubmitButton()" id='submitSummaryButton'><i class="fa fa-paper-plane-o"></i> Submit</button>
+								<button type="button" class="btn btn-primary pull-right" onclick="onSummaryCancelButton()" id='cancelSummaryButton'><i class="fa fa-trash-o"></i> Cancel</button>
 								<!-- </div> -->
 								<!-- <div class="row"> -->
-								<button type="button" id='discountSummaryButton' class="btn btn-warning pull-right"><i class="fa fa-gift"></i> Discount</button>
-								<button type="button" class="btn btn-warning pull-right" onclick="onSummaryCloseButton()" id='closeSummaryButton'><i class="fa fa-money"></i> Pay</button>
+								<button type="button" onclick="onDiscountOpen()" id='discountSummaryButton' class="btn btn-primary pull-right"><i class="fa fa-gift"></i> Discount</button>
+								<button type="button" class="btn btn-primary pull-right" onclick="onSummaryCloseButton()" id='closeSummaryButton'><i class="fa fa-money"></i> Pay</button>
 								<!-- </div> -->
 							</div>
 						</div>
