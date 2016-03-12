@@ -88,8 +88,8 @@ and open the template in the editor.
 						</div>
 
 						<div id='billModalFooter' class="modal-footer">
-							<button type="button" class="btn btn-warning" id='closeBill'>Close Table</button>
-							<button type="button" data-dismiss="modal" class="btn">Return To Table</button>
+							<button type="button" class="btn btn-primary" id='closeBill'>Close Table</button>
+							<button type="button" data-dismiss="modal" class="btn btn-default">Return To Table</button>
 						</div>
 					</div>
 				</div>
@@ -135,7 +135,7 @@ and open the template in the editor.
 						</ul>
 
 						<div id="menuContent" class="hidden">
-							<input type="number" min="1" id="amountPopup" class="form-control stepper-input" placeholder="Amount">
+							<input value='1' type="number" min="1" id="amountPopup" class="form-control stepper-input" placeholder="Amount">
 							<button type="button" class="btn btn-primary pull-right add">Add</button>
 						</div>
 
@@ -177,7 +177,7 @@ and open the template in the editor.
 								</div>
 								<div class="col-xs-6">
 									<label for="numOfGuests">Guests:</label>
-									<input id="numOfGuestsSummary" class="form-control input-group-lg" type="number" name="Number Of Guests"
+									<input min='1' id="numOfGuestsSummary" class="form-control input-group-lg" type="number" name="Number Of Guests"
 									placeholder="Guests">
 								</div>
 
@@ -189,7 +189,7 @@ and open the template in the editor.
 								<div class="col-xs-8">
 									<div id="discountWrapper">
 										<div class="input-group">
-											<input id='discountAddInput' class="form-control pull-right" value="0" type="number" >
+											<input id='discountAddInput' class="form-control pull-right" min='0' value="0" type="number" >
 											<span class="input-group-btn">
 												<button type="button" class="btn btn-primary pull-right" style='top: -3px;' onclick="onDiscountAddButton()">Add</button>
 											</span>

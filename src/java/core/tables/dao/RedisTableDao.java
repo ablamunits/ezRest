@@ -85,8 +85,8 @@ public class RedisTableDao implements TableDao {
     @Override
     public void deleteTableById(int id) {
         redisAccess.del("tables:" + id);
-        redisAccess.del("tables:" + id + "order");
-        redisAccess.del("tables:" + id + "servicedBy");
+        redisAccess.del("tables:" + id + ":order");
+        redisAccess.del("tables:" + id + ":servicedBy");
         redisAccess.srem("tables", String.valueOf(id));
     }
 

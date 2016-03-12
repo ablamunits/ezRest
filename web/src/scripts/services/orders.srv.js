@@ -26,13 +26,13 @@ var OrdersService = {
     },
     
     closeOrderInfo: function (orderInfo, cb){
-        doAjaxPost('orders/', orderInfo).done(function(response){
+        doAjaxPost('orders', orderInfo).done(function(response){
             cb(response);
         });
     },
     
     closeOrderItems: function (orderItemsList, cb){
-        doAjaxPost('orderItems/', orderItemsList).done(function(response){
+        doAjaxPost('orderItems', orderItemsList).done(function(response){
            cb(response); 
         });
     }

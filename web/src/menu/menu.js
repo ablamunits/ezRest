@@ -148,7 +148,6 @@ $(document).ready(function () {
 
     $("#discountWrapper").hide();
 
-
     var employeeId = getUrlParameter('employeeId');
     EmployeeService.getActiveEmployeeById(employeeId,
             function (employee) {
@@ -157,7 +156,7 @@ $(document).ready(function () {
                 $("#tableId").attr('title', tableId);
                 $('[data-toggle="tooltip"]').tooltip();
 
-								console.log(employeeObject);
+                console.log(employeeObject);
 
                 PermissionService.getPermissionById(employeeObject.permissionId, function (permissionResponse) {
                     employeePermissions = PermissionService.authorizedActions;
@@ -165,15 +164,16 @@ $(document).ready(function () {
                         employeePermissions[action] = true;
                     });
 
-										if (employeePermissions['ADD_DISCOUNT'] === false) {
-											$('#discountSummaryButton').addClass('disabled');
-										};
+                    if (employeePermissions['ADD_DISCOUNT'] === false) {
+                        $('#discountSummaryButton').addClass('disabled');
+                    }
+                    ;
 
-										if (employeePermissions['ADD_PRODUCT'] === false) {
-											$('.summary-wrapper .panel-footer').addClass('unauthorized');
-											$('.menu-category-list-wrapper').addClass('unauthorized');
-											$('.menu-item-list-wrapper').addClass('unauthorized');
-										}
+                    if (employeePermissions['ADD_PRODUCT'] === false) {
+                        $('.summary-wrapper .panel-footer').addClass('unauthorized');
+                        $('.menu-category-list-wrapper').addClass('unauthorized');
+                        $('.menu-item-list-wrapper').addClass('unauthorized');
+                    }
                 });
             });
 
@@ -355,10 +355,9 @@ function onRemoveOverAllListClick(event) {
     var itemId = parseInt($target.attr('item-id'));
     var hasPermission = false;
 
-    if (employeePermissions["CANCEL_ORDER"] === true){
+    if (employeePermissions["CANCEL_ORDER"] === true) {
         overAllTableOrders.Remove($tableLine, itemId);
-    }
-    else{
+    } else {
         alertMechanism.Error("You don't have permission for this action");
     }
 }
@@ -546,20 +545,28 @@ function onSummaryCloseButton() {
 
             OrdersService.closeOrderInfo(orderInfo,
                     function (response) {
-                        if (response !== undefined) {
+                        if (response !== undefined)
+                        {
                             var orderId = response;
                             var ordersItemsList = overAllTableOrders.GetItems(orderId);
                             OrdersService.closeOrderItems(ordersItemsList,
                                     function (response) {
-                                        if (response === undefined) {
+                                        if (response === undefined)
+                                        {
                                             TablesService.deleteTableById(tableId, function (response) {
-                                                if (response === undefined) {
-
-                                                    $('.alert.login').hide();
-                                                    $('.alert.login-success').show()
-                                                    refreshGlobal();
-                                                    setTimeout(closeTableAnimation, 1500);
-
+                                                if (response === undefined)
+                                                {
+//                                                    var orderItemsToUpdate = getOrderItems();
+//                                                    OrdersService.makeOrder(tableId, orderItemsToUpdate,
+//                                                            function (response) {
+//                                                                if (response === undefined)
+//                                                                {
+                                                                    $('.alert.login').hide();
+                                                                    $('.alert.login-success').show();
+                                                                    refreshGlobal();
+                                                                    setTimeout(closeTableAnimation, 1500);
+//                                                                }
+//                                                            });
                                                 } else {
                                                     $('.alert.login').hide();
                                                     $('.alert.login-failed').show();
@@ -578,6 +585,16 @@ function onSummaryCloseButton() {
         });
     });
     $('#billModalBody').empty();
+}
+
+function getOrderItems(){
+    var ordersItemsList = [];
+    
+    $.each(overAllTableOrders.Array, function(idx, order){
+       ordersItemsList.push({'itemId': order.itemId, 'quantity': order.quantity*-1});
+    });
+    
+    return ordersItemsList;
 }
 
 function closeTableAnimation() {
@@ -613,7 +630,7 @@ function onClockOutClick() {
 }
 
 function onDiscountOpen() {
-		$('#discountWrapper').slideToggle('slow');
+    $('#discountWrapper').slideToggle('slow');
 }
 
 function onDiscountAddButton() {
