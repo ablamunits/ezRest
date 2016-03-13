@@ -195,7 +195,7 @@ function onSubmitOrderClick() {
     $('.all-orders-table').empty();
     $.get("http://webedu3.mtacloud.co.il:8080/ezRest/api/orders/date/" + inputDate, function (idList) {
 
-        if (idList !== undefined) {
+        if (idList.data.length !== 0) {
 
             $.each(idList.data, function (idx, idString) {
                 var id = parseInt(idString);
@@ -233,8 +233,9 @@ function onSubmitOrderClick() {
                 });
             });
         } else {
-            $('.date-wrapper date-info').text(" " + inputDateString);
-            $('.date-wrapper .input-error').fadeIn();
+            $('#orders-tab .date-info').text(" " + inputDateString);
+            $('#orders-tab .input-error').fadeIn();
+            setTimeout(function(){$('#orders-tab .input-error').fadeOut()}, 3000);
         }
     });
 }
