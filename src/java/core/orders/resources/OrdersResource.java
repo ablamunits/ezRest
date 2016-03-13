@@ -7,6 +7,7 @@ package core.orders.resources;
 
 import core.orders.Order;
 import core.orders.dao.SqlOrdersDao;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import utils.StringList;
 
 /**
  *
@@ -35,6 +37,15 @@ public class OrdersResource {
         return ordersDao.getOrderById(orderId);
     }
     
+    @GET
+    @Path("/date/{date}")
+    @Produces (MediaType.APPLICATION_JSON)
+    public StringList getOrdersByDate(@PathParam("date") int date){
+        StringList idList = ordersDao.getOrdersByDate(date);
+        return idList;
+    }
+            
+            
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public int addNewOrder(Order order) {

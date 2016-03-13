@@ -1,4 +1,4 @@
-/* global EmployeeService, MenuService */
+/* global EmployeeService, MenuService, OrdersService */
 
 'use strict';
 
@@ -15,9 +15,19 @@ var menuList = [];
 var menuItemsOverview = [];
 var moment;
 var monthArr = ['nothing', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var allOrders = [];
 
 $(document).ready(function () {
+
+    initDatePicker();
+    $('.all-orders-table').empty(); 
+    
+    $('#order-tab-button').click(function(){
+        $('.all-orders-table').empty(); 
+    });
+    
     moment().format();
+
     $('.all-hours-table').empty();
 
     initMonthSelecter();
@@ -70,10 +80,13 @@ $(document).ready(function () {
     });
 
     $('.select-item-wrapper').on('change', function () {
-        if (parseInt($('.select-category option:selected').attr('value')) !== 0) {
+        if (parseInt($('.select-item-wrapper option:selected').attr('value')) !== -1) {
             $('#edit-item-button').removeAttr('disabled');
             $('#delete-item-button').removeAttr('disabled');
             $('#item-report-button').removeAttr('disabled');
+            $('#item-report-button').removeClass('disabled-icon');
+        } else if (parseInt($('.select-item-wrapper option:selected').attr('value')) === -1) {
+            disableItemSelecter();
         }
     });
 
@@ -120,11 +133,11 @@ function displayInfo() {
     });
     $('.select-vip').selecter();
 
-		$.each(allPermissions, function (idx, permission) {
-				var option = $('<option>').attr('value', idx).attr('permission-id', permission.permissionId).text(permission.title);
-				$('.select-permission').append(option);
-		});
-		$('.select-permission').selecter();
+    $.each(allPermissions, function (idx, permission) {
+        var option = $('<option>').attr('value', idx).attr('permission-id', permission.permissionId).text(permission.title);
+        $('.select-permission').append(option);
+    });
+    $('.select-permission').selecter();
 
     $('.user-name').text(employeeObject.firstName + ' ' + employeeObject.lastName);
     $('.user-age').text(employeeObject.age);
@@ -136,9 +149,7 @@ function displayInfo() {
 
     if (menuList.length === 0) {
         initMenuItemSelect();
-        $('#edit-item-button').attr('disabled', 'disabled');
-        $('#delete-item-button').attr('disabled', 'disabled');
-        $('#item-report-button').attr('disabled', 'disabled');
+        disableItemSelecter();
         $('.select-item').attr('disabled', 'disabled');
     } else {
         initMenuItemSelect();
@@ -155,12 +166,117 @@ function displayInfo() {
     $('.select-item').selecter();
 }
 
+function initDatePicker() {
+    var date_input = $('#date'); //our date input has the name "date"
+    var container = $('.orders-tab form').length > 0 ? $('.orders-tab form').parent() : "body";
+    var options = {
+        format: 'dd-mm-yyyy',
+        container: container,
+        todayHighlight: true,
+        autoclose: true
+    };
+    date_input.datepicker(options);
+}
+
+function onSubmitOrderClick() {
+    allOrders = [];
+    $('.date-wrapper .input-error').fadeOut();
+    $(document).unbind('ajaxStop');
+    var inputDateString = $('.date-wrapper input').val();
+    var day = inputDateString.substring(0, 2);
+    var month = inputDateString.substring(3, 5);
+    var year = inputDateString.substring(6, 10);
+    var inputDate = parseInt(day + month + year);
+
+    $('.all-orders-table').empty();
+    $.get("http://webedu3.mtacloud.co.il:8080/ezRest/api/orders/date/" + inputDate, function (idList) {
+
+        if (idList !== undefined) {
+
+            $.each(idList.data, function (idx, idString) {
+                var id = parseInt(idString);
+                OrdersService.getOrderById(id, function (responseOrderInfo) {
+
+                    var orderInfo = responseOrderInfo;
+
+                    EmployeeService.getEmployeeById(orderInfo.employeeId, function (employee) {
+
+                        OrdersService.getOrderItemsById(orderInfo.orderId, function (responseOrderItems) {
+
+                            var orderItems = [];
+
+                            $.each(responseOrderItems, function (idx, item) {
+                                MenuService.getMenuItemById(item.itemId, function (menuItem) {
+                                    orderItems.push({itemName: menuItem.title, quantity: item.quantity});
+
+                                    if (idx === responseOrderItems.length - 1)
+                                    {
+                                        allOrders.push({
+                                            orderDate: orderInfo.orderDate,
+                                            orderTableNum: orderInfo.tableNum,
+                                            orderEmployeeName: employee.firstName + ' ' + employee.lastName,
+                                            orderTableTotal: orderInfo.totalSum,
+                                            orderDiscount: orderInfo.discount,
+                                            orderItems: orderItems
+                                        });
+                                        displayAllOrders();
+                                        $(document).bind('ajaxStop');
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        } else {
+            $('.date-wrapper date-info').text(" " + inputDateString);
+            $('.date-wrapper .input-error').fadeIn();
+        }
+    });
+}
+
+function displayAllOrders() {
+    $.each(allOrders, function (idx, order) {
+
+        var $tableDate = $('<td/>').text(order.orderDate);
+        var $tableDiscount = $('<td/>').text(order.orderDiscount);
+        var $tableEmployeeName = $('<td/>').text(order.orderEmployeeName);
+        var $tableNum = $('<td/>').text(order.orderTableNum);
+        var $tableTotal = $('<td/>').text(order.orderTableTotal);
+
+        var $selectItems = $('<select/>').addClass('select-order-item-' + idx);
+        $selectItems.append($('<option/>').attr('value', '-1').text('Items'));
+        $.each(order.orderItems, function (idx, item) {
+            $selectItems.append($('<option/>').attr('value', '0').text(item.itemName + " | " + item.quantity));
+        });
+        var $tableItems = $('<td/>').append($selectItems);
+
+        var $table = $('<tr/>').append($tableDate)
+                .append($tableEmployeeName)
+                .append($tableNum)
+                .append($tableItems)
+                .append($tableDiscount)
+                .append($tableTotal);
+        $('.all-orders-table').append($table);
+
+        $('.select-order-item-' + idx).selecter();                                                    
+    });
+
+}
+
+function disableItemSelecter() {
+    $('#edit-item-button').attr('disabled', 'disabled');
+    $('#delete-item-button').attr('disabled', 'disabled');
+    $('#item-report-button').attr('disabled', 'disabled');
+    $('#item-report-button').addClass('disabled-icon');
+}
+
 function initMenuItemSelect() {
     $('.select-item-wrapper').find('select').remove();
     $('.select-item-wrapper').find('div').remove();
     $('.select-item-wrapper').find('span').remove();
     $('.select-item-wrapper').append($('<select>').addClass('select-item'));
-    $('.select-item').append($('<option>').attr('value', '0').text('Choose Item'));
+    $('.select-item').append($('<option>').attr('value', '-1').text('Choose Item'));
 }
 
 function initMenuItemsOptions(categoryId) {
@@ -252,15 +368,28 @@ function newVipClick() {
 function newPermissionClick() {
     $('.permission-input .permission-title').text('Add a new permission');
     $('#permission-save-button').unbind().click(submitNewPermission);
+    $('.permission-input input[type="checkbox"]').prop('checked', false);
+    $('.permission-input .input-permission-title').val("");
 
-		// TODO: Checkboxes get
-
+    $('#permission-save-button').text('Add it!');
     hideContentPermissions();
     showPermissionInputs();
 }
 
 function submitNewPermission() {
-	// TODO;
+    var title = $('.permission-input .input-permission-title').val();
+    var permissions = [];
+    $.map($('.permission-input input[type="checkbox"]:checked'), function (elem, idx) {
+        permissions.push($(elem).val());
+    });
+    var permissionObject = {authorizedActions: permissions, title: title};
+    PermissionService.addNewPermission(permissionObject, function (response) {
+        if (response === undefined) {
+            displaySuccessAndRefresh('Great!', 'New Permission ' + permissionObject.title + ' was added!');
+        } else {
+
+        }
+    });
 }
 
 function isValidBirthDay(birthday) {
@@ -304,21 +433,38 @@ function editVipClick() {
 }
 
 function editPermissionClick() {
-    $('.permission-input .permission-title').text('Edit Permission');
+    var title = $('.select-permission option:selected').text();
+    $('.permission-input .permission-title').text('Edit Permission ' + title);
     $('#permission-save-button').unbind().click(submitEditedPermission);
+    $('.permission-input .input-permission-title').val(title);
+    $('#permission-save-button').text('Save');
+
     var permissionId = parseInt($('.select-permission option:selected').attr('permission-id'));
 
-		PermissionService.getPermissionById(permissionId, function (permissionObject) {
-			var $permissionCheckboxes = $('.permission-input input[type="checkbox"]').prop('checked', false);
-			$.each(permissionObject.authorizedActions, function (idx, action) {
-					$permissionCheckboxes.filter(function(idx, check) {
-						return $(check).attr('value') === action;
-					}).prop('checked', true);
-	    });
-		});
+    PermissionService.getPermissionById(permissionId, function (permissionObject) {
+        var $permissionCheckboxes = $('.permission-input input[type="checkbox"]').prop('checked', false);
+        $.each(permissionObject.authorizedActions, function (idx, action) {
+            $permissionCheckboxes.filter(function (idx, check) {
+                return $(check).attr('value') === action;
+            }).prop('checked', true);
+        });
+    });
 
     hideContentPermissions();
     showPermissionInputs();
+}
+
+function deletePermissionClick() {
+    var permissionId = parseInt($('.select-permission option:selected').attr('permission-id'));
+    var permissonTitle = $('.select-permission option:selected').text();
+
+    PermissionService.deletePermissionById(permissionId, function (response) {
+        if (response === undefined) {
+            displaySuccessAndRefresh('Alright', 'Permission ' + permissonTitle + ' was deleted!');
+        } else {
+
+        }
+    });
 }
 
 function submitEditedVip() {
@@ -336,11 +482,26 @@ function submitEditedVip() {
             displaySuccessAndRefresh('Great!', 'Vip ' + vipObject.firstName + ' ' + vipObject.lastName + ' was updated!');
         }
     });
-};
+}
+;
 
 function submitEditedPermission() {
+    var permissionId = parseInt($('.select-permission option:selected').attr('permission-id'));
+    var title = $('.permission-input .input-permission-title').val();
+    var permissions = [];
+    $.map($('.permission-input input[type="checkbox"]:checked'), function (elem, idx) {
+        permissions.push($(elem).val());
+    }).join('');
+    var permissionObject = {authorizedActions: permissions, title: title, permissionId: permissionId};
+    PermissionService.updatePermission(permissionId, permissionObject, function (response) {
+        if (response === undefined) {
+            displaySuccessAndRefresh('Great!', 'Permission ' + permissionObject.title + ' was updated!');
+        } else {
 
-};
+        }
+    });
+}
+;
 
 function deleteVipClick() {
     var vipId = parseInt($('.select-vip option:selected').attr('vip-id'));
@@ -372,7 +533,7 @@ function hideContentPermissions() {
 }
 
 function showPermissionInputs() {
-	$('.permission-input').slideDown();
+    $('.permission-input').slideDown();
 }
 
 
@@ -773,7 +934,7 @@ function overviewClick(event) {
             $('.overview-title').text(selectedItem.title);
             $('.tables-amount-overview').text(overview.numOfTables);
             $('.quantity-overview').text(overview.quantity);
-            $('.price-overview').text(selectedItem.price  + '$');
+            $('.price-overview').text(selectedItem.price + '$');
             $('.overall-price-overview').text(selectedItem.price * overview.quantity + '$');
         }
     });
@@ -782,6 +943,6 @@ function overviewClick(event) {
     showItemReport();
 }
 
-function showItemReport(){
+function showItemReport() {
     $('.overview-wrapper').slideDown();
 }

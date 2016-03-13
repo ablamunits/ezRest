@@ -3,21 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/C:/Users/shay/Documents/ezRest/src/java/core/orderItems/resources/OrderItemsResource.java</file>
             <file>file:/C:/Users/shay/Documents/ezRest/web/src/scripts/services/tables.srv.js</file>
+            <file>file:/C:/Users/shay/Documents/ezRest/web/src/index.js</file>
+            <file>file:/C:/Users/shay/Documents/ezRest/web/src/admin/admin.js</file>
             <file>file:/C:/Users/shay/Documents/ezRest/web/src/menu/menu.js</file>
             <file>file:/C:/Users/shay/Documents/ezRest/src/java/core/tables/resources/TableResource.java</file>
             <file>file:/C:/Users/shay/Documents/ezRest/web/src/menu/menu.html</file>
+            <file>file:/C:/Users/shay/Documents/ezRest/nbproject/private/private.xml</file>
+            <file>file:/C:/Users/shay/Documents/ezRest/src/java/core/tables/dao/RedisTableDao.java</file>
             <file>file:/C:/Users/shay/Documents/ezRest/web/src/scripts/services/orders.srv.js</file>
-=======
-            <file>file:/Users/borisa/SchoolProjects/ezRest/web/META-INF/context.xml</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/items/dao/SqlMenuItemDao.java</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/web/WEB-INF/web.xml</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/config/MySqlConfig.java</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/utils/MySqlUtils.java</file>
-            <file>file:/Users/borisa/SchoolProjects/ezRest/src/java/core/menu/items/resources/MenuItemsResource.java</file>
->>>>>>> 24b1025745bf1fc550359e2aceef68238cd28d47
         </group>
     </open-files>
 </project-private>

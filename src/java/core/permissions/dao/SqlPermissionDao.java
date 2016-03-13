@@ -66,7 +66,7 @@ public class SqlPermissionDao implements PermissionDao {
     public void createPermission(Permission permission) {
         Object[] values = getObjectValues(permission);
 
-        String qString = new StringBuilder("INSERT INTO permissions ")
+        String qString = new StringBuilder("INSERT INTO Permissions ")
                 .append("(").append(StringUtils.arrayToString(columnNames)).append(")")
                 .append(" VALUES (")
                 .append(StringUtils.objectsArrayToString(values))

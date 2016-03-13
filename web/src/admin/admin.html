@@ -1,468 +1,529 @@
 <html>
-<head>
-	<title>EzRest | Manager Control</title>
+    <head>
+        <title>EzRest | Manager Control</title>
 
-	<!-- FontAwesome -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-	<!-- Moment -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
+        <!-- Moment -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
 
-	<!-- Bootstrap & Bootflat styles -->
-	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
+        <!-- Bootstrap & Bootflat styles -->
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://bootflat.github.io/bootflat/css/bootflat.css">
 
-	<!-- Bower components -->
-	<script src="../../bower_components/jquery/dist/jquery.js"></script>
-	<script src="../../bower_components/jquery.scrollTo/jquery.scrollTo.js"></script>
+        <!-- Bower components -->
+        <script src="../../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../../bower_components/jquery.scrollTo/jquery.scrollTo.js"></script>
 
-	<!-- Bootstrap -->
-	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
-	<!-- Bootflat's JS files.-->
-	<script src="https://bootflat.github.io/bootflat/js/icheck.min.js"></script>
-	<script src="https://bootflat.github.io/bootflat/js/jquery.fs.selecter.min.js"></script>
-	<script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
-	<script src="../scripts/services/vip.srv.js"></script>
-	<script src="../scripts/services/employee.srv.js"></script>
-	<script src="../scripts/services/menu.srv.js"></script>
-	<script src="../scripts/services/permission.srv.js"></script>
-	<script src="../scripts/services/auth.srv.js"></script>
-	<script src="../scripts/common.js"></script>
+        <!-- Bootflat's JS files.-->
+        <script src="https://bootflat.github.io/bootflat/js/icheck.min.js"></script>
+        <script src="https://bootflat.github.io/bootflat/js/jquery.fs.selecter.min.js"></script>
+        <script src="https://bootflat.github.io/bootflat/js/jquery.fs.stepper.min.js"></script>
 
-	<!-- Page specific -->
-	<link href="../index.css" rel="stylesheet" type="text/css">
-	<link href="admin.css" rel="stylesheet" type="text/css">
-	<script src="admin.js"></script>
+        <script src="../scripts/services/vip.srv.js"></script>
+        <script src="../scripts/services/employee.srv.js"></script>
+        <script src="../scripts/services/menu.srv.js"></script>
+        <script src="../scripts/services/orders.srv.js"></script>
+        <script src="../scripts/services/permission.srv.js"></script>
+        <script src="../scripts/services/auth.srv.js"></script>
+        <script src="../scripts/common.js"></script>
 
-</head>
-<body>
-	<div class="header admin-header">
-		<p class="title">EzRest<span class="title-light"> | Manager Control<span></p>
-			<button class="btn header-button pull-right logout-btn" onclick="logoutUser()">Logout</button>
-		</div>
-		<div class="content-wrapper">
-			<div class="personal-info-wrapper">
-				<div class="panel">
-					<ul class="nav nav-tabs nav-justified">
-						<li class="active"><a href="#profile-tab" data-toggle="tab">Profile</a></li>
-						<li class=""><a href="#work-tab" data-toggle="tab">Work</a></li>
-					</ul>
-					<div class="tab-content">
-						<div class="tab-pane fade active in" id="profile-tab">
-							<h3>Welcome, <span class="user-name"></span></h3>
-							<p><b><i class="fa fa-user"></i> Age: </b><span class="user-age"></span></p>
-							<p><b><i class="fa fa-envelope-o"></i> Email: </b><span class="user-email"></span></p>
-							<p><b><i class="fa fa-tag"></i> Position: </b><span class="user-position"></span></p>
-							<p><b><i class="fa fa-key"></i> Permission level: </b><span class="user-permission-title"></span></p>
-						</div>
-						<div class="tab-pane fade" id="work-tab">
+        <!-- Page specific -->
+        <link href="../index.css" rel="stylesheet" type="text/css">
+        <link href="admin.css" rel="stylesheet" type="text/css">
+        <script src="admin.js"></script>
 
-							<p class="select-month-wrapper">
-								<select class="select-month">
-									<option value="0">Choose Month</option>
-									<option value="1">January</option>
-									<option value="2">February</option>
-									<option value="3">March</option>
-									<option value="4">April</option>
-									<option value="5">May</option>
-									<option value="6">June</option>
-									<option value="7">July</option>
-									<option value="8">August</option>
-									<option value="9">September</option>
-									<option value="10">October</option>
-									<option value="11">November</option>
-									<option value="12">December</option>
+    </head>
+    <body>
+        <div class="header admin-header">
+            <p class="title">EzRest<span class="title-light"> | Manager Control<span></p>
+                        <button class="btn header-button pull-right logout-btn" onclick="logoutUser()">Logout</button>
+                        </div>
+                        <div class="content-wrapper">
+                            <div class="personal-info-wrapper">
+                                <div class="panel">
+                                    <ul class="nav nav-tabs nav-justified">
+                                        <li class="active"><a href="#profile-tab" data-toggle="tab">Profile</a></li>
+                                        <li class=""><a href="#work-tab" data-toggle="tab">Work</a></li>
+                                        <li class=""><a href="#orders-tab" data-toggle="tab" id="order-tab-button">Orders</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade active in" id="profile-tab">
+                                            <h3>Welcome, <span class="user-name"></span></h3>
+                                            <p><b><i class="fa fa-user"></i> Age: </b><span class="user-age"></span></p>
+                                            <p><b><i class="fa fa-envelope-o"></i> Email: </b><span class="user-email"></span></p>
+                                            <p><b><i class="fa fa-tag"></i> Position: </b><span class="user-position"></span></p>
+                                            <p><b><i class="fa fa-key"></i> Permission level: </b><span class="user-permission-title"></span></p>
+                                        </div>
+                                        <div class="tab-pane fade" id="work-tab">
 
-								</select>
-							</p>
-							<p id="month-para"></p>
+                                            <p class="select-month-wrapper">
+                                                <select class="select-month">
+                                                    <option value="0">Choose Month</option>
+                                                    <option value="1">January</option>
+                                                    <option value="2">February</option>
+                                                    <option value="3">March</option>
+                                                    <option value="4">April</option>
+                                                    <option value="5">May</option>
+                                                    <option value="6">June</option>
+                                                    <option value="7">July</option>
+                                                    <option value="8">August</option>
+                                                    <option value="9">September</option>
+                                                    <option value="10">October</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">December</option>
 
-							<table id="working-hours-table" class="table table-striped">
-								<thead>
-									<tr>
-										<th>Clock In</th>
-										<th>Clock Out</th>
-										<th>Duration</th>
-									</tr>
-								</thead>
-								<tbody class="all-hours-table">
+                                                </select>
+                                            </p>
+                                            <p id="month-para"></p>
+
+                                            <table id="working-hours-table" class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Clock In</th>
+                                                        <th>Clock Out</th>
+                                                        <th>Duration</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="all-hours-table">
 
 
-								</tbody>
-							</table>
+                                                </tbody>
+                                            </table>
 
-						</div>
-					</div>
-				</div>
-			</div>
+                                        </div>
 
-			<div class="alert alert-success data-submit-ok">
-				<p>
-					<!-- Populated on db-update success! -->
-				</p>
-				<span> Let us refresh the page for you in a moment ... </span>
-			</div>
+                                        <div class="tab-pane fade" id="orders-tab">
 
-			<div class="row">
-				<div class="col-md-3 edit-menu-wrapper">
-					<div class="thumbnail">
-						<img class="img-rounded" src="../images/menu.png" alt="menu">
-						<div class="caption text-center edit-menu-main">
-							<h3>Menu</h3>
-							<p>Select an existing category, and choose to add a new Item or Category</p>
-							<p class="select-category-wrapper">
-								<select class="select-category">
-									<!-- Populated from via menu service -->
-								</select>
-							</p>
+                                            <p class="select-month-order-wrapper">
 
-							<p class="select-item-wrapper">
-								<select class="select-item">
-									<!-- Populated from via menu service -->
-								</select>
-							</p>
+                                            <form>
+                                                <div class="form-group"> <!-- Date input -->
+                                                    <label class="control-label" for="date">Date</label>
 
-							<div class="menu-buttons admin-button-group">
-								<a class="btn btn-warning" role="button" onclick="newItemClick(event)">New Item</a>
-								<a class="btn btn-warning" role="button" onclick="newCategoryClick(event)">New Category</a>
+                                                    <div class="input-group date-wrapper">
+                                                        <input class="form-control" id='date' name="date" placeholder="DD-MM-YYYY" type="text"/>
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <p class="input-error">It seems there were no tables in<span class="date-info"></span></p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group"> <!-- Submit button -->
 
-								<a id='edit-item-button' class="btn btn-default" role="button" onclick="editItemClick(event)">Edit Item</a>
-								<a class="btn btn-default" role="button" onclick="editCategoryClick(event)">Edit Category</a>
+                                                </div>
+                                            </form>
+                                            <button onclick="onSubmitOrderClick()" class="btn btn-primary" style="margin-bottom: 10px">Submit</button>
 
-								<a id='delete-item-button' class="btn btn-danger" role="button" onclick="deleteItemClick(event)">Delete Item</a>
-								<a class="btn btn-danger" role="button" onclick="deleteCategoryClick(event)">Delete Category</a>
+                                            <table id="orders-table" class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-calendar"></i> Date</th>
+                                                        <th><i class="fa fa-user"></i> Employee</th>
+                                                        <th><i class="fa fa-table"></i>  Table Number</th>
+                                                        <th><i class="fa fa-shopping-basket"></i> Items   |   Quantity</th>
+                                                        <th><i class="fa fa-gift"></i> Discount</th>
+                                                        <th><i class="fa fa-money"></i> Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="all-orders-table">
+                                                    <!-- Populated on db-update success! -->
+                                                </tbody>
+                                            </table>
 
-								<a id='item-report-button' class="btn btn-success" role="button" onclick="overviewClick(event)">Item Report</a>
-							</div>
+                                        </div>
 
-						</div>
-						<div class="caption text-center add-new-item">
-							<h3>Add a new item to <span class="selected-category"></span></h3>
-							<div class="form-group">
-								<input type="text" class="form-control item-title" placeholder="Item title">
-								<input type="text" class="form-control item-price" placeholder="Price">
-							</div>
-							<p>
-								<button type="button" class="btn btn-success btn-block" onclick="submitNewItem(event)">Add it!</button>
-							</p>
-							<p class="input-error">We had a problem with the info you provided. Check that the item title contains only letter and numbers, and that the price input contains numbers only.</p>
-							<a onclick="closeEverything()">Close</a>
-						</div>
-						<div class="caption text-center add-new-category">
-							<h3>Add a new sub-category to <span class="selected-category"></span></h3>
-							<div class="form-group">
-								<input type="text" class="form-control item-category-title" placeholder="Category title">
-							</div>
-							<p>
-								<button type="button" class="btn btn-success btn-block" onclick="submitNewCategory(event)">Add it!</button>
-							</p>
-							<p class="input-error">We had a problem with the info you provided. Check that the category title contains only letter and numbers.</p>
-							<a onclick="closeEverything()">Close</a>
-						</div>
+                                    </div>
+                                </div>
+                            </div>
 
-						<div class="caption text-center edit-category">
-							<h3>Edit Category <span class="edit-selected-category"></span></h3>
-							<div class="form-group">
-								<input type="text" class="form-control edit-category-title" placeholder="Category title">
-							</div>
-							<p>
-								<button type="button" class="btn btn-success btn-block" onclick="submitEditCategory(event)">Save</button>
-							</p>
-							<p class="input-error">We had a problem with the info you provided. Check that the category title contains only letter and numbers.</p>
-							<a onclick="closeEverything()">Close</a>
-						</div>
+                            <div class="alert alert-success data-submit-ok">
+                                <p>
+                                    <!-- Populated on db-update success! -->
+                                </p>
+                                <span> Let us refresh the page for you in a moment ... </span>
+                            </div>
 
-						<div class="caption text-center edit-item">
-							<h3>Edit Item <span class="edit-selected-item"></span></h3>
-							<div class="form-group">
-								<input type="text" class="form-control edit-item-title" placeholder="Item title">
-								<input type="text" class="form-control edit-item-price" placeholder="Price">
-							</div>
-							<p>
-								<button type="button" class="btn btn-success btn-block" onclick="submitEditItem(event)">Save</button>
-							</p>
-							<p class="input-error">We had a problem with the info you provided. Check that the item title contains only letter and numbers, and that the price input contains numbers only.</p>
-							<a onclick="closeEverything()">Close</a>
-						</div>
+                            <div class="row">
+                                <div class="col-md-3 edit-menu-wrapper">
+                                    <div class="thumbnail">
+                                        <img class="img-rounded" src="../images/menu.png" alt="menu">
+                                        <div class="caption text-center edit-menu-main">
+                                            <h3>Menu</h3>
+                                            <p>Select an existing category, and choose to add a new Item or Category</p>
+                                            <p class="select-category-wrapper">
+                                                <select class="select-category">
+                                                    <!-- Populated from via menu service -->
+                                                </select>
+                                            </p>
 
-						<div class="caption text-center overview-wrapper">
+                                            <p class="select-item-wrapper">
+                                                <i class="fa fa-info fa-2" id='item-report-button' role="button" onclick="overviewClick(event)"></i>
+                                                <select class="select-item">
+                                                    <!-- Populated from via menu service -->
+                                                </select>
+                                            </p>
 
-							<h3>Sales Report for <span class="overview-title"></span></h3>
-							<p class='overview-text-line1'>
-								You are selling <span class='overview-title'></span>
-								for <span class='price-overview'></span>
-								.
-							</p>
-							<p class='overview-text-line2'>
-								It has been sold <span class='quantity-overview'></span>
-								times across <span class='tables-amount-overview'></span>
-								tables.
-							</p>
-							<div class='total-income'><strong>Total Income: </strong><span class='overall-price-overview'></span>
-							</div>
-							<a onclick="closeEverything()">Close</a>
-						</div>
+                                            <div class="row menu-buttons">
+                                                <div class="col-xs-6" data-original-title="" title="">
+                                                    <a class="btn btn-primary btn-block" role="button" onclick="newItemClick(event)">New Item</a>
+                                                </div>
+                                                <div class="col-xs-6" data-original-title="" title="">
+                                                    <a class="btn btn-primary btn-block right-side" role="button" onclick="newCategoryClick(event)">New Category</a>
+                                                </div>
+                                            </div>
 
-						<p class="delete-category-error input-error">Sorry, deleting category available only if no items in it</p>
-					</div>
-				</div>
+                                            <div class="row menu-buttons">
+                                                <div class="col-xs-6" data-original-title="" title="">
+                                                    <a id='edit-item-button' class="btn btn-default btn-block" role="button" onclick="editItemClick(event)">Edit Item</a>
+                                                </div>
+                                                <div class="col-xs-6" data-original-title="" title="">
+                                                    <a class="btn btn-default btn-block right-side" role="button" onclick="editCategoryClick(event)">Edit Category</a>
+                                                </div>
+                                            </div>
 
-				<div class="col-md-3 edit-employees-wrapper">
-					<div class="thumbnail">
-						<img class="img-rounded" src="../images/employees.jpg">
-						<div class="caption text-center">
-							<h3>Employees</h3>
-							<p>Add a new employee or edit information of your currently employeed ones.</p>
-							<p class="select-employee-wrapper">
-								<select class="select-employee">
-									<!-- Populated from via menu service -->
-								</select>
-							</p>
-							<p class="employees-buttons admin-button-group">
-								<a class="btn btn-warning" role="button" onclick="newEmployeeClick(event)">New Employee</a>
-								<a class="btn btn-default" role="button" onclick="editEmployeeClick(event)">Edit selected</a>
-								<a class="btn btn-danger" role="button" onclick="deleteEmployeeClick(event)">Delete selected</a>
-							</p>
-						</div>
-					</div>
-				</div>
+                                            <div class="row menu-buttons">
+                                                <div class="col-xs-6" data-original-title="" title="">
+                                                    <a id='delete-item-button' class="btn btn-danger btn-block" role="button" onclick="deleteItemClick(event)">Delete Item</a>
+                                                </div>
+                                                <div class="col-xs-6" data-original-title="" title="">
+                                                    <a class="btn btn-danger btn-block right-side" role="button" onclick="deleteCategoryClick(event)">Delete Category</a>
+                                                </div>
+                                            </div>
 
-				<div class="col-md-3 edit-vip-wrapper">
-					<div class="thumbnail">
-						<img class="img-rounded" src="../images/gift-icon.png">
-						<div class="caption text-center content-vip">
-							<h3>VIPs</h3>
-							<p>Add a new VIP customer or edit information of your existing customers.</p>
+                                        </div>
+                                        <div class="caption text-center add-new-item">
+                                            <h3>Add a new item to <span class="selected-category"></span></h3>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control item-title" placeholder="Item title">
+                                                <input type="text" class="form-control item-price" placeholder="Price">
+                                            </div>
+                                            <p>
+                                                <button type="button" class="btn btn-success btn-block" onclick="submitNewItem(event)">Add it!</button>
+                                            </p>
+                                            <p class="input-error">We had a problem with the info you provided. Check that the item title contains only letter and numbers, and that the price input contains numbers only.</p>
+                                            <a onclick="closeEverything()">Close</a>
+                                        </div>
+                                        <div class="caption text-center add-new-category">
+                                            <h3>Add a new sub-category to <span class="selected-category"></span></h3>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control item-category-title" placeholder="Category title">
+                                            </div>
+                                            <p>
+                                                <button type="button" class="btn btn-success btn-block" onclick="submitNewCategory(event)">Add it!</button>
+                                            </p>
+                                            <p class="input-error">We had a problem with the info you provided. Check that the category title contains only letter and numbers.</p>
+                                            <a onclick="closeEverything()">Close</a>
+                                        </div>
 
-							<p class="select-vip-wrapper">
-								<select class="select-vip">
-									<!-- Populated from via menu service -->
-								</select>
-							</p>
-							<!--<p class="select-vip-wrapper">-->
-							<p class="vip-buttons admin-button-group">
-								<a role="button" class="btn btn-warning" onclick='newVipClick()'>New VIP</a>
-								<a class="btn btn-default" role="button" onClick="editVipClick()">Edit selected</a>
-								<a class="btn btn-danger" role="button" onClick="deleteVipClick()">Delete VIP</a>
-							</p>
-						</div>
-						<div class="caption text-center handle-vip">
-							<h3 class="vip-title"></h3>
-							<div class="form-group">
-								<input type="text" class="form-control first-name" placeholder="First Name">
-								<input type="text" class="form-control last-name" placeholder="Last Name">
-								<input type="email" class="form-control email" placeholder="Email">
-								<input type="text" class="form-control birthday" placeholder="BirthDay | Ex: 1989-04-25">
-							</div>
-							<p>
-								<button id='vip-save-button' type="button" class="btn btn-success btn-block">Save</button>
-							</p>
-							<p class="input-error">We had a problem with the info you provided.</p>
-							<a onclick="closeVip()">Close</a>
-						</div>
+                                        <div class="caption text-center edit-category">
+                                            <h3>Edit Category <span class="edit-selected-category"></span></h3>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control edit-category-title" placeholder="Category title">
+                                            </div>
+                                            <p>
+                                                <button type="button" class="btn btn-success btn-block" onclick="submitEditCategory(event)">Save</button>
+                                            </p>
+                                            <p class="input-error">We had a problem with the info you provided. Check that the category title contains only letter and numbers.</p>
+                                            <a onclick="closeEverything()">Close</a>
+                                        </div>
 
-					</div>
-				</div>
+                                        <div class="caption text-center edit-item">
+                                            <h3>Edit Item <span class="edit-selected-item"></span></h3>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control edit-item-title" placeholder="Item title">
+                                                <input type="text" class="form-control edit-item-price" placeholder="Price">
+                                            </div>
+                                            <p>
+                                                <button type="button" class="btn btn-success btn-block" onclick="submitEditItem(event)">Save</button>
+                                            </p>
+                                            <p class="input-error">We had a problem with the info you provided. Check that the item title contains only letter and numbers, and that the price input contains numbers only.</p>
+                                            <a onclick="closeEverything()">Close</a>
+                                        </div>
 
-				<div class="col-md-3 edit-permissions-wrapper">
-					<div class="thumbnail">
-						<img class="img-rounded" src="../images/unlock-icon.png">
-						<div class="caption text-center permission-content">
-							<h3>Permissions</h3>
-							<p>Add a new permission with customized actions for your employees</p>
+                                        <div class="caption text-center overview-wrapper">
 
-							<p class="select-permission-wrapper">
-								<select class="select-permission">
-									<!-- Populated from via permission service -->
-								</select>
-							</p>
+                                            <h3>Sales Report for <span class="overview-title"></span></h3>
+                                            <p class='overview-text-line1'>
+                                                You are selling <span class='overview-title'></span>
+                                                for <span class='price-overview'></span>
+                                                .
+                                            </p>
+                                            <p class='overview-text-line2'>
+                                                It has been sold <span class='quantity-overview'></span>
+                                                times across <span class='tables-amount-overview'></span>
+                                                tables.
+                                            </p>
+                                            <div class='total-income'><strong>Total Income: </strong><span class='overall-price-overview'></span>
+                                            </div>
+                                            <a onclick="closeEverything()">Close</a>
+                                        </div>
 
-							<p class="permission-buttons admin-button-group">
-								<a role="button" class="btn btn-warning" onclick='newPermissionClick()'>New Permission</a>
-								<a class="btn btn-default" role="button" onClick="editPermissionClick()">Edit selected</a>
-								<a class="btn btn-danger" role="button" onClick="deletePermissionClick()">Delete Permission</a>
-							</p>
-						</div>
-						<div class="caption text-center permission-input">
-							<h3 class="permission-title"></h3>
-							<div class="form-group">
-								<input type="text" class="form-control first-name" placeholder="Permission Title">
+                                        <p class="delete-category-error input-error">Sorry, deleting category available only if no items in it</p>
+                                    </div>
+                                </div>
 
-								<div class="checkbox">
-									<label><input type="checkbox" value="ADD_DISCOUNT">Add Discount</label>
-								</div>
-								<div class="checkbox">
-									<label><input type="checkbox" value="CANCEL_ORDER">Cancel Order</label>
-								</div>
-								<div class="checkbox">
-									<label><input type="checkbox" value="EDIT_MENU">Edit Menu</label>
-								</div>
-								<div class="checkbox">
-									<label><input type="checkbox" value="ADD_EMPLOYEE">Add Employee</label>
-								</div>
-								<div class="checkbox">
-									<label><input type="checkbox" value="ADD_PRODUCT">Add Product</label>
-								</div>
-							</div>
-							<p>
-								<button id='permission-save-button' type="button" class="btn btn-success btn-block">Save</button>
-							</p>
-							<p class="input-error">We had a problem with the info you provided.</p>
-							<a onclick="closePermission()">Close</a>
-						</div>
+                                <div class="col-md-3 edit-employees-wrapper">
+                                    <div class="thumbnail">
+                                        <img class="img-rounded" src="../images/employees.jpg">
+                                        <div class="caption text-center">
+                                            <h3>Employees</h3>
+                                            <p>Add a new employee or edit information of your currently employeed ones.</p>
+                                            <p class="select-employee-wrapper">
+                                                <select class="select-employee">
+                                                    <!-- Populated from via menu service -->
+                                                </select>
+                                            </p>
+                                            <p class="employees-buttons admin-button-group">
+                                                <a class="btn btn-primary" role="button" onclick="newEmployeeClick(event)">New Employee</a>
+                                                <a class="btn btn-default" role="button" onclick="editEmployeeClick(event)">Edit selected</a>
+                                                <a class="btn btn-danger" role="button" onclick="deleteEmployeeClick(event)">Delete selected</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
 
-					</div>
-				</div>
-			</div>
-		</div>
+                                <div class="col-md-3 edit-vip-wrapper">
+                                    <div class="thumbnail">
+                                        <img class="img-rounded" src="../images/gift-icon.png">
+                                        <div class="caption text-center content-vip">
+                                            <h3>VIPs</h3>
+                                            <p>Add a new VIP customer or edit information of your existing customers.</p>
 
-		<!-- Modals -->
-		<!-- New employee modal -->
-		<div class="modal new-employee-modal">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
-						<h4 class="modal-title">Add new employee</h4>
-					</div>
-					<form onsubmit="submitNewEmployee()">
-						<div class="modal-body">
-							<p>Fill in the following information to add a new employee. Email and password will be used to access different sections of ezRest.</p>
-							<div class="row">
-								<div class="col-xs-3">
-									<label>First Name</label>
-									<input type="text" class="form-control first-name" placeholder="John" required>
-								</div>
-								<div class="col-xs-3">
-									<label>Last Name</label>
-									<input type="text" class="form-control last-name" placeholder="Doe" required>
-								</div>
-								<div class="col-xs-2">
-									<label>Age</label>
-									<input type="number" min="15" max="99" class="form-control age" required>
-								</div>
-								<div class="col-xs-4">
-									<label>Gender</label>
-									<select class="new-employee-gender-select" required>
-										<option value="MALE">Male</option>
-										<option value="FEMALE">Female</option>
-									</select>
-								</div>
-								<div class="col-xs-6">
-									<label>Email</label>
-									<input type="email" class="form-control email" placeholder="Email" required>
-								</div>
-								<div class="col-xs-6">
-									<label>Password</label>
-									<input type="password" class="form-control password" placeholder="Password" required>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6">
-									<label>Position</label>
-									<input type="text" class="form-control position" placeholder="Position" required>
-								</div>
-								<div class="col-xs-6">
-									<label>Permission Level</label>
-									<select class="new-employee-permission-select" required>
-										<!-- Populated dynamically -->
-									</select>
-								</div>
-							</div>
+                                            <p class="select-vip-wrapper">
+                                                <select class="select-vip">
+                                                    <!-- Populated from via menu service -->
+                                                </select>
+                                            </p>
+                                            <!--<p class="select-vip-wrapper">-->
+                                            <p class="vip-buttons admin-button-group">
+                                                <a role="button" class="btn btn-primary" onclick='newVipClick()'>New VIP</a>
+                                                <a class="btn btn-default" role="button" onClick="editVipClick()">Edit selected</a>
+                                                <a class="btn btn-danger" role="button" onClick="deleteVipClick()">Delete VIP</a>
+                                            </p>
+                                        </div>
+                                        <div class="caption text-center handle-vip">
+                                            <h3 class="vip-title"></h3>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control first-name" placeholder="First Name">
+                                                <input type="text" class="form-control last-name" placeholder="Last Name">
+                                                <input type="email" class="form-control email" placeholder="Email">
+                                                <input type="text" class="form-control birthday" placeholder="BirthDay | Ex: 1989-04-25">
+                                            </div>
+                                            <p>
+                                                <button id='vip-save-button' type="button" class="btn btn-success btn-block">Save</button>
+                                            </p>
+                                            <p class="input-error">We had a problem with the info you provided.</p>
+                                            <a onclick="closeVip()">Close</a>
+                                        </div>
 
-							<div class="row">
-								<div class="col-xs-6">
-									<label>City</label>
-									<input type="text" class="form-control city" placeholder="City" required>
-								</div>
-								<div class="col-xs-6">
-									<label>Address</label>
-									<input type="text" class="form-control address" placeholder="Address" required>
-								</div>
-							</div>
+                                    </div>
+                                </div>
 
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default cancel">Cancel</button>
-							<input type="submit" class="btn btn-success submit" value="Create employee"/>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+                                <div class="col-md-3 edit-permissions-wrapper">
+                                    <div class="thumbnail">
+                                        <img class="img-rounded" src="../images/unlock-icon.png">
+                                        <div class="caption text-center permission-content">
+                                            <h3>Permissions</h3>
+                                            <p>Add a new permission with customized actions for your employees</p>
 
-		<!-- Edit employee modal -->
-		<div class="modal update-employee-modal">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
-						<h4 class="modal-title">Edit <span class="edit-employee-name"></span></h4>
-					</div>
-					<form onsubmit="submitEditedEmployee()">
-						<div class="modal-body">
-							<p>Edit employee information below</p>
-							<div class="row">
-								<div class="col-xs-3">
-									<label>First Name</label>
-									<input type="text" class="form-control first-name" placeholder="John" required>
-								</div>
-								<div class="col-xs-3">
-									<label>Last Name</label>
-									<input type="text" class="form-control last-name" placeholder="Doe" required>
-								</div>
-								<div class="col-xs-2">
-									<label>Age</label>
-									<input type="number" min="15" max="99" class="form-control age" required>
-								</div>
-								<div class="col-xs-4">
-									<label>Gender</label>
-									<select class="edit-employee-gender-select">
-										<option value="MALE">Male</option>
-										<option value="FEMALE">Female</option>
-									</select>
-								</div>
-								<div class="col-xs-6">
-									<label>Email</label>
-									<input type="email" class="form-control email" placeholder="Email" required>
-								</div>
-								<div class="col-xs-6">
-									<label>Password</label>
-									<input type="password" class="form-control password" placeholder="Password" required>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6">
-									<label>Position</label>
-									<input type="text" class="form-control position" placeholder="Position" required>
-								</div>
-								<div class="col-xs-6">
-									<label>Permission Level</label>
-									<select class="edit-employee-permission-select" required>
-										<!-- Populated dynamically -->
-									</select>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6">
-									<label>City</label>
-									<input type="text" class="form-control city" placeholder="City" required>
-								</div>
-								<div class="col-xs-6">
-									<label>Address</label>
-									<input type="text" class="form-control address" placeholder="Address" required>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default cancel">Cancel</button>
-							<input type="submit" class="btn btn-success submit" value="Update employee"/>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</body>
-	</html>
+                                            <p class="select-permission-wrapper">
+                                                <select class="select-permission">
+                                                    <!-- Populated from via permission service -->
+                                                </select>
+                                            </p>
+
+                                            <p class="permission-buttons admin-button-group">
+                                                <a role="button" class="btn btn-primary" onclick='newPermissionClick()'>New Permission</a>
+                                                <a class="btn btn-default" role="button" onClick="editPermissionClick()">Edit selected</a>
+                                                <a class="btn btn-danger" role="button" onClick="deletePermissionClick()">Delete Permission</a>
+                                            </p>
+                                        </div>
+                                        <div class="caption text-center permission-input">
+                                            <h3 class="permission-title"></h3>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control input-permission-title" placeholder="Permission Title">
+
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" value="ADD_DISCOUNT">Add Discount</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" value="CANCEL_ORDER">Cancel Order</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" value="EDIT_MENU">Edit Menu</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" value="ADD_EMPLOYEE">Add Employee</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" value="ADD_PRODUCT">Add Product</label>
+                                                </div>
+                                            </div>
+                                            <p>
+                                                <button id='permission-save-button' type="button" class="btn btn-success btn-block"></button>
+                                            </p>
+                                            <p class="input-error">We had a problem with the info you provided.</p>
+                                            <a onclick="closePermission()">Close</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modals -->
+                        <!-- New employee modal -->
+                        <div class="modal new-employee-modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
+                                        <h4 class="modal-title">Add new employee</h4>
+                                    </div>
+                                    <form onsubmit="submitNewEmployee()">
+                                        <div class="modal-body">
+                                            <p>Fill in the following information to add a new employee. Email and password will be used to access different sections of ezRest.</p>
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <label>First Name</label>
+                                                    <input type="text" class="form-control first-name" placeholder="John" required>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <label>Last Name</label>
+                                                    <input type="text" class="form-control last-name" placeholder="Doe" required>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <label>Age</label>
+                                                    <input type="number" min="15" max="99" class="form-control age" required>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <label>Gender</label>
+                                                    <select class="new-employee-gender-select" required>
+                                                        <option value="MALE">Male</option>
+                                                        <option value="FEMALE">Female</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Email</label>
+                                                    <input type="email" class="form-control email" placeholder="Email" required>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Password</label>
+                                                    <input type="password" class="form-control password" placeholder="Password" required>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <label>Position</label>
+                                                    <input type="text" class="form-control position" placeholder="Position" required>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Permission Level</label>
+                                                    <select class="new-employee-permission-select" required>
+                                                        <!-- Populated dynamically -->
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <label>City</label>
+                                                    <input type="text" class="form-control city" placeholder="City" required>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Address</label>
+                                                    <input type="text" class="form-control address" placeholder="Address" required>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default cancel">Cancel</button>
+                                            <input type="submit" class="btn btn-success submit" value="Create employee"/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Edit employee modal -->
+                        <div class="modal update-employee-modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>-->
+                                        <h4 class="modal-title">Edit <span class="edit-employee-name"></span></h4>
+                                    </div>
+                                    <form onsubmit="submitEditedEmployee()">
+                                        <div class="modal-body">
+                                            <p>Edit employee information below</p>
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <label>First Name</label>
+                                                    <input type="text" class="form-control first-name" placeholder="John" required>
+                                                </div>
+                                                <div class="col-xs-3">
+                                                    <label>Last Name</label>
+                                                    <input type="text" class="form-control last-name" placeholder="Doe" required>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <label>Age</label>
+                                                    <input type="number" min="15" max="99" class="form-control age" required>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <label>Gender</label>
+                                                    <select class="edit-employee-gender-select">
+                                                        <option value="MALE">Male</option>
+                                                        <option value="FEMALE">Female</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Email</label>
+                                                    <input type="email" class="form-control email" placeholder="Email" required>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Password</label>
+                                                    <input type="password" class="form-control password" placeholder="Password" required>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <label>Position</label>
+                                                    <input type="text" class="form-control position" placeholder="Position" required>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Permission Level</label>
+                                                    <select class="edit-employee-permission-select" required>
+                                                        <!-- Populated dynamically -->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <label>City</label>
+                                                    <input type="text" class="form-control city" placeholder="City" required>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Address</label>
+                                                    <input type="text" class="form-control address" placeholder="Address" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default cancel">Cancel</button>
+                                            <input type="submit" class="btn btn-success submit" value="Update employee"/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        </body>
+                        </html>

@@ -626,5 +626,5 @@ function onDiscountAddButton() {
 }
 
 function updateSum() {
-    $('#sumBillSummary').text("Total: " + sumBill);
+    $('#sumBillSummary').text("Total: " + sumBill + ' $');
 }

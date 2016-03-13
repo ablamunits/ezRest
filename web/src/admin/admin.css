@@ -1,58 +1,67 @@
 body {
     font-size: 14px;
     background-color: #f4ecec !important;
-		color: #00496a;
+    color: #00496a;
 }
 
 .title {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 .title-light {
-	font-weight: 300;
+    font-weight: 300;
 }
 
 .admin-header {
-	width: 100%;
-	padding: 20px;
-	top: 0;
-	z-index: 999;
-	background-color: rgba(255, 255, 255, 0.95);
-	position: fixed;
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    padding: 20px;
+    top: 0;
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.95);
+    position: fixed;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 .admin-button-group {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
-div.menu-buttons.admin-button-group {
-	overflow: scroll;
+.menu-buttons{
+    margin-top: 3px;
+}
+
+.menu-buttons a{
+    width: 120%;
+    margin-left: -8px;
+}
+
+.menu-buttons .right-side{
+    margin-left: -13px;
 }
 
 .admin-button-group a {
-	margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 
 .admin-header .logout-btn {
-	position: absolute;
-	top: 14px;
-	right: 11px;
+    position: absolute;
+    top: 14px;
+    right: 11px;
 }
 
 .admin-header * {
-	display: inline;
+    display: inline;
 }
 
 a {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .content-wrapper {
     margin: 120px;
     padding: 5px;
-		top: 50px;
+    top: 50px;
 }
 
 .add-new-item {
@@ -89,21 +98,21 @@ input {
 }
 
 .unauthorized {
-	pointer-events: none;
-	-webkit-filter: grayscale(100%);
-	opacity: .4;
+    pointer-events: none;
+    -webkit-filter: grayscale(100%);
+    opacity: .4;
 }
 
 .unauthorized::before {
-	color: black;
-	font-size: 21px;
-	margin-top: 5px;
-	content: 'No Permission';
-	position: absolute;
-	display: block;
-	width: 100%;
-	text-align: center;
-	height: 50px;
+    color: black;
+    font-size: 21px;
+    margin-top: 5px;
+    content: 'No Permission';
+    position: absolute;
+    display: block;
+    width: 100%;
+    text-align: center;
+    height: 50px;
 }
 
 .edit-item {
@@ -119,14 +128,53 @@ input {
 }
 
 .total-income{
-        text-align: end;
+    text-align: end;
 }
 
 .overview-text-line1{
-        text-align: start;
+    text-align: start;
 }
 
 .overview-text-line2{
-        text-align: start;
-        margin-top: -10px;
+    text-align: start;
+    margin-top: -10px;
+}
+
+.permission-input .checkbox{
+    padding-left: 18px;
+}
+
+.permission-input .form-group{
+    text-align: start;
+}
+
+#item-report-button{
+    margin: 2px auto;
+    float: left;
+    margin-right: 10px;
+    font-size: 1.8em;
+    cursor: pointer;
+}
+
+.disabled-icon{
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: default;
+}
+
+.select-item-wrapper .selecter{
+    width: 95%;
+    margin-left: 11px;
+}
+
+.select-item-wrapper{
+    margin-bottom: 10px;
+}
+
+.date-wrapper{
+    width: 30%;
+}
+
+.datepicker {
+    background-color: #ffffff ;
 }

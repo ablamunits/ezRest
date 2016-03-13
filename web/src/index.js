@@ -83,22 +83,24 @@ function employeeFromListSelected(event) {
 }
 
 function managerAccessOpen(event) {
-	var $loginModal =  $('.login-container');
-	$loginModal.find('a.cancel').click(function () {
-		$loginModal.hide();
-		loginAgain();
-	});
+    var $loginModal = $('.login-container');
+    $loginModal.find('a.cancel').click(function () {
+        $loginModal.hide();
+        loginAgain();
+    });
 
-	$loginModal.fadeIn();
-};
+    $loginModal.fadeIn();
+}
+;
 
 function loginAgain() {
-	$('.login-container .alert').hide();
-	$('.login-form').show();
-};
+    $('.login-container .alert').hide();
+    $('.login-form').show();
+}
+;
 
 function authenticateUser() {
-		$('.login-form').hide();
+    $('.login-form').hide();
 
     $('.alert.login').hide();
     $('.login-pending').show();

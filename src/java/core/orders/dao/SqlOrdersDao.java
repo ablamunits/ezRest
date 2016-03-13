@@ -9,10 +9,16 @@ import config.MySqlConfig;
 import core.orders.Order;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.MySqlUtils;
+import utils.StringList;
 import utils.StringUtils;
 
 /**
@@ -89,6 +95,34 @@ public class SqlOrdersDao implements OrdersDao {
             Logger.getLogger(SqlOrdersDao.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
         }
+    }
+
+    @Override
+    public StringList getOrdersByDate(int date) {
+        String dateString = String.valueOf(date);
+        
+        int month = Integer.parseInt(dateString.substring(2, 4));
+        int day = Integer.parseInt(dateString.substring(0, 2));
+        int year = Integer.parseInt(dateString.substring(4, 8));
+
+        ResultSet ordersIdSet = MySqlUtils.getQuery("SELECT Order_id FROM " + MySqlConfig.Tables.ORDERS
+                + " WHERE MONTH(Order_Date)= " + month + " and DAY(Order_Date)= "
+                + day + " and YEAR(Order_Date) = " + year + " ;");
+
+        try {
+            ArrayList<String> ordersId = new ArrayList<String>() {
+            };
+
+            while (ordersIdSet.next()) {
+                ordersId.add(String.valueOf(ordersIdSet.getInt("Order_id")));
+            }
+
+            return new StringList(ordersId);
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlOrdersDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
     }
 
     private Order buildOrder(ResultSet orderSet) {

@@ -12,28 +12,39 @@ var OrdersService = {
             cb(response);
         });
     },
-
     getTableOrder: function (tableId, cb) {
-       doAjaxGet('tables/order/' + tableId).done(function (response){
-           cb(response);
-       });
-    },
-    
-    updateTable: function (tableId, tableObj, cb) {
-       doAjaxPost('tables/' + tableId, tableObj).done(function (response){
-          cb(response); 
-       });
-    },
-    
-    closeOrderInfo: function (orderInfo, cb){
-        doAjaxPost('orders', orderInfo).done(function(response){
+        doAjaxGet('tables/order/' + tableId).done(function (response) {
             cb(response);
         });
     },
-    
-    closeOrderItems: function (orderItemsList, cb){
-        doAjaxPost('orderItems', orderItemsList).done(function(response){
-           cb(response); 
+    updateTable: function (tableId, tableObj, cb) {
+        doAjaxPost('tables/' + tableId, tableObj).done(function (response) {
+            cb(response);
+        });
+    },
+    closeOrderInfo: function (orderInfo, cb) {
+        doAjaxPost('orders', orderInfo).done(function (response) {
+            cb(response);
+        });
+    },
+    closeOrderItems: function (orderItemsList, cb) {
+        doAjaxPost('orderItems', orderItemsList).done(function (response) {
+            cb(response);
+        });
+    },
+    getOrdersInDate: function (date, cb) {
+        doAjaxGet('orders/date/' + date).done(function (response) {
+            cb(response);
+        });
+    },
+    getOrderById: function (id, cb) {
+        doAjaxGet('orders/' + id).done(function (response) {
+            cb(response);
+        });
+    },
+    getOrderItemsById: function (orderId, cb) {
+        doAjaxGet('orderItems/' + orderId).done(function (response) {
+            cb(response);
         });
     }
 };

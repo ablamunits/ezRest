@@ -6,6 +6,8 @@
 package core.orders.dao;
 
 import core.orders.Order;
+import java.util.List;
+import utils.StringList;
 
 /**
  *
@@ -17,4 +19,5 @@ public interface OrdersDao {
     void createOrder(Order newOrder);
     void updateOrder(int orderId, Order order);
     int getMaxId();
+    StringList getOrdersByDate(int date);
 }
