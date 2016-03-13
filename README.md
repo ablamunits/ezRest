@@ -1,12 +1,18 @@
 # ezRest
 
 Web-based POS system for restaurants!
-----
+---
 
 MTA 2015-6 Internet and Web Applications course project.
 ---
 
-By Shay Jerby (200949261) and Boris Ablamunits (310370689)
+By Shay Jerby and Boris Ablamunits
+
+#### Updates since the second submission:
+
+1. `Orders` table now contains a `discount` field.
+2. MySql queries for `orders` table have changed as well.
+
 
 #### Updates since the first submission:
 
@@ -15,6 +21,7 @@ By Shay Jerby (200949261) and Boris Ablamunits (310370689)
 3. Permissions that were chosen for the `Permissions` table: ADD_PRODUCT, ADD_EMPLOYEE, CANCEL_ORDER, ADD_DISCOUNT, EDIT_MENU.
 4. Employee working hours will be calculated differently than specified in the original document - the total working hours on
 a specific month will be retrieved from the server and calculated client-side.
+
 
 ----
 
