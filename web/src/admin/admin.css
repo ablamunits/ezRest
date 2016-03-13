@@ -29,11 +29,17 @@ body {
 
 .menu-buttons{
     margin-top: 3px;
+		display: flex;
+		flex-direction: row;
+}
+
+.menu-buttons div {
+	padding-right: 0 !important;
 }
 
 .menu-buttons a{
-    width: 120%;
-    margin-left: -8px;
+    /*width: 120%;
+    margin-left: -8px;*/
 }
 
 .menu-buttons .right-side{

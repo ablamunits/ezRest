@@ -20,12 +20,12 @@ var allOrders = [];
 $(document).ready(function () {
 
     initDatePicker();
-    $('.all-orders-table').empty(); 
-    
+    $('.all-orders-table').empty();
+
     $('#order-tab-button').click(function(){
-        $('.all-orders-table').empty(); 
+        $('.all-orders-table').empty();
     });
-    
+
     moment().format();
 
     $('.all-hours-table').empty();
@@ -54,9 +54,9 @@ $(document).ready(function () {
 
     AuthService.authState(function (responseObject) {
         authObject = responseObject;
-        //     EmployeeService.getEmployeeById(authObject.employeeId, function(responseObject) {
-        var tempId = 1;
-        EmployeeService.getEmployeeById(tempId, function (responseObject) {
+            EmployeeService.getEmployeeById(authObject.employeeId, function(responseObject) {
+        // var tempId = 1;
+        // EmployeeService.getEmployeeById(tempId, function (responseObject) {
             employeeObject = responseObject;
             PermissionService.getPermissionById(employeeObject.permissionId, function (permissionResponse) {
                 authorizedActions = PermissionService.authorizedActions;
@@ -68,7 +68,7 @@ $(document).ready(function () {
 
                 handleAuthorizedActions(authorizedActions);
 
-                EmployeeService.getEmployeeAllWorkingHours(tempId, function (hoursObject) {
+                EmployeeService.getEmployeeAllWorkingHours(employeeObject.id, function (hoursObject) {
                     workingHours = hoursObject;
                 });
             });
@@ -100,15 +100,19 @@ $(document).ready(function () {
 
 function handleAuthorizedActions(actions) {
     // The function recieves an object with actions, and disables functionality of the page based on value.
+		// If an employee is authorized to add new employees to the system, he is also authorized to add new permissions.
     if (!actions.ADD_EMPLOYEE) {
         var $editEmployeePanel = $('.edit-employees-wrapper');
+				var $editPermissionsPanel = $('.edit-permissions-wrapper');
+
         $editEmployeePanel.addClass('unauthorized');
-    }
+				$editPermissionsPanel.addClass('unauthorized');
+    };
 
     if (!actions.EDIT_MENU) {
         var $editMenuPanel = $('.edit-menu-wrapper');
         $editMenuPanel.addClass('unauthorized');
-    }
+    };
 }
 
 function displayInfo() {
@@ -259,7 +263,7 @@ function displayAllOrders() {
                 .append($tableTotal);
         $('.all-orders-table').append($table);
 
-        $('.select-order-item-' + idx).selecter();                                                    
+        $('.select-order-item-' + idx).selecter();
     });
 
 }
@@ -781,7 +785,7 @@ function closeEverything() {
 function displaySuccessAndRefresh(strongText, regularText) {
     $('.alert.data-submit-ok p').empty().append('<strong>' + strongText + '</strong> ' + regularText);
     $('.alert.data-submit-ok').show();
-    $('body').scrollTo('.alert.data-submit-ok');
+    $('body').scrollTo(0);
 
     setTimeout(function () {
         location.reload();
