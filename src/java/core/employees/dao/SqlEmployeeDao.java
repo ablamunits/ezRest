@@ -47,6 +47,12 @@ public class SqlEmployeeDao implements EmployeeDao {
        } catch (SQLException ex) {
            Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
            return null;
+       } finally {
+           try {
+               employeeSet.close();
+           } catch (SQLException ex) {
+               Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
+           }
        }
     }
 
@@ -96,6 +102,12 @@ public class SqlEmployeeDao implements EmployeeDao {
        } catch (SQLException ex) {
            Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
            return null;
+       } finally {
+           try {
+               employeesSet.close();
+           } catch (SQLException ex) {
+               Logger.getLogger(SqlEmployeeDao.class.getName()).log(Level.SEVERE, null, ex);
+           }
        }
     }
     

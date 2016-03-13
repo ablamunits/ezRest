@@ -45,6 +45,12 @@ public class SqlMenuCategoryDao implements MenuCategoryDao {
         } catch (SQLException ex) {
             Logger.getLogger(SqlMenuCategoryDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            try {
+                categoriesSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlMenuCategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -57,6 +63,13 @@ public class SqlMenuCategoryDao implements MenuCategoryDao {
                 + " FROM MenuItems Where Cat_id = " + catId + ");");
 
         ArrayList<MenuEntry> categoryItems = buildCategoryItems(categoryItemsSet, catId);
+        
+        try {
+            categoryItemsSet.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlMenuCategoryDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return categoryItems;
     }
 

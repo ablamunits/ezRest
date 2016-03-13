@@ -46,6 +46,12 @@ public class SqlPermissionDao implements PermissionDao {
         } catch (SQLException ex) {
             Logger.getLogger(SqlPermissionDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            try {
+                permissionSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlPermissionDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -59,6 +65,12 @@ public class SqlPermissionDao implements PermissionDao {
         } catch (SQLException ex) {
             Logger.getLogger(SqlPermissionDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            try {
+                permissionSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlPermissionDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

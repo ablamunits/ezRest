@@ -48,6 +48,12 @@ public class SqlOrdersDao implements OrdersDao {
         } catch (SQLException ex) {
             Logger.getLogger(SqlOrdersDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            try {
+                orderSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlOrdersDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -121,6 +127,12 @@ public class SqlOrdersDao implements OrdersDao {
         } catch (SQLException ex) {
             Logger.getLogger(SqlOrdersDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            try {
+                ordersIdSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlOrdersDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }

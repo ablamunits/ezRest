@@ -24,9 +24,46 @@
 		<h3>Submission notes</h3>
 		<div>
 			<b>The following libraries were used: </b>
+			<ul>
+				<li>
+					<a href="https://jquery.com/">JQuery</a>
+				</li>
+				<li>
+					<a href="http://bootflat.github.io/documentation.html">Bootflat</a> (An alternative 'flat' to Bootstrap).
+				</li>
+				<li>
+					<a href="https://fortawesome.github.io/Font-Awesome/">Font Awesome</a> - for our icon needs.
+				</li>
+				<li>
+					<a href="http://momentjs.com/">Moment.js</a> - for our time formatting needs.
+				</li>
+			</ul>
 		</div>
 		<div>
 			<b>Known bugs: </b>
+			<ul>
+				<li>Sometimes due to connection issues with the MySQL database (Too many connections error, probably cloud problems) - content will not load as expected on pages.</li>
+				<li>A discount appears as an item with negative price in the final bill, and it is possible to 'remove' it, which is a bug..</li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<div>
+			<b>Interesting things to look at: </b>
+			<ul>
+				<li>EzRest allows restaurant staff to handle table orders, and perform various actions in the Manager Control screen such as adding new menu items, employees, VIPs and custom permissions.</li>
+				<li>Every employee has a permission level assigned to him upon creation. Insufficient permissions limit (disables) some options throughout the system.</li>
+				<li>Main page contains clocked in employees as well as available employees. Clicking a clocked in employee will take you to the tables screen, where you can select a table and add items to it, or create a new table.</li>
+				<li>Some employee email/password to try and login to the <i>Manager Access</i> with:</li>
+				<ul>
+					<li>bob@gmail.com - 12345 (Highest permissions)</li>
+					<li>shay@gmail.com - 123456</li>
+					<li>dina@gmail.com - 496531</li>
+					<li>ms@gmail.com - 1234</li>
+				</ul>
+				<li>You can try viewing order summery for every employee in the manager control screen for 13/3/2016 and 24/2/2016.</li>
+				<li>Try adding items / categories to the system, and then adding that item to a table.</li>
+			</ul>
 		</div>
 		<h1>Please click <a href="./src">here</a> to procceed to the application.</h1>
 	</body>

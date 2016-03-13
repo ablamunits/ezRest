@@ -42,6 +42,12 @@ public class SqlOrderItemsDao implements OrderItemsDao {
         } catch (SQLException ex) {
             Logger.getLogger(SqlOrderItemsDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            try {
+                orderedItemsSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlOrderItemsDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

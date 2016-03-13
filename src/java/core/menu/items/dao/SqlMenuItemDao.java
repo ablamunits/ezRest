@@ -42,7 +42,13 @@ public class SqlMenuItemDao implements MenuItemDao {
         } catch (SQLException ex) {
             Logger.getLogger(SqlMenuItemDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        }
+        } finally {
+            try {
+                menuItemSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlMenuItemDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       }
     }
 
     @Override
@@ -115,6 +121,12 @@ public class SqlMenuItemDao implements MenuItemDao {
         } catch (SQLException ex) {
             Logger.getLogger(SqlMenuItemDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            try {
+                itemsOverviewSet.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlMenuItemDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

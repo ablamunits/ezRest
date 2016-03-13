@@ -42,6 +42,12 @@ public class SqlVipDao implements VipDao{
         } catch (SQLException ex) {
             Logger.getLogger(SqlVipDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+             try {
+                 vipSet.close();
+             } catch (SQLException ex) {
+                 Logger.getLogger(SqlVipDao.class.getName()).log(Level.SEVERE, null, ex);
+             }
         }
     }
     
@@ -60,7 +66,13 @@ public class SqlVipDao implements VipDao{
        } catch (SQLException ex) {
            Logger.getLogger(SqlVipDao.class.getName()).log(Level.SEVERE, null, ex);
            return null;
-       }    
+       } finally {
+           try {
+               vipSet.close();
+           } catch (SQLException ex) {
+               Logger.getLogger(SqlVipDao.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }  
     }
 
     @Override
